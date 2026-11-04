@@ -13,9 +13,21 @@ Target: 3 minutes of demo-led pitch, 2 minutes of questions.
 2. Find: type "camera". "The answer's on the row: 7 days, Morisset desk."
 3. Borrow: "Every category, every rule, one screen. One tap opens the Library's real list."
 4. Ask: "How much does printing cost?" Answer plus a link to the service.
-5. Your Data: "This is everything we store. One table, no names. Erase, and it's gone."
+5. Your Data: "This is everything we store. One table, no names. One button erases your plan."
 
 **2:30 Why it wins (30s).** "No login and no student number. It works with the Library's systems instead of replacing them, so it could ship without new infrastructure."
+
+## Database criterion (25%)
+
+"We designed the database around one rule: keep public data and personal data apart.
+
+Public Library facts sit in a read-only catalog inside the app. The only personal data is one small table on the phone, with four fields: which service, where it was added, when it was added, and when it was finished. The service field is unique, so nothing saves twice.
+
+For security, we start by not collecting anything sensitive. There's no login, no name, no student number and no server. We set iOS's strongest file protection, we leave the file out of backups, and students can erase their plan with one button.
+
+And it's feasible today, because there's no new infrastructure to run. For bookings and loans, we link to the Library's existing systems."
+
+If demoing the live site, say "no database on a server" and "stored only in this browser" instead of the phone and iOS lines.
 
 ## Likely questions
 

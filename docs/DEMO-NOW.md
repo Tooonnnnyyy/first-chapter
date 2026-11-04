@@ -1,7 +1,7 @@
 # First Chapter: demo now
 
 ## P0
-Help a first-year student find a Library service quickly, understand the next step, and reach the official service. The native iOS app is the demo; the separate Downloads/first-chapter folder contains an earlier web prototype and source research.
+Help a first-year student find a Library service quickly, understand the next step, and reach the official service. The native iOS app is the demo; `archive/geeguide-web/` retains the earlier web prototype source.
 
 ## 60-second demo
 1. Open First Chapter in the iPhone 17 Pro Simulator. Skip onboarding if time is short.
@@ -15,7 +15,7 @@ Help a first-year student find a Library service quickly, understand the next st
 
 ## Honest boundaries
 - Catalogue and local plan work without an AI key.
-- DeepSeek is optional and is not required for the demo. This Downloads snapshot contains no Secrets.plist or API key.
+- DeepSeek is optional and is not required for the demo. No Secrets.plist or API key is committed.
 - Reservations, sign-in and live availability belong to official university systems.
 - Any website click-saving number is an estimate, not a measured usability outcome.
 - Simulator build/run and source review do not prove real-device encryption or production readiness.

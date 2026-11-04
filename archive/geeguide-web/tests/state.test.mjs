@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {cleanPlan} from '../src/state.ts';import {seed} from '../server/database.mjs';
+test('plan restoration rejects unknown identifiers, duplicates and orphan progress',()=>{const p=cleanPlan({saved:['study','study','unknown',42],done:['study:0','study:0','study:999','research:0','<script>']},seed.services);assert.deepEqual(p,{saved:['study'],done:['study:0']});});
+test('malformed or empty saved data restores a safe empty plan',()=>{for(const p of [null,{},'text',[],{saved:'oops',done:42}])assert.deepEqual(cleanPlan(p,seed.services),{saved:[],done:[]});});

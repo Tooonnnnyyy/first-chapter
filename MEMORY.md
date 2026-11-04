@@ -52,6 +52,8 @@ Tony asked for a more colorful, simple look for the demo: mesh gradient on Welco
 
 ## Current state
 
+- Local artifacts are consolidated: `landing/` contains the standalone page with real product screenshots; `archive/geeguide-web/` preserves the earlier React prototype source. Generated wireframes and redundant full-size pitch captures were removed. See `docs/STORAGE-CLEANUP.md`.
+
 - `FirstChapter/` holds the app. Screens: onboarding and swipe deck, Find, Borrow, Ask, My Plan, Your Data.
 - See `docs/TASKS.md` for what's open and what has been tested.
 
@@ -93,3 +95,5 @@ Tony asked for a more colorful, simple look for the demo: mesh gradient on Welco
 - 2026-11-04: build verified with `-destination 'id=<sim UDID>'` (the name-only destination fails on Xcode 27); first paint takes about 10 seconds in the simulator before the UI appears. Pitch deck at `docs/pitch/index.html`.
 - 2026-11-04: Codex isolated Downloads iOS build passed; partial Simulator smoke verified My Plan and Borrow. Full UI verification remains incomplete during concurrent simulator testing. See docs/CODEX-P0-HANDOFF.md. Self-contained landing page delivered in Downloads with labelled illustrated UI previews.
 - 2026-11-04: full source code review by cutie at Tony's request (`docs/CODE-REVIEW.md`): all Swift + web code traced against the criteria; catalog copies in Swift/web/ask.js verified in agreement. Fixed in the same pass: server-side redaction in `web/api/ask.js`, the missing `Assets.xcassets` (catalog + accent color committed; the project file already named both — icon PNG handed to Tony to drop into `AppIcon.appiconset/`), web colorful style (T13). Added `CatalogFR.swift` (T6) — French toggle wiring is T15; review fixes R1–R8 are T16.
+
+- 2026-11-04: Owner requested source consolidation and storage recovery. Codex archived unique prototype source, removed current-tree wireframes, and replaced landing wireframes with real Simulator captures; local duplicates are removed only after remote backup verification.

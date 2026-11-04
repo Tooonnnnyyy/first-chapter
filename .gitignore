@@ -7,3 +7,19 @@ build/
 
 FirstChapter/Secrets.plist
 .vercel
+
+# Reproducible artifacts and local-only data
+node_modules/
+dist/
+*.tsbuildinfo
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.store
+*.store-shm
+*.store-wal
+.env.*
+!.env.example
+*.zip
+# Removed design artifacts; keep actual product screenshots only
+docs/wireframes/

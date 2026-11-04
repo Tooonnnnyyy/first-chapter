@@ -16,3 +16,7 @@ DeepSeek must remain optional and honestly labelled. Never bundle an API key in 
 - Self-contained static landing page: `/Users/bjt/Downloads/First-Chapter-Landing.html`. Four inline SVG image placements are illustrated previews based on the native UI and labelled accordingly, not screenshots. HTML structure, image XML/base64 and official link targets validated.
 - Downloadable native source snapshot: `/Users/bjt/Downloads/first-chapter-ios`. No Secrets.plist or .env copied. DEMO-NOW.md and STYLE-GUIDE.md included.
 - Do not claim a live DeepSeek success or measured click savings. Core demo should work without credentials.
+
+## Subsequent source consolidation
+
+Historical Downloads snapshots above have been consolidated. Current source is in the main repository; `landing/index.html` now uses actual Simulator captures. The older Web prototype is preserved in `archive/geeguide-web/`. See `STORAGE-CLEANUP.md` for removed local artifacts.

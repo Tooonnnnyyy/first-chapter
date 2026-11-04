@@ -36,6 +36,8 @@ To turn on the DeepSeek assistant, boot a simulator and run this. It asks for yo
 | [docs/DATA-MODEL.md](docs/DATA-MODEL.md) | Database structure and data security |
 | [docs/LIBRARY-FACTS.md](docs/LIBRARY-FACTS.md) | Verified Library facts with source links |
 | [docs/PITCH.md](docs/PITCH.md) | 5-minute pitch and Q&A |
-| [docs/wireframes/](docs/wireframes/) | Wireframe of each screen, plus an overview with the user flow |
+| [landing/index.html](landing/index.html) | Standalone landing page with embedded real app screenshots |
+| [archive/geeguide-web/](archive/geeguide-web/) | Source-only archive of the earlier React/SQLite prototype |
+| [docs/STORAGE-CLEANUP.md](docs/STORAGE-CLEANUP.md) | Source consolidation and local cleanup record |
 
 Not affiliated with or endorsed by the University of Ottawa.

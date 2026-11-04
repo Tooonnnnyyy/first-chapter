@@ -1,6 +1,6 @@
 import base64, pathlib
 
-root = pathlib.Path("/Users/bjt/Projects/first-chapter/docs/pitch")
+root = pathlib.Path(__file__).resolve().parents[1] / "docs" / "pitch"
 raw = root / "raw"
 
 def img(name):

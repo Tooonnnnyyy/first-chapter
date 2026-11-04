@@ -6,9 +6,7 @@ struct FirstChapterApp: App {
     let container = Store.makeContainer()
     var body: some Scene {
         WindowGroup {
-            RootView()
-                .preferredColorScheme(.light)
-                .tint(Color.dsAccent)
+            RootView().tint(Color.brand)
         }
         .modelContainer(container)
     }
@@ -19,10 +17,10 @@ struct RootView: View {
     var body: some View {
         if onboarded {
             TabView {
-                FindView().tabItem { Label("Find", systemImage: "magnifyingglass") }
-                BorrowView().tabItem { Label("Borrow", systemImage: "camera") }
-                AskView().tabItem { Label("Ask", systemImage: "sparkles") }
-                MeView().tabItem { Label("Me", systemImage: "person.crop.circle") }
+                Tab("Find", systemImage: "magnifyingglass") { FindView() }
+                Tab("Borrow", systemImage: "camera") { BorrowView() }
+                Tab("Ask", systemImage: "bubble.left.and.text.bubble.right") { AskView() }
+                Tab("My Plan", systemImage: "checklist") { PlanView() }
             }
         } else {
             OnboardingView { onboarded = true }

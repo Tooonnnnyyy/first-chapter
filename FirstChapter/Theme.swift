@@ -1,106 +1,62 @@
 import SwiftUI
+import SafariServices
+import UIKit
 
-/// Tokens ported 1:1 from ideamap's docs/DESIGN-SYSTEM.md:
-/// zinc surfaces, one amber accent, borders instead of shadows, 4px spacing.
+/// Design system: Apple Human Interface Guidelines. Native components, system
+/// colors and Dynamic Type throughout. The only custom values are the app tint
+/// and the Settings-style icon tile below.
 extension Color {
-    init(hex: UInt32) {
-        self.init(
-            red: Double((hex >> 16) & 0xFF) / 255,
-            green: Double((hex >> 8) & 0xFF) / 255,
-            blue: Double(hex & 0xFF) / 255
-        )
-    }
-
-    static let dsBg = Color(hex: 0xFAFAFA)
-    static let dsSurface = Color.white
-    static let dsBorder = Color(hex: 0xE4E4E7)
-    static let dsText = Color(hex: 0x18181B)
-    static let dsMuted = Color(hex: 0x52525B)
-    static let dsAccent = Color(hex: 0xB45309)
-    static let dsAccentSoft = Color(hex: 0xFEF3C7)
-    static let dsSuccess = Color(hex: 0x15803D)
-    static let dsSuccessSoft = Color(hex: 0xDCFCE7)
-    static let dsDanger = Color(hex: 0xB91C1C)
+    static let brand = Color(UIColor { trait in
+        trait.userInterfaceStyle == .dark
+            ? UIColor(red: 0.96, green: 0.45, blue: 0.48, alpha: 1)
+            : UIColor(red: 0.56, green: 0.00, blue: 0.10, alpha: 1)
+    })
 }
 
-enum DS {
-    static let radiusSm: CGFloat = 4
-    static let radiusMd: CGFloat = 6
-    static let radiusLg: CGFloat = 8
-    static let radius2xl: CGFloat = 16
-    static let inset: CGFloat = 16
-}
-
-struct CardStyle: ViewModifier {
-    var dashed = false
-    func body(content: Content) -> some View {
-        content
-            .background(Color.dsSurface)
-            .clipShape(RoundedRectangle(cornerRadius: DS.radiusLg))
-            .overlay(
-                RoundedRectangle(cornerRadius: DS.radiusLg)
-                    .strokeBorder(Color.dsBorder, style: StrokeStyle(lineWidth: 1, dash: dashed ? [4] : []))
-            )
-    }
-}
-
-extension View {
-    func card(dashed: Bool = false) -> some View { modifier(CardStyle(dashed: dashed)) }
-}
-
-struct PrimaryButton: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.system(size: 15, weight: .semibold))
+struct IconTile: View {
+    let symbol: String
+    let color: Color
+    var size: CGFloat = 30
+    var body: some View {
+        Image(systemName: symbol)
+            .font(.system(size: size * 0.52, weight: .medium))
             .foregroundStyle(.white)
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .background(Color.dsAccent.opacity(configuration.isPressed ? 0.85 : 1))
-            .clipShape(RoundedRectangle(cornerRadius: DS.radiusMd))
+            .frame(width: size, height: size)
+            .background(color, in: RoundedRectangle(cornerRadius: size * 0.225, style: .continuous))
+            .accessibilityHidden(true)
     }
 }
 
-struct SecondaryButton: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.system(size: 15, weight: .medium))
-            .foregroundStyle(Color.dsText)
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .background(configuration.isPressed ? Color.dsBorder : Color.dsSurface)
-            .clipShape(RoundedRectangle(cornerRadius: DS.radiusMd))
-            .overlay(RoundedRectangle(cornerRadius: DS.radiusMd).strokeBorder(Color.dsBorder))
-    }
+struct SafariView: UIViewControllerRepresentable {
+    let url: URL
+    func makeUIViewController(context: Context) -> SFSafariViewController { SFSafariViewController(url: url) }
+    func updateUIViewController(_ controller: SFSafariViewController, context: Context) {}
 }
 
-struct Badge: View {
-    enum Tone { case neutral, accent, success }
-    let text: String
-    var tone: Tone = .neutral
+/// Opens an official Library page inside the app, so students don't lose their place.
+struct WebLink<Content: View>: View {
+    let url: String
+    @ViewBuilder let content: () -> Content
+    @State private var showing = false
     var body: some View {
-        Text(text)
-            .font(.system(size: 11, weight: .semibold, design: .monospaced))
-            .foregroundStyle(tone == .accent ? Color.dsAccent : tone == .success ? Color.dsSuccess : Color.dsMuted)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
-            .background(tone == .accent ? Color.dsAccentSoft : tone == .success ? Color.dsSuccessSoft : Color(hex: 0xF4F4F5))
-            .clipShape(RoundedRectangle(cornerRadius: DS.radiusSm))
+        Button { showing = true } label: { content() }
+            .sheet(isPresented: $showing) {
+                if let target = URL(string: url) { SafariView(url: target).ignoresSafeArea() }
+            }
     }
 }
 
-struct Wordmark: View {
+struct ServiceRow: View {
+    let service: Service
     var body: some View {
-        Text("firstchapter")
-            .font(.system(size: 15, weight: .semibold, design: .monospaced))
-            .foregroundStyle(Color.dsAccent)
-    }
-}
-
-struct SectionTitle: View {
-    let text: String
-    var body: some View {
-        Text(text)
-            .font(.system(size: 13, weight: .semibold))
-            .foregroundStyle(Color.dsMuted)
-            .textCase(.uppercase)
-            .frame(maxWidth: .infinity, alignment: .leading)
+        HStack(spacing: 12) {
+            IconTile(symbol: service.icon, color: service.color)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(service.title).font(.body).foregroundStyle(.primary)
+                Text(service.answer).font(.subheadline).foregroundStyle(.secondary)
+                    .multilineTextAlignment(.leading)
+            }
+        }
+        .padding(.vertical, 2)
     }
 }

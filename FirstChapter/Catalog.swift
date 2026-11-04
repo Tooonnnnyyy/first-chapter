@@ -1,14 +1,21 @@
-import Foundation
+import SwiftUI
 
 /// Public Library information, read from uottawa.ca/library on 2026-11-04.
 /// Sources are in docs/LIBRARY-FACTS.md. Holds no user data.
+struct Fact: Hashable {
+    let label: String
+    let value: String
+}
+
 struct Service: Identifiable, Hashable {
     let id: String
     let icon: String
+    let color: Color
     let title: String
-    let oneLiner: String
+    /// The answer itself, shown on the row, so most students never need another tap.
+    let answer: String
+    let facts: [Fact]
     let steps: [String]
-    let whereAt: String
     let cta: String
     let url: String
     let webClicks: Int
@@ -16,89 +23,130 @@ struct Service: Identifiable, Hashable {
 }
 
 enum Catalog {
-    static let services: [Service] = [
-        Service(id: "camera", icon: "camera.fill", title: "Borrow a camera or gear",
-                oneLiner: "Cameras, microphones, tripods, lights and more. 7-day loan, 2 renewals.",
-                steps: ["Pick your gear from the equipment list", "Bring your library card to the Morisset main service desk", "Return it with all accessories, or renew, within 7 days"],
-                whereAt: "Morisset Library, main service desk", cta: "See equipment list",
-                url: "https://ocul-uo.primo.exlibrisgroup.com/discovery/collectionDiscovery?vid=01OCUL_UO:UO_DEFAULT&collectionId=81966870270005161&lang=en", webClicks: 5,
-                keywords: ["camera", "gear", "equipment", "tripod", "mic", "microphone", "video", "film", "photo", "shoot", "record", "loan", "lend", "multimedia", "technology"]),
-        Service(id: "room", icon: "person.3.fill", title: "Book a study room",
-                oneLiner: "Reserve a room online at Morisset, Law, Learning Crossroads (5th floor) or Health Sciences.",
-                steps: ["Choose a library", "Reserve online", "Show up with your group"],
-                whereAt: "Morisset, Brian Dickson Law, CRX 5th floor, Health Sciences", cta: "Book a room",
-                url: "https://www.uottawa.ca/library/services/reserve-study-space", webClicks: 2,
-                keywords: ["room", "study", "group", "quiet", "space", "book", "reserve", "team", "meeting"]),
-        Service(id: "podcast", icon: "mic.fill", title: "Record a podcast",
-                oneLiner: "The Digital Skills Hub supports podcasting, virtual reality and other technology.",
-                steps: ["Open Library services", "Choose Digital Skills Hub", "Pick podcasting"],
-                whereAt: "Digital Skills Hub", cta: "Open Digital Skills Hub",
-                url: "https://www.uottawa.ca/library/services", webClicks: 3,
-                keywords: ["podcast", "studio", "audio", "record", "vr", "virtual", "reality", "sound", "digital"]),
-        Service(id: "cite", icon: "quote.opening", title: "Cite your sources",
-                oneLiner: "Tutorials and workshops on citation styles, citation software and avoiding plagiarism.",
-                steps: ["Open Writing and citing", "Choose Citation styles", "Stuck? Ask a librarian"],
-                whereAt: "Online, and hands-on workshops", cta: "Open citation help",
-                url: "https://www.uottawa.ca/library/writing-citing", webClicks: 3,
-                keywords: ["cite", "citation", "apa", "mla", "chicago", "plagiarism", "reference", "paper", "essay", "bibliography", "writing"]),
-        Service(id: "librarian", icon: "person.fill.questionmark", title: "Talk to a librarian",
-                oneLiner: "A librarian who knows your subject can help with research. Text 613-801-5603.",
-                steps: ["Find your subject", "Contact your librarian", "Or text 613-801-5603"],
-                whereAt: "Online, by text, or in person", cta: "Find my librarian",
-                url: "https://www.uottawa.ca/library/research-guides-librarians", webClicks: 2,
-                keywords: ["librarian", "help", "research", "ask", "question", "subject", "sources", "assignment", "stuck"]),
-        Service(id: "print", icon: "printer.fill", title: "Print, copy, scan",
-                oneLiner: "From $0.09 a page in black and white, $0.25 in colour. Scanning is free.",
-                steps: ["Add funds to your student card", "Print at any library", "Scan to email or USB for free"],
-                whereAt: "Every library", cta: "Printing details",
-                url: "https://www.uottawa.ca/library/services/print-copy-scan", webClicks: 3,
-                keywords: ["print", "printer", "copy", "scan", "photocopy", "price", "cost", "colour", "color"]),
-        Service(id: "books", icon: "book.fill", title: "Borrow a book",
-                oneLiner: "Undergrads get 120 days, up to 500 items, unlimited renewals. You can place a hold too.",
-                steps: ["Search the catalogue", "Place a hold or grab it", "Show your library card"],
-                whereAt: "Any library location", cta: "Borrowing rules",
-                url: "https://www.uottawa.ca/library/services/borrow", webClicks: 2,
-                keywords: ["book", "borrow", "hold", "renew", "textbook", "reserve", "loan", "card", "interlibrary"]),
-        Service(id: "workshop", icon: "graduationcap.fill", title: "Join a workshop",
-                oneLiner: "Workshops, orientations and tours built for new students.",
-                steps: ["See what's on", "Pick a session", "Go"],
-                whereAt: "On campus and online", cta: "See workshops",
-                url: "https://www.uottawa.ca/library/workshops-orientations-tours", webClicks: 2,
-                keywords: ["workshop", "tour", "orientation", "learn", "class", "training", "session"]),
-        Service(id: "software", icon: "desktopcomputer", title: "Use a computer or software",
-                oneLiner: "Public computers, plus uOLabsPlus for SPSS, Stata, ArcGIS and more on your own laptop.",
-                steps: ["Sign in with uoAccess", "Or open uOLabsPlus on your device", "Note: uOLabsPlus is down midnight to 3 a.m."],
-                whereAt: "Morisset, Health Sciences, Brian Dickson", cta: "Computers and technology",
-                url: "https://www.uottawa.ca/library/services/computers-technology", webClicks: 2,
-                keywords: ["computer", "software", "spss", "stata", "arcgis", "excel", "laptop", "pc", "adobe", "wifi"]),
-    ]
-
     static let gearURL = "https://ocul-uo.primo.exlibrisgroup.com/discovery/collectionDiscovery?vid=01OCUL_UO:UO_DEFAULT&collectionId=81966870270005161&lang=en"
-    static let gear: [(icon: String, name: String)] = [
-        ("camera.fill", "Cameras"),
-        ("mic.fill", "Microphones"),
-        ("camera.metering.center.weighted", "Tripods and holders"),
-        ("light.panel.fill", "Screens and lights"),
-        ("cable.connector", "Cables and adaptors"),
-        ("tv.fill", "TV equipment and others"),
-        ("clock.fill", "Reserved items (4-hour loan)"),
+
+    static let gear: [(icon: String, name: String, color: Color)] = [
+        ("camera.fill", "Cameras", .orange),
+        ("mic.fill", "Microphones", .red),
+        ("camera.on.rectangle.fill", "Tripods and Holders", .blue),
+        ("lightbulb.fill", "Screens and Lights", .yellow),
+        ("cable.connector", "Cables and Adaptors", .gray),
+        ("tv.fill", "TV Equipment and Others", .indigo),
+        ("clock.fill", "Reserved Items (4-Hour Loan)", .teal),
     ]
 
-    static let quick = ["camera", "room", "podcast", "cite", "librarian", "print"]
+    static let services: [Service] = [
+        Service(id: "camera", icon: "camera.fill", color: .orange, title: "Borrow a Camera or Gear",
+                answer: "Cameras, mics, tripods and lights. 7-day loan from the Morisset service desk.",
+                facts: [Fact(label: "Loan", value: "7 days, 2 renewals"),
+                        Fact(label: "Pick up", value: "Morisset service desk"),
+                        Fact(label: "Who", value: "Current students"),
+                        Fact(label: "Bring", value: "Valid library card"),
+                        Fact(label: "Return", value: "With all accessories")],
+                steps: ["Pick your gear from the equipment list", "Bring your library card to the Morisset service desk", "Return it with all accessories, or renew, within 7 days"],
+                cta: "See Equipment List", url: gearURL, webClicks: 5,
+                keywords: ["camera", "cameras", "gear", "equipment", "tripod", "mic", "microphone", "video", "film", "photo", "shoot", "record", "loan", "lend", "multimedia", "technology", "light", "lights", "borrow", "cable", "adaptor"]),
+        Service(id: "room", icon: "person.3.fill", color: .blue, title: "Book a Study Room",
+                answer: "Reserve online at Morisset, Law, Learning Crossroads or Health Sciences.",
+                facts: [Fact(label: "Where", value: "Morisset, Law, CRX 5th floor, Health Sciences"),
+                        Fact(label: "Size", value: "Up to about 6, varies")],
+                steps: ["Open the booking page", "Choose a library and time", "Reserve and show up with your group"],
+                cta: "Book a Room", url: "https://www.uottawa.ca/library/services/reserve-study-space", webClicks: 2,
+                keywords: ["room", "rooms", "study", "group", "quiet", "space", "book", "booking", "reserve", "team", "meeting"]),
+        Service(id: "podcast", icon: "mic.fill", color: .purple, title: "Record a Podcast",
+                answer: "The Digital Skills Hub at Learning Crossroads supports podcasting and VR.",
+                facts: [Fact(label: "Where", value: "Learning Crossroads (CRX)")],
+                steps: ["Open the Digital Skills Hub page", "Choose podcasting", "Follow its booking steps"],
+                cta: "Open Digital Skills Hub", url: "https://www.uottawa.ca/library/learning-crossroads/digital-skills-hub", webClicks: 3,
+                keywords: ["podcast", "studio", "audio", "record", "vr", "virtual", "reality", "sound", "digital", "skills"]),
+        Service(id: "cite", icon: "quote.opening", color: .green, title: "Cite Your Sources",
+                answer: "Library guides to citation styles, citation software and avoiding plagiarism.",
+                facts: [],
+                steps: ["Open Citation Styles", "Choose the style your course uses", "Stuck? Ask a librarian"],
+                cta: "Open Citation Styles", url: "https://www.uottawa.ca/library/writing-citing/citation-styles", webClicks: 3,
+                keywords: ["cite", "citing", "citation", "citations", "apa", "mla", "chicago", "plagiarism", "reference", "references", "paper", "essay", "bibliography", "writing", "sources"]),
+        Service(id: "librarian", icon: "person.fill.questionmark", color: .pink, title: "Talk to a Librarian",
+                answer: "Text 613-801-5603, or find the librarian for your subject.",
+                facts: [Fact(label: "Text", value: "613-801-5603"),
+                        Fact(label: "Phone", value: "613-562-5213"),
+                        Fact(label: "Email", value: "bibliolibrary@uOttawa.ca")],
+                steps: ["Find your subject", "Contact your librarian", "Or text the Library"],
+                cta: "Find My Librarian", url: "https://www.uottawa.ca/library/research-guides-librarians", webClicks: 2,
+                keywords: ["librarian", "help", "research", "ask", "question", "subject", "assignment", "stuck", "contact"]),
+        Service(id: "print", icon: "printer.fill", color: .gray, title: "Print, Copy, Scan",
+                answer: "$0.09 a page in black and white, $0.25 in colour. Scanning is free.",
+                facts: [Fact(label: "B&W", value: "$0.09, 2-sided $0.16"),
+                        Fact(label: "Colour", value: "$0.25, 2-sided $0.48"),
+                        Fact(label: "Scan", value: "Free"),
+                        Fact(label: "Pay with", value: "Funds on student card")],
+                steps: ["Add funds to your student card", "Print at any library", "Scan to email or USB for free"],
+                cta: "Printing Details", url: "https://www.uottawa.ca/library/services/print-copy-scan", webClicks: 3,
+                keywords: ["print", "printing", "printer", "copy", "scan", "scanner", "photocopy", "price", "cost", "colour", "color", "money"]),
+        Service(id: "hours", icon: "clock.fill", color: .teal, title: "Locations and Hours",
+                answer: "Morisset, Law, Health Sciences, Learning Crossroads and more.",
+                facts: [],
+                steps: ["Open Locations and hours", "Choose your library"],
+                cta: "See Today's Hours", url: "https://www.uottawa.ca/library/locations-hours", webClicks: 1,
+                keywords: ["hours", "open", "close", "closing", "location", "locations", "where", "morisset", "crx", "address", "map"]),
+        Service(id: "books", icon: "book.fill", color: .brown, title: "Borrow a Book",
+                answer: "Undergrads get 120 days, up to 500 items, unlimited renewals.",
+                facts: [Fact(label: "Loan", value: "120 days"),
+                        Fact(label: "Limit", value: "500 items"),
+                        Fact(label: "Renewals", value: "Unlimited")],
+                steps: ["Search the catalogue", "Place a hold or take it from the shelf", "Show your library card"],
+                cta: "Borrowing Rules", url: "https://www.uottawa.ca/library/services/borrow", webClicks: 2,
+                keywords: ["book", "books", "borrow", "hold", "renew", "textbook", "card", "interlibrary", "due"]),
+        Service(id: "card", icon: "creditcard.fill", color: .indigo, title: "Get a Library Card",
+                answer: "You need a valid library card to borrow anything.",
+                facts: [],
+                steps: ["Open Library account", "Follow the steps for students"],
+                cta: "Library Account", url: "https://www.uottawa.ca/library/services/library-account", webClicks: 2,
+                keywords: ["card", "account", "library", "login", "sign", "id"]),
+        Service(id: "reserves", icon: "bookmark.fill", color: .orange, title: "Course Reserves",
+                answer: "Course materials your instructor set aside for short-term use.",
+                facts: [],
+                steps: ["Open Course reserves", "Search your course"],
+                cta: "Open Course Reserves", url: "https://www.uottawa.ca/library/services/course-reserves", webClicks: 1,
+                keywords: ["course", "reserve", "reserves", "textbook", "instructor", "professor", "readings"]),
+        Service(id: "workshop", icon: "graduationcap.fill", color: .mint, title: "Join a Workshop",
+                answer: "Workshops, orientations and tours at the Library.",
+                facts: [],
+                steps: ["See what's on", "Pick a session"],
+                cta: "See Workshops", url: "https://www.uottawa.ca/library/workshops-orientations-tours", webClicks: 2,
+                keywords: ["workshop", "workshops", "tour", "orientation", "learn", "class", "training", "session"]),
+        Service(id: "software", icon: "desktopcomputer", color: .cyan, title: "Computers and Software",
+                answer: "Public computers, plus SPSS, Stata and ArcGIS on your laptop through uOLabsPlus.",
+                facts: [Fact(label: "Sign in", value: "uoAccess"),
+                        Fact(label: "uOLabsPlus down", value: "Midnight to 3 a.m.")],
+                steps: ["Sign in with uoAccess", "Or open uOLabsPlus on your own device"],
+                cta: "Computers and Technology", url: "https://www.uottawa.ca/library/services/computers-technology", webClicks: 2,
+                keywords: ["computer", "computers", "software", "spss", "stata", "arcgis", "excel", "laptop", "pc", "adobe", "wifi"]),
+        Service(id: "access", icon: "accessibility", color: .blue, title: "Accessibility Services",
+                answer: "Inclusive spaces, services and assistive technology at the Library.",
+                facts: [],
+                steps: ["Open Accessibility", "Contact the Library if you need support"],
+                cta: "Open Accessibility", url: "https://www.uottawa.ca/library/services/accessibility", webClicks: 2,
+                keywords: ["accessibility", "accessible", "disability", "assistive", "accommodation"]),
+    ]
 
     static func service(_ id: String) -> Service? { services.first { $0.id == id } }
 
-    /// Local ranking. No query ever leaves the phone.
+    private static func list(_ ids: [String]) -> [Service] { ids.compactMap(service) }
+    static var quick: [Service] { list(["camera", "room", "cite", "librarian", "print", "hours"]) }
+    static var more: [Service] { services.filter { s in !quick.contains(s) } }
+    static var discover: [Service] { list(["camera", "podcast", "librarian", "room", "workshop", "software"]) }
+
+    /// Local ranking. Search never leaves the phone.
     static func search(_ query: String) -> [Service] {
         let words = query.lowercased().split { !$0.isLetter && !$0.isNumber }.map(String.init).filter { $0.count > 1 }
         guard !words.isEmpty else { return [] }
         return services
             .map { s -> (Service, Int) in
-                let hay = (s.title + " " + s.oneLiner).lowercased()
+                let hay = (s.title + " " + s.answer).lowercased()
                 var score = 0
                 for w in words {
-                    if s.keywords.contains(where: { $0 == w }) { score += 5 }
-                    else if s.keywords.contains(where: { $0.hasPrefix(w) || w.hasPrefix($0) }) { score += 3 }
+                    if s.keywords.contains(w) { score += 5 }
+                    else if s.keywords.contains(where: { $0.hasPrefix(w) }) { score += 3 }
                     else if hay.contains(w) { score += 1 }
                 }
                 return (s, score)

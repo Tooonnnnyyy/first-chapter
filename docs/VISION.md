@@ -14,7 +14,7 @@ A first-year in September who has a paper due, needs a camera for a project, and
 
 1. Fewer steps than the website, always.
 2. Start from the student's situation, not the org chart.
-3. Private by default: no account, on the device.
+3. Private by default: no account, plan stored on the device.
 4. Complement the Library's systems, never replace them.
 5. Bilingual, because uOttawa is.
 
@@ -42,7 +42,7 @@ These targets are proposals, not measured results.
 | --- | --- |
 | Catalog goes stale | Library-owned JSON file, each entry links to its official page |
 | Students won't install another app | Offer the catalog as a web version too; use QR codes at the point of need |
-| On-device AI needs newer iPhones | Local search works on every supported device |
+| AI provider and privacy | Local search works without AI; use a university-approved provider through a proxy for launch |
 | Library has no API for availability | Link out to existing systems; no fake status |
 
 ## What we won't do

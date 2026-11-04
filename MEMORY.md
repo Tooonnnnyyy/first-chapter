@@ -1,45 +1,73 @@
 # MEMORY.md: long-term project memory
 
-Durable facts and decisions. Overwrite when stale. Add one log line per change. Details live in `docs/`, link rather than copy.
+Durable facts and decisions. Overwrite when stale. Add one log line per change. Details live in `docs/`: link, don't copy.
 
 _Last updated: 2026-11-04._
 
 ## What this is
 
-**First Chapter**: native iOS (SwiftUI) guide to uOttawa Library services for first-year students. Owner: Tony (GitHub `Tooonnnnyyy`). Repo is private.
+**First Chapter**: native iOS guide to uOttawa Library services for first-year students. Owner: Tony (GitHub `Tooonnnnyyy`). Repo is private. Local path on Tony's Mac: `~/Projects/first-chapter`.
 
 ## The event
 
 - Library AI Buildathon, **2026-11-04, 1:30 to 3:00 p.m.**, Learning Crossroads CRX 230. Prize $150 CAD.
-- Build in under 40 minutes, then **5 minutes** per team to present to judges. Teams of 3 to 5. Code or mock-up allowed, any AI tools allowed.
+- Build in under 40 minutes, then **5 minutes** per team for the judges. Teams of 3 to 5. Code or mock-up allowed, any AI tools allowed. The event asks for an AI-powered solution.
 - Host contact: Paul.Tanase@uottawa.ca. Source: https://www.uottawa.ca/en/events-all/join-ai-buildathon-library
-- Tony's photos of the brief and the scoring table are transcribed in `docs/CRITERIA.md`.
+- The brief and scoring table are transcribed in `docs/CRITERIA.md`.
+
+## Priorities from Tony
+
+1. **All functions must work.**
+2. **First-years find information more easily, in fewer steps than the website.**
+3. Borrowing gear (cameras etc.) is a core feature.
+4. Simple AI assistant only. Do not spend most of the time on it.
+
+## Stack (final)
+
+SwiftUI, SwiftData, iOS 26+, Xcode. No dependencies, no backend. Figma not used: a running app beat a mock-up on time.
 
 ## Decisions
 
 | Decision | Why | Who, when |
 | --- | --- | --- |
 | P0 is fewer steps than the website | Owner's instruction | Tony, 2026-11-04 |
-| Borrowing gear (cameras etc.) is core | Owner's instruction | Tony, 2026-11-04 |
-| Native SwiftUI, iOS 26+ | Owner allowed Xcode; runs in simulator now | Tony, 2026-11-04 |
-| Use ideamap's design system | Owner's instruction | Tony, 2026-11-04 |
-| Separate private repo `first-chapter` | Owner's instruction; unrelated to ideamap | Tony, 2026-11-04 |
-| No accounts, on-device only | Scores data privacy (25%); no backend needed | Agent, 2026-11-04 |
-| Link out to official booking and loan systems | Prototype has no access to them; never fake a booking | Agent, 2026-11-04 |
+| Borrowing gear is core | Owner's instruction | Tony, 2026-11-04 |
+| Native SwiftUI | Owner allowed Xcode; runs in the simulator | Tony, 2026-11-04 |
+| **Design system: Apple Human Interface Guidelines** | Tony rejected the first custom zinc/amber look as "pretty AI, pretty odd" and asked for an existing design system | Tony, 2026-11-04 |
+| Separate private repo | Owner's instruction; unrelated to ideamap | Tony, 2026-11-04 |
+| DeepSeek for the assistant | Owner's instruction | Tony, 2026-11-04 |
+| Answer shown on the row itself | Fewer taps: most students need no second screen | Agent, 2026-11-04 |
+| No accounts; plan stored on the phone | Data privacy is 25% of the score | Agent, 2026-11-04 |
+| Link to official booking and loan systems | No API access; never fake a booking or stock level | Agent, 2026-11-04 |
 
 ## Current state
 
-The app builds and runs on the iPhone 17 Pro simulator (iOS 26). All four tabs and the swipe deck were walked through. See `docs/TASKS.md` for what's open.
+- `FirstChapter/` holds the app. Screens: onboarding and swipe deck, Find, Borrow, Ask, My Plan, Your Data.
+- See `docs/TASKS.md` for what's open and what has been tested.
 
-**Stack (final):** SwiftUI, SwiftData, Apple Foundation Models with local search as fallback. No dependencies, no backend. Figma not used: a running app beat a mock-up on time.
+## DeepSeek key
+
+- Not in the repo, and not found in Tony's environment or project `.env` files. Tony enters it by running `./scripts/run.sh`, which stores it in the gitignored `FirstChapter/Secrets.plist`.
+- **Never commit a key.** Before committing: `git check-ignore FirstChapter/Secrets.plist`.
+- Without a key, Ask tries Apple's on-device model, then local search. Each reply names its source.
+- The `deepseek-chat` call has not been tested against the live API yet (no key).
+- A key inside an app can be extracted. That is fine for a local demo only. A real release needs a small proxy server.
+
+## Known issues
+
+- Apple's on-device model reported available in the simulator, but a call failed and the app fell back to local search. Cause not investigated. See T8.
+- Click counts come from page structure, not a timed user test.
+- English only. uOttawa is bilingual, so French is required before any real launch.
 
 ## Open questions for Tony
 
 1. Team name and members for the pitch?
-2. Keep the repo private after the event?
-3. Is the name "First Chapter" OK?
+2. DeepSeek key: run `./scripts/run.sh`, or demo without it?
+3. Keep the repo private after the event?
+4. Is the name "First Chapter" OK?
 
 ## Log
 
 - 2026-11-04: repo created, docs and project skeleton pushed.
-- 2026-11-04: app running in the simulator; real equipment categories added.
+- 2026-11-04: first app version running in the simulator; real equipment categories added.
+- 2026-11-04: redesigned on Apple HIG at Tony's request; DeepSeek assistant added; direct links to official pages added.

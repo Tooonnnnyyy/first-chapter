@@ -1,6 +1,6 @@
 # First Chapter
 
-A native iOS guide that gets first-year uOttawa students to any Library service in **one tap**, including borrowing cameras and other gear. Built at the Library AI Buildathon, 2026-11-04.
+A native iOS guide that helps first-year uOttawa students find Library services in fewer steps than the website, including borrowing cameras and other gear. Built at the Library AI Buildathon, 2026-11-04.
 
 **The problem (from the organizers):** many first-year students don't know what the Library offers: research help, technology loans, podcast studios and study rooms, citation workshops.
 
@@ -14,7 +14,13 @@ Needs Xcode 26 or newer and an iOS 26+ simulator.
 open FirstChapter.xcodeproj
 ```
 
-Pick an iPhone simulator and press Run. No accounts, keys or setup.
+Pick an iPhone simulator and press Run. No accounts or setup.
+
+To turn on the DeepSeek assistant, boot a simulator and run this. It asks for your key once and keeps it in a gitignored file:
+
+```bash
+./scripts/run.sh
+```
 
 ## Start here
 

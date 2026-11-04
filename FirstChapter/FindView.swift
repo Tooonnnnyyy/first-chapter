@@ -1,111 +1,56 @@
 import SwiftUI
 import SwiftData
 
-struct StepsBadge: View {
-    let service: Service
-    var body: some View {
-        Badge(text: "WEBSITE \(service.webClicks) CLICKS → HERE 1 TAP", tone: .accent)
-    }
-}
-
-struct ServiceRow: View {
-    let service: Service
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: service.icon)
-                .font(.system(size: 18))
-                .foregroundStyle(Color.dsAccent)
-                .frame(width: 40, height: 40)
-                .background(Color.dsAccentSoft)
-                .clipShape(RoundedRectangle(cornerRadius: DS.radiusMd))
-            VStack(alignment: .leading, spacing: 2) {
-                Text(service.title).font(.system(size: 15, weight: .semibold)).foregroundStyle(Color.dsText)
-                Text(service.oneLiner).font(.system(size: 13)).foregroundStyle(Color.dsMuted).lineLimit(2).multilineTextAlignment(.leading)
-            }
-            Spacer(minLength: 0)
-            Image(systemName: "chevron.right").font(.system(size: 12)).foregroundStyle(Color.dsMuted)
-        }
-        .padding(12)
-        .card()
-    }
-}
-
 struct FindView: View {
-    @Query(sort: \PlanItem.addedAt) private var plan: [PlanItem]
     @State private var query = ""
-    private let grid = [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)]
+    @State private var showDeck = false
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("What do you need?").font(.system(size: 28, weight: .bold)).foregroundStyle(Color.dsText)
-                    HStack(spacing: 8) {
-                        Image(systemName: "magnifyingglass").foregroundStyle(Color.dsMuted)
-                        TextField("camera, APA, quiet room…", text: $query)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-                        if !query.isEmpty {
-                            Button { query = "" } label: { Image(systemName: "xmark.circle.fill") }
-                                .foregroundStyle(Color.dsMuted)
-                                .accessibilityLabel("Clear search")
-                        }
-                    }
-                    .padding(12)
-                    .card()
-
-                    if query.isEmpty {
-                        SectionTitle(text: "One tap")
-                        LazyVGrid(columns: grid, spacing: 8) {
-                            ForEach(Catalog.quick.compactMap(Catalog.service)) { s in
-                                NavigationLink(value: s) {
-                                    VStack(alignment: .leading, spacing: 12) {
-                                        Image(systemName: s.icon).font(.system(size: 22)).foregroundStyle(Color.dsAccent)
-                                        Text(s.title).font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.dsText)
-                                            .multilineTextAlignment(.leading).lineLimit(2)
-                                        Spacer(minLength: 0)
-                                        Text(s.webClicks == 2 ? "saves 1 click" : "saves \(max(s.webClicks - 1, 0)) clicks").font(.system(size: 11, design: .monospaced)).foregroundStyle(Color.dsMuted)
-                                    }
-                                    .padding(12)
-                                    .frame(maxWidth: .infinity, minHeight: 116, alignment: .leading)
-                                    .card()
+            List {
+                if query.isEmpty {
+                    Section {
+                        Button { showDeck = true } label: {
+                            HStack(spacing: 12) {
+                                IconTile(symbol: "sparkles", color: .brand)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Discover What's Here").foregroundStyle(.primary)
+                                    Text("\(Catalog.discover.count) quick cards, under a minute").font(.subheadline).foregroundStyle(.secondary)
                                 }
                             }
                         }
-                        if !plan.isEmpty {
-                            SectionTitle(text: "Your plan")
-                            let done = plan.filter { $0.doneAt != nil }.count
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("\(done) of \(plan.count) tried").font(.system(size: 14, weight: .medium)).foregroundStyle(Color.dsText)
-                                ProgressView(value: Double(done), total: Double(plan.count)).tint(Color.dsSuccess)
-                            }
-                            .padding(12)
-                            .card()
-                            ForEach(plan.filter { $0.doneAt == nil }.compactMap { Catalog.service($0.serviceID) }) { s in
-                                NavigationLink(value: s) { ServiceRow(service: s) }
-                            }
+                    }
+                    Section("Most Needed") {
+                        ForEach(Catalog.quick) { service in
+                            NavigationLink(value: service) { ServiceRow(service: service) }
+                        }
+                    }
+                    Section("More Services") {
+                        ForEach(Catalog.more) { service in
+                            NavigationLink(value: service) { ServiceRow(service: service) }
+                        }
+                    }
+                } else {
+                    let results = Catalog.search(query)
+                    if results.isEmpty {
+                        ContentUnavailableView.search(text: query)
+                        if let text = URL(string: "sms:6138015603") {
+                            Link(destination: text) { Label("Text a librarian: 613-801-5603", systemImage: "message") }
                         }
                     } else {
-                        let results = Catalog.search(query)
-                        if results.isEmpty {
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("No match for \"\(query)\"").font(.system(size: 14, weight: .medium))
-                                Text("Try the Ask tab, or text a librarian at 613-801-5603.").font(.system(size: 13)).foregroundStyle(Color.dsMuted)
-                            }
-                            .padding(12)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .card(dashed: true)
-                        }
-                        ForEach(results) { s in
-                            NavigationLink(value: s) { ServiceRow(service: s) }
+                        ForEach(results) { service in
+                            NavigationLink(value: service) { ServiceRow(service: service) }
                         }
                     }
                 }
-                .padding(DS.inset)
             }
-            .background(Color.dsBg)
-            .toolbar { ToolbarItem(placement: .principal) { Wordmark().fixedSize() } }
+            .navigationTitle("Library")
+            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Camera, citing, study room…")
+            .autocorrectionDisabled()
             .navigationDestination(for: Service.self) { ServiceDetail(service: $0) }
+            .fullScreenCover(isPresented: $showDeck) {
+                SwipeDeck { showDeck = false }
+            }
         }
     }
 }
@@ -117,53 +62,54 @@ struct ServiceDetail: View {
     private var item: PlanItem? { plan.first { $0.serviceID == service.id } }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Image(systemName: service.icon)
-                    .font(.system(size: 28)).foregroundStyle(Color.dsAccent)
-                    .frame(width: 56, height: 56).background(Color.dsAccentSoft)
-                    .clipShape(RoundedRectangle(cornerRadius: DS.radiusLg))
-                Text(service.title).font(.system(size: 24, weight: .bold)).foregroundStyle(Color.dsText)
-                StepsBadge(service: service)
-                Text(service.oneLiner).font(.system(size: 16)).foregroundStyle(Color.dsMuted)
-
-                SectionTitle(text: "How it works")
-                VStack(alignment: .leading, spacing: 12) {
-                    ForEach(Array(service.steps.enumerated()), id: \.offset) { i, step in
-                        HStack(alignment: .top, spacing: 10) {
-                            Text("\(i + 1)").font(.system(size: 12, weight: .bold, design: .monospaced))
-                                .foregroundStyle(Color.dsAccent).frame(width: 22, height: 22)
-                                .background(Color.dsAccentSoft).clipShape(Circle())
-                            Text(step).font(.system(size: 14)).foregroundStyle(Color.dsText)
-                        }
+        List {
+            Section {
+                HStack(alignment: .top, spacing: 14) {
+                    IconTile(symbol: service.icon, color: service.color, size: 52)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(service.title).font(.title3.bold())
+                        Text(service.answer).font(.subheadline).foregroundStyle(.secondary)
                     }
                 }
-                .padding(12).frame(maxWidth: .infinity, alignment: .leading).card()
-
-                SectionTitle(text: "Where")
-                Label(service.whereAt, systemImage: "mappin.and.ellipse").font(.system(size: 14)).foregroundStyle(Color.dsText)
-
-                if let url = URL(string: service.url) {
-                    Link(destination: url) { Label(service.cta, systemImage: "arrow.up.right") }
-                        .buttonStyle(PrimaryButton())
-                }
-                if item?.doneAt != nil {
-                    Label("Stamped in your passport", systemImage: "checkmark.seal.fill")
-                        .font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.dsSuccess)
-                        .frame(maxWidth: .infinity, minHeight: 44)
-                } else {
-                    HStack(spacing: 8) {
-                        if item == nil {
-                            Button("Save to plan") { ctx.addToPlan(service.id, source: "find") }.buttonStyle(SecondaryButton())
-                        }
-                        Button("I did this") { ctx.markDone(service.id) }.buttonStyle(SecondaryButton())
+                .padding(.vertical, 4)
+                WebLink(url: service.url) {
+                    HStack {
+                        Text(service.cta)
+                        Spacer()
+                        Image(systemName: "arrow.up.forward").font(.footnote.weight(.semibold))
                     }
                 }
-                Text("Sign-in and bookings happen on the Library's own site.").font(.system(size: 12)).foregroundStyle(Color.dsMuted)
             }
-            .padding(DS.inset)
+            if !service.facts.isEmpty {
+                Section("Good to Know") {
+                    ForEach(service.facts, id: \.label) { fact in
+                        LabeledContent(fact.label, value: fact.value)
+                    }
+                }
+            }
+            Section("How It Works") {
+                ForEach(Array(service.steps.enumerated()), id: \.offset) { index, step in
+                    Label(step, systemImage: "\(index + 1).circle")
+                }
+            }
+            Section {
+                if let item {
+                    Button(item.doneAt == nil ? "Mark as Done" : "Mark as Not Done") {
+                        ctx.toggleDone(service.id)
+                    }
+                    Button("Remove from My Plan", role: .destructive) { ctx.removeFromPlan(service.id) }
+                } else {
+                    Button("Add to My Plan") { ctx.addToPlan(service.id, source: "find") }
+                }
+            } footer: {
+                Text("On the website: \(service.webClicks) \(service.webClicks == 1 ? "click" : "clicks") from the Library home page. Here: the answer is on the first screen.")
+            }
         }
-        .background(Color.dsBg)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            if let target = URL(string: service.url) {
+                ToolbarItem(placement: .topBarTrailing) { ShareLink(item: target) }
+            }
+        }
     }
 }

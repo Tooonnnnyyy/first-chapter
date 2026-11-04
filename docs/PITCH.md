@@ -4,28 +4,29 @@ Target: 3 minutes of demo-led pitch, 2 minutes of questions.
 
 ## Script
 
-**0:00 Problem (30s).** "Most first-years don't know the Library lends cameras or has a podcast studio. To find a camera today, it's 5 clicks across 2 websites. And you can't search for something you don't know exists."
+**0:00 Problem (30s).** "Most first-years don't know the Library lends cameras or supports podcasting. To find a camera today, it's 5 clicks across 2 websites. And you can't search for something you don't know exists."
 
-**0:30 Answer (15s).** "First Chapter gets you to any Library service in one tap, and shows you what you didn't know to look for."
+**0:30 Answer (15s).** "First Chapter puts the answer on the first screen, and shows you what you didn't know to look for."
 
 **0:45 Demo (1m45s).**
-1. Swipe deck: "30 seconds on day one. Right for need it. That's your plan."
-2. Find: type "camera". "One tap. Loan rule, where to go, what to bring. Website: 5 clicks. Here: 1."
-3. Ask: "My paper's due Friday and I don't know APA." "AI on the phone answers from Library facts and links to the real page."
-4. Me: stamps, clicks saved. "And here's every byte we store. One table. Tap erase and it's gone."
+1. Discover: "Under a minute on day one. Swipe right, it's in your plan."
+2. Find: type "camera". "The answer's on the row: 7 days, Morisset desk."
+3. Borrow: "Every category, every rule, one screen. One tap opens the Library's real list."
+4. Ask: "How much does printing cost?" Answer plus a link to the service.
+5. Your Data: "This is everything we store. One table, no names. Erase, and it's gone."
 
-**2:30 Why it wins (30s).** "No login, no student number, no server. The AI runs on the phone. And the Library keeps its own systems, because we link to them."
+**2:30 Why it wins (30s).** "No login and no student number. It works with the Library's systems instead of replacing them, so it could ship without new infrastructure."
 
 ## Likely questions
 
 | Question | Answer |
 | --- | --- |
-| Is the data real? | Library facts come from uottawa.ca/library, with sources in the repo. Each card links to the official page. |
-| Where's the database? | One local SwiftData table of saved service IDs and dates, plus a read-only public catalog. No server. |
-| How is it secured? | No personal identifiers to steal. iOS encrypts the file when the phone is locked. It's excluded from backups. One-tap erase. |
-| What about AI mistakes? | It answers only from the catalog and always links the official page. Without Apple's model it uses local search and says so. |
-| Does booking work in the app? | It opens the Library's real page. Sign-in happens there, so we never see credentials. With an API, it could go deeper. |
-| Why not just improve the website? | A site waits for you to know what to look for. The swipe deck reaches you first. |
+| Is the data real? | Yes. Facts come from uottawa.ca/library, sources are in the repo, and each service links to its official page. |
+| Where's the database? | One local SwiftData table of saved service IDs and dates, plus a read-only public catalog. |
+| How is it secured? | No identifiers to steal. iOS encrypts the file when the phone is locked. It's left out of backups. One-tap erase. |
+| Doesn't DeepSeek break your privacy claim? | Only typed questions go, with emails and numbers stripped, and students can turn it off. For a real launch we'd use a university-approved provider through a proxy. |
+| What about AI mistakes? | It may only use Library facts, and always links the official page. It sends anything else to a librarian. |
+| Does booking work in the app? | It opens the Library's real page, so sign-in stays there. With an API it could go deeper. |
+| Why not improve the website? | A site waits for you to know what to look for. The swipe deck reaches you first. |
 | French? | Next on the plan. uOttawa is bilingual, so it's required before launch. |
-| How does it stay up to date? | Today it's bundled. Next, a Library-owned file the app downloads, with no student data sent. |
-| How would you know it works? | Compare clicks and time with the website, plus an opt-in survey on services used by Reading Week. |
+| How do you know it saves steps? | We counted from the site's structure. Next step is a timed test with real first-years. |

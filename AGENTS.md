@@ -10,16 +10,16 @@ For every AI agent (Claude Code, Codex, Cursor, Gemini, Copilot) and every human
 
 ## The P0
 
-**Fewer steps than the website.** A first-year finds any Library service in one tap, and can find and borrow gear like a camera. If a change does not reduce steps or raise a judging score (`docs/CRITERIA.md`), skip it.
+**All functions work, and first-years find information in fewer steps than the website,** including how to borrow gear like a camera. If a change does not reduce steps or raise a judging score (`docs/CRITERIA.md`), skip it.
 
 ## Rules
 
 - **Time box.** This is a live hackathon. Small commits, pushed often. A working demo beats a better unfinished one. Never leave `main` not compiling.
 - **Stay in your files.** `docs/TASKS.md` lists file owners. Do not edit a file another open task owns.
 - **Facts must be real.** Library facts go in `docs/LIBRARY-FACTS.md` with a source URL. Do not invent hours, loan periods, prices or equipment. If it is unverified, link to the official page instead.
-- **Privacy is a feature.** Do not add accounts, analytics, third-party SDKs, or anything that sends student data off the phone without asking the owner. See `docs/DATA-MODEL.md`.
-- **Design.** Use `FirstChapter/Theme.swift` tokens (ported from ideamap's design system): zinc surfaces, one amber accent, borders not shadows, 4px spacing, 44pt touch targets. No new colors.
-- **Honest labels.** Never present a fallback as AI, or a mock as real. The Ask screen says which mode is running.
+- **Privacy is a feature.** Do not add accounts, analytics, third-party SDKs, or anything new that sends student data off the phone without asking the owner. See `docs/DATA-MODEL.md`. Never commit an API key.
+- **Design system: Apple Human Interface Guidelines.** Use native components (`List`, `.searchable`, `LabeledContent`, `Toggle`, standard button styles), system colors, and text styles for Dynamic Type. No custom cards, monospace labels, or hard-coded font sizes: Tony rejected that look.
+- **Honest labels.** Never present a fallback as AI, or a mock as real. Each Ask reply names its source.
 - **No secrets** in the repo. Never edit this repo's visibility or settings without the owner.
 
 ## After every task
@@ -38,8 +38,9 @@ New `.swift` files inside `FirstChapter/` are picked up automatically (synchroni
 
 | Path | What |
 | --- | --- |
-| `FirstChapter/Theme.swift` | Design tokens and shared components |
+| `FirstChapter/Theme.swift` | App tint and small shared views |
 | `FirstChapter/Catalog.swift` | Public Library data: services and gear (read-only) |
 | `FirstChapter/Store.swift` | SwiftData: the only personal data |
-| `FirstChapter/Guide.swift` | On-device AI and search |
+| `FirstChapter/Guide.swift` | Assistant: DeepSeek, then on-device AI, then local search |
+| `scripts/run.sh` | Build and launch; asks once for the DeepSeek key |
 | `FirstChapter/*View.swift` | Screens |

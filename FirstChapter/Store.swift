@@ -67,3 +67,19 @@ extension ModelContext {
         try? save()
     }
 }
+
+extension ModelContext {
+    func toggleDone(_ id: String) {
+        let found = (try? fetch(FetchDescriptor<PlanItem>(predicate: #Predicate<PlanItem> { $0.serviceID == id }))) ?? []
+        if let item = found.first {
+            item.doneAt = item.doneAt == nil ? .now : nil
+            try? save()
+        }
+    }
+
+    func removeFromPlan(_ id: String) {
+        let found = (try? fetch(FetchDescriptor<PlanItem>(predicate: #Predicate<PlanItem> { $0.serviceID == id }))) ?? []
+        found.forEach { delete($0) }
+        try? save()
+    }
+}

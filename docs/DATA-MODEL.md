@@ -10,16 +10,16 @@ Keep public data and personal data apart, and collect as little personal data as
 Catalog (bundled, read-only, public)        PlanItem (SwiftData, on the phone only)
 ----------------------------------          ---------------------------------------
 Service                                     serviceID  String  unique  -> Service.id
-  id, title, category, summary, steps       source     String  swipe|find|ask|borrow
-  location, url, webClicks, keywords        addedAt    Date
+  id, title, answer, facts[], steps[]       source     String  swipe|find|ask|borrow
+  cta, url, webClicks, keywords[]           addedAt    Date
 Gear                                        doneAt     Date?
-  id, name, group, loan, url
+  name, icon
 ```
 
-- **Catalog** is public Library information compiled into the app. It holds no user data. Update path: a signed JSON file served by the Library.
-- **PlanItem** is the only personal data: which public services a student saved and tried.
+- **Catalog** is public Library information compiled into the app, with no user data. Planned update path: a signed JSON file served by the Library.
+- **PlanItem** is the only stored personal data: which public services a student saved and finished.
 - `serviceID` is unique, so a service can't be saved twice.
-- **Chat is not stored.** Questions live in memory and disappear when the app closes.
+- **Chats are not stored.** They live in memory and disappear when the app closes.
 
 ## Security
 
@@ -27,14 +27,21 @@ Gear                                        doneAt     Date?
 | --- | --- | --- |
 | No account, name, student number or email | Nothing to breach | No such fields exist |
 | Encrypted at rest | iOS Data Protection `.complete` on the store folder | `Store.swift` |
-| Stays on the device | CloudKit off, excluded from backups | `Store.swift` |
-| AI stays on the device | Apple Foundation Models; falls back to local search | `Guide.swift` |
-| No third-party SDKs or analytics | No dependencies at all | `project.pbxproj` |
-| Student control | Erase everything, one button | Me tab |
-| Official systems only | Booking and loans open the Library's real pages, sign-in happens there | `Catalog.swift` |
+| Plan stays on the device | CloudKit off, excluded from backups | `Store.swift` |
+| No third-party SDKs or analytics | No dependencies | `project.pbxproj` |
+| Student control | Erase Everything, swipe to remove | `PlanView.swift` |
+| Official systems only | Bookings and sign-in happen on the Library's own pages | `Catalog.swift` |
+| Key not in source | Gitignored `Secrets.plist` | `.gitignore`, `Guide.swift` |
+| Data minimization for AI | Emails and phone or ID numbers removed before a question is sent | `Guide.redact` |
+
+## What leaves the phone
+
+When Online AI is on and a key is set, Ask sends the typed question (after redaction) and the public catalog to DeepSeek. Nothing else. The student can switch this off with the cloud button, and the app then answers on the phone.
 
 ## Limits to say out loud
 
+- **DeepSeek is a third party outside Canada.** The app says so in Ask and in Your Data, and strips identifiers first, but a student could still type something personal. For a real launch, use a provider the university approves, through a proxy that doesn't log.
+- A key inside an app can be extracted. Acceptable for a local demo only.
 - `.complete` protection takes effect on a real locked device, not in the simulator.
+- Redaction is pattern-based and won't catch everything, such as a name.
 - Not reviewed by uOttawa privacy or security staff. A real launch would need a privacy review under Ontario's FIPPA, which covers universities.
-- If the Library later wants usage numbers, they should be opt-in and aggregate only.

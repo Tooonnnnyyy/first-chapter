@@ -1,0 +1,35 @@
+name: Source release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+      - name: Validate tag and main ancestry
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python3 -c 'import os,re; assert re.fullmatch(r"v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?",os.environ["RELEASE_TAG"]), "Invalid version tag"'
+          git merge-base --is-ancestor HEAD origin/main
+      - run: npm run check && npm test
+      - name: Create draft with source and checksum
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          artifact="first-chapter-${RELEASE_TAG}.tar.gz"
+          git archive --format=tar.gz --prefix=first-chapter/ -o "$artifact" HEAD
+          sha256sum "$artifact" > SHA256SUMS
+          gh release create "$RELEASE_TAG" "$artifact" SHA256SUMS --verify-tag --draft --generate-notes --title "$RELEASE_TAG"

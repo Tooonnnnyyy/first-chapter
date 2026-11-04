@@ -1,4 +1,4 @@
-// Database open + schema + seed. Uses Node's built-in SQLite (Node >= 22),
+// Database open + schema + seed. Uses Node's built-in SQLite (Node >= 24),
 // so the server has zero npm dependencies: `node src/index.js` just runs.
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync, mkdirSync } from 'node:fs';

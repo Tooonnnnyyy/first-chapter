@@ -1,0 +1,24 @@
+name: Bug / Bogue / 缺陷
+description: Report something that does not work. English, French and Chinese welcome.
+title: "[Bug] "
+labels: [bug, "status:triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Problème / 问题
+      description: What happened, and what did you expect? Do not include credentials or student data.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps / Étapes / 复现步骤
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Version, device and OS / Version, appareil et OS / 版本与环境
+    validations:
+      required: true

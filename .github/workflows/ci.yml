@@ -1,0 +1,53 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  repository:
+    name: Repository and API
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+      - run: npm run check
+      - run: npm test
+      - run: bash -n scripts/run.sh
+      - run: python3 scripts/maintenance/export_wiki.py "${RUNNER_TEMP}/wiki-preview"
+  ios:
+    name: iOS build
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Verify Xcode requirement
+        run: |
+          xcodebuild -version
+          python3 -c 'import subprocess; v=subprocess.check_output(["xcodebuild","-version"],text=True).split()[1]; assert int(v.split(".")[0]) >= 26, "Xcode 26+ required"'
+      - name: Compile for simulator
+        run: xcodebuild -project FirstChapter.xcodeproj -scheme FirstChapter -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/FirstChapterBuild" CODE_SIGNING_ALLOWED=NO build -quiet
+  container:
+    name: Container smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - run: docker build -t first-chapter-api:test server
+      - name: Check container health
+        run: |
+          docker run -d --name fc-api -p 127.0.0.1:8787:8787 first-chapter-api:test
+          trap 'docker logs fc-api; docker rm -f fc-api' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8787/health; then exit 0; fi
+            sleep 1
+          done
+          exit 1

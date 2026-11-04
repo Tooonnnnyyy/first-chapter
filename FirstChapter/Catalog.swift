@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Public Library information, read from uottawa.ca/library on 2026-11-04.
-/// Sources are in docs/LIBRARY-FACTS.md. Holds no user data.
+/// Sources are in docs/reference/library-services.md. Holds no user data.
 struct Fact: Hashable {
     let label: String
     let value: String

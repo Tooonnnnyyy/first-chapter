@@ -1,0 +1,15 @@
+{
+  "name": "first-chapter-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "npm --prefix server test && npm --prefix archive/geeguide-web test",
+    "check": "python3 scripts/check_repository.py && node scripts/check_web.mjs",
+    "serve:web": "python3 -m http.server 8080 --bind 127.0.0.1 --directory web",
+    "start:server": "npm --prefix server start"
+  }
+}

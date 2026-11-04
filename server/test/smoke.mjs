@@ -1,26 +1,40 @@
 // Smoke test: boots the server on a scratch port with a scratch DB and walks
-// the demo loop — anon session -> save -> complete -> quest settles -> feed.
+// the API lifecycle — anon session -> save -> complete -> quest settles -> feed.
 // Run: npm run smoke (from server/). Uses a temp data dir via FC_DATA_DIR.
 import { spawn } from 'node:child_process';
-import { mkdtempSync } from 'node:fs';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { once } from 'node:events';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const PORT = 8799;
-const base = `http://localhost:${PORT}`;
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-process.env.FC_DATA_DIR = mkdtempSync(join(tmpdir(), 'fc-smoke-'));
-
-const child = spawn('node', ['src/index.js'], { cwd: root, env: { ...process.env, PORT: String(PORT) }, stdio: 'pipe' });
-const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const dataDir = mkdtempSync(join(tmpdir(), 'fc-smoke-'));
+const child = spawn(process.execPath, ['src/index.js'], {
+  cwd: root,
+  env: { ...process.env, PORT: '0', HOST: '127.0.0.1', FC_DATA_DIR: dataDir },
+  stdio: ['ignore', 'pipe', 'pipe'],
+});
+const exited = once(child, 'exit');
+const ready = new Promise((resolve, reject) => {
+  let output = '';
+  const timer = setTimeout(() => reject(new Error('API startup timed out')), 10000);
+  child.stdout.on('data', chunk => {
+    output += chunk;
+    const match = output.match(/http:\/\/127\.0\.0\.1:\d+/);
+    if (match) { clearTimeout(timer); resolve(match[0]); }
+  });
+  child.once('error', error => { clearTimeout(timer); reject(error); });
+  child.once('exit', code => { clearTimeout(timer); reject(new Error(`API exited early: ${code}`)); });
+  child.stderr.on('data', chunk => process.stderr.write(chunk));
+});
 let passed = 0;
 const check = (name, cond) => { if (!cond) { console.error(`FAIL: ${name}`); process.exitCode = 1; } else { passed++; console.log(`ok: ${name}`); } };
 
 try {
-  for (let i = 0; i < 40; i++) { try { const r = await fetch(`${base}/health`); if (r.ok) break; } catch { await wait(150); } }
+  const base = await ready;
   const j = async (method, path, token, body) => {
-    const r = await fetch(base + path, { method, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }, body: body ? JSON.stringify(body) : undefined });
+    const r = await fetch(base + path, { method, signal: AbortSignal.timeout(5000), headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }, body: body ? JSON.stringify(body) : undefined });
     return { status: r.status, data: await r.json().catch(() => ({})) };
   };
 
@@ -55,7 +69,18 @@ try {
   r = await j('POST', '/api/plan', token, { serviceId: 'nope' });
   check('unknown service rejected', r.status === 400);
 
+  const other = await j('POST', '/api/session/anon', null, { displayName: 'Another student' });
+  r = await j('GET', '/api/plan', other.data.token);
+  check('plans isolated between sessions', r.status === 200 && r.data.items.length === 0);
+  r = await j('GET', '/api/me', 'invalid-token');
+  check('invalid bearer rejected', r.status === 401);
+  r = await j('DELETE', '/api/plan/camera', token);
+  check('remove plan item', r.status === 200);
+  r = await j('GET', '/api/plan', token);
+  check('removed plan is empty', r.data.items.length === 0);
   console.log(`\n${passed} checks passed`);
 } finally {
   child.kill();
+  await exited;
+  rmSync(dataDir, { recursive: true, force: true });
 }

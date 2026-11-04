@@ -1,0 +1,452 @@
+[
+ {
+  "id": "camera",
+  "icon": "camera",
+  "color": "orange",
+  "title": "Borrow a Camera or Gear",
+  "answer": "Cameras, mics, tripods and lights. 7-day loan from the Morisset service desk.",
+  "facts": [
+   {
+    "label": "Loan",
+    "value": "7 days, 2 renewals"
+   },
+   {
+    "label": "Pick up",
+    "value": "Morisset service desk"
+   },
+   {
+    "label": "Who",
+    "value": "Current students"
+   },
+   {
+    "label": "Bring",
+    "value": "Valid library card"
+   },
+   {
+    "label": "Return",
+    "value": "With all accessories"
+   }
+  ],
+  "steps": [
+   "Pick your gear from the equipment list",
+   "Bring your library card to the Morisset service desk",
+   "Return it with all accessories, or renew, within 7 days"
+  ],
+  "cta": "See Equipment List",
+  "url": "https://ocul-uo.primo.exlibrisgroup.com/discovery/collectionDiscovery?vid=01OCUL_UO:UO_DEFAULT&collectionId=81966870270005161&lang=en",
+  "webClicks": 5,
+  "keywords": [
+   "camera",
+   "cameras",
+   "gear",
+   "equipment",
+   "tripod",
+   "mic",
+   "microphone",
+   "video",
+   "film",
+   "photo",
+   "shoot",
+   "record",
+   "loan",
+   "lend",
+   "multimedia",
+   "technology",
+   "light",
+   "lights",
+   "borrow",
+   "cable",
+   "adaptor"
+  ]
+ },
+ {
+  "id": "room",
+  "icon": "users",
+  "color": "blue",
+  "title": "Book a Study Room",
+  "answer": "Reserve online at Morisset, Law, Learning Crossroads or Health Sciences.",
+  "facts": [
+   {
+    "label": "Where",
+    "value": "Morisset, Law, CRX 5th floor, Health Sciences"
+   },
+   {
+    "label": "Size",
+    "value": "Up to about 6, varies"
+   }
+  ],
+  "steps": [
+   "Open the booking page",
+   "Choose a library and time",
+   "Reserve and show up with your group"
+  ],
+  "cta": "Book a Room",
+  "url": "https://bibliorooms.uottawa.ca/",
+  "webClicks": 2,
+  "keywords": [
+   "room",
+   "rooms",
+   "study",
+   "group",
+   "quiet",
+   "space",
+   "book",
+   "booking",
+   "reserve",
+   "team",
+   "meeting"
+  ]
+ },
+ {
+  "id": "podcast",
+  "icon": "mic",
+  "color": "purple",
+  "title": "Record a Podcast",
+  "answer": "The Digital Skills Hub at Learning Crossroads supports podcasting and VR.",
+  "facts": [
+   {
+    "label": "Where",
+    "value": "Learning Crossroads (CRX)"
+   }
+  ],
+  "steps": [
+   "Open the Digital Skills Hub page",
+   "Choose podcasting",
+   "Follow its booking steps"
+  ],
+  "cta": "Open Digital Skills Hub",
+  "url": "https://www.uottawa.ca/library/learning-crossroads/digital-skills-hub",
+  "webClicks": 3,
+  "keywords": [
+   "podcast",
+   "studio",
+   "audio",
+   "record",
+   "vr",
+   "virtual",
+   "reality",
+   "sound",
+   "digital",
+   "skills"
+  ]
+ },
+ {
+  "id": "cite",
+  "icon": "quote",
+  "color": "green",
+  "title": "Cite Your Sources",
+  "answer": "Library guides to citation styles, citation software and avoiding plagiarism.",
+  "facts": [],
+  "steps": [
+   "Open Citation Styles",
+   "Choose the style your course uses",
+   "Stuck? Ask a librarian"
+  ],
+  "cta": "Open Citation Styles",
+  "url": "https://www.uottawa.ca/library/writing-citing/citation-styles",
+  "webClicks": 3,
+  "keywords": [
+   "cite",
+   "citing",
+   "citation",
+   "citations",
+   "apa",
+   "mla",
+   "chicago",
+   "plagiarism",
+   "reference",
+   "references",
+   "paper",
+   "essay",
+   "bibliography",
+   "writing",
+   "sources"
+  ]
+ },
+ {
+  "id": "librarian",
+  "icon": "help",
+  "color": "pink",
+  "title": "Talk to a Librarian",
+  "answer": "Text 613-801-5603, or find the librarian for your subject.",
+  "facts": [
+   {
+    "label": "Text",
+    "value": "613-801-5603"
+   },
+   {
+    "label": "Phone",
+    "value": "613-562-5213"
+   },
+   {
+    "label": "Email",
+    "value": "bibliolibrary@uOttawa.ca"
+   }
+  ],
+  "steps": [
+   "Find your subject",
+   "Contact your librarian",
+   "Or text the Library"
+  ],
+  "cta": "Find My Librarian",
+  "url": "https://www.uottawa.ca/library/research-guides-librarians",
+  "webClicks": 2,
+  "keywords": [
+   "librarian",
+   "help",
+   "research",
+   "ask",
+   "question",
+   "subject",
+   "assignment",
+   "stuck",
+   "contact"
+  ]
+ },
+ {
+  "id": "print",
+  "icon": "printer",
+  "color": "gray",
+  "title": "Print, Copy, Scan",
+  "answer": "$0.09 a page in black and white, $0.25 in colour. Scanning is free.",
+  "facts": [
+   {
+    "label": "B&W",
+    "value": "$0.09, 2-sided $0.16"
+   },
+   {
+    "label": "Colour",
+    "value": "$0.25, 2-sided $0.48"
+   },
+   {
+    "label": "Scan",
+    "value": "Free"
+   },
+   {
+    "label": "Pay with",
+    "value": "Funds on student card"
+   }
+  ],
+  "steps": [
+   "Add funds to your student card",
+   "Print at any library",
+   "Scan to email or USB for free"
+  ],
+  "cta": "Printing Details",
+  "url": "https://www.uottawa.ca/library/services/print-copy-scan",
+  "webClicks": 3,
+  "keywords": [
+   "print",
+   "printing",
+   "printer",
+   "copy",
+   "scan",
+   "scanner",
+   "photocopy",
+   "price",
+   "cost",
+   "colour",
+   "color",
+   "money"
+  ]
+ },
+ {
+  "id": "hours",
+  "icon": "clock",
+  "color": "teal",
+  "title": "Locations and Hours",
+  "answer": "Morisset, Law, Health Sciences, Learning Crossroads and more.",
+  "facts": [],
+  "steps": [
+   "Open Locations and hours",
+   "Choose your library"
+  ],
+  "cta": "See Today's Hours",
+  "url": "https://www.uottawa.ca/library/locations-hours",
+  "webClicks": 1,
+  "keywords": [
+   "hours",
+   "open",
+   "close",
+   "closing",
+   "location",
+   "locations",
+   "where",
+   "morisset",
+   "crx",
+   "address",
+   "map"
+  ]
+ },
+ {
+  "id": "books",
+  "icon": "book",
+  "color": "brown",
+  "title": "Borrow a Book",
+  "answer": "Undergrads get 120 days, up to 500 items, unlimited renewals.",
+  "facts": [
+   {
+    "label": "Loan",
+    "value": "120 days"
+   },
+   {
+    "label": "Limit",
+    "value": "500 items"
+   },
+   {
+    "label": "Renewals",
+    "value": "Unlimited"
+   }
+  ],
+  "steps": [
+   "Search the catalogue",
+   "Place a hold or take it from the shelf",
+   "Show your library card"
+  ],
+  "cta": "Borrowing Rules",
+  "url": "https://www.uottawa.ca/library/services/borrow",
+  "webClicks": 2,
+  "keywords": [
+   "book",
+   "books",
+   "borrow",
+   "hold",
+   "renew",
+   "textbook",
+   "card",
+   "interlibrary",
+   "due"
+  ]
+ },
+ {
+  "id": "card",
+  "icon": "card",
+  "color": "indigo",
+  "title": "Get a Library Card",
+  "answer": "You need a valid library card to borrow anything.",
+  "facts": [],
+  "steps": [
+   "Open Library account",
+   "Follow the steps for students"
+  ],
+  "cta": "Library Account",
+  "url": "https://www.uottawa.ca/library/services/library-account",
+  "webClicks": 2,
+  "keywords": [
+   "card",
+   "account",
+   "library",
+   "login",
+   "sign",
+   "id"
+  ]
+ },
+ {
+  "id": "reserves",
+  "icon": "bookmark",
+  "color": "orange",
+  "title": "Course Reserves",
+  "answer": "Course materials your instructor set aside for short-term use.",
+  "facts": [],
+  "steps": [
+   "Open Course reserves",
+   "Search your course"
+  ],
+  "cta": "Open Course Reserves",
+  "url": "https://www.uottawa.ca/library/services/course-reserves",
+  "webClicks": 1,
+  "keywords": [
+   "course",
+   "reserve",
+   "reserves",
+   "textbook",
+   "instructor",
+   "professor",
+   "readings"
+  ]
+ },
+ {
+  "id": "workshop",
+  "icon": "cap",
+  "color": "mint",
+  "title": "Join a Workshop",
+  "answer": "Workshops, orientations and tours at the Library.",
+  "facts": [],
+  "steps": [
+   "See what's on",
+   "Pick a session"
+  ],
+  "cta": "See Workshops",
+  "url": "https://www.uottawa.ca/library/workshops-orientations-tours",
+  "webClicks": 2,
+  "keywords": [
+   "workshop",
+   "workshops",
+   "tour",
+   "orientation",
+   "learn",
+   "class",
+   "training",
+   "session"
+  ]
+ },
+ {
+  "id": "software",
+  "icon": "monitor",
+  "color": "cyan",
+  "title": "Computers and Software",
+  "answer": "Public computers, plus SPSS, Stata and ArcGIS on your laptop through uOLabsPlus.",
+  "facts": [
+   {
+    "label": "Sign in",
+    "value": "uoAccess"
+   },
+   {
+    "label": "uOLabsPlus down",
+    "value": "Midnight to 3 a.m."
+   }
+  ],
+  "steps": [
+   "Sign in with uoAccess",
+   "Or open uOLabsPlus on your own device"
+  ],
+  "cta": "Computers and Technology",
+  "url": "https://www.uottawa.ca/library/services/computers-technology",
+  "webClicks": 2,
+  "keywords": [
+   "computer",
+   "computers",
+   "software",
+   "spss",
+   "stata",
+   "arcgis",
+   "excel",
+   "laptop",
+   "pc",
+   "adobe",
+   "wifi"
+  ]
+ },
+ {
+  "id": "access",
+  "icon": "access",
+  "color": "blue",
+  "title": "Accessibility Services",
+  "answer": "Inclusive spaces, services and assistive technology at the Library.",
+  "facts": [],
+  "steps": [
+   "Open Accessibility",
+   "Contact the Library if you need support"
+  ],
+  "cta": "Open Accessibility",
+  "url": "https://www.uottawa.ca/library/services/accessibility",
+  "webClicks": 2,
+  "keywords": [
+   "accessibility",
+   "accessible",
+   "disability",
+   "assistive",
+   "accommodation"
+  ]
+ }
+]

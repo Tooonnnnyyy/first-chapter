@@ -84,3 +84,4 @@ SwiftUI, SwiftData, iOS 26+, Xcode. No dependencies, no backend. Figma not used:
 - 2026-11-04: first app version running in the simulator; real equipment categories added.
 - 2026-11-04: web version deployed to Vercel at Tony's request, with a small DeepSeek proxy.
 - 2026-11-04: redesigned on Apple HIG at Tony's request; DeepSeek assistant added; direct links to official pages added.
+- 2026-11-04: build verified with `-destination 'id=<sim UDID>'` (the name-only destination fails on Xcode 27); first paint takes about 10 seconds in the simulator before the UI appears. Pitch deck at `docs/pitch/index.html`.

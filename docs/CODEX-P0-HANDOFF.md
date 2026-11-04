@@ -7,3 +7,12 @@ Claude currently owns the native screen redesign and Guide.swift changes. Codex 
 Verified official podcast URL: https://www.uottawa.ca/library/learning-crossroads/digital-skills-hub/podcasting — studios are CRX floor 2; booking is a request via Library staff, not an in-app confirmed reservation. Source fetched today; copy at Downloads/first-chapter/docs/sources/podcasting.txt.
 
 DeepSeek must remain optional and honestly labelled. Never bundle an API key in a distributable app; demo should work without it. Local fallback must not claim to be AI. Website click comparisons are estimates, not measured usability results.
+
+## Verification and handoff — 14:31 ET
+- Claude source commit reviewed: 4e5082c (native HIG redesign, optional DeepSeek, direct links).
+- Isolated Downloads Xcode build completed successfully, exit 0, using xcodebuild outside the sandbox. Build log: `/Users/bjt/Downloads/first-chapter-ios/docs/BUILD-LOG.txt`.
+- Simulator runtime snapshots confirmed My Plan with three saved services and Borrow with seven equipment categories. App launch succeeded. Full isolated end-to-end UI verification was not completed because concurrent simulator activity made screen captures inconsistent.
+- Browser localhost visual verification remains blocked by saved browser permissions; do not circumvent.
+- Self-contained static landing page: `/Users/bjt/Downloads/First-Chapter-Landing.html`. Four inline SVG image placements are illustrated previews based on the native UI and labelled accordingly, not screenshots. HTML structure, image XML/base64 and official link targets validated.
+- Downloadable native source snapshot: `/Users/bjt/Downloads/first-chapter-ios`. No Secrets.plist or .env copied. DEMO-NOW.md and STYLE-GUIDE.md included.
+- Do not claim a live DeepSeek success or measured click savings. Core demo should work without credentials.

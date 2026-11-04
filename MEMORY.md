@@ -97,3 +97,5 @@ Tony asked for a more colorful, simple look for the demo: mesh gradient on Welco
 - 2026-11-04: full source code review by cutie at Tony's request (`docs/CODE-REVIEW.md`): all Swift + web code traced against the criteria; catalog copies in Swift/web/ask.js verified in agreement. Fixed in the same pass: server-side redaction in `web/api/ask.js`, the missing `Assets.xcassets` (catalog + accent color committed; the project file already named both — icon PNG handed to Tony to drop into `AppIcon.appiconset/`), web colorful style (T13). Added `CatalogFR.swift` (T6) — French toggle wiring is T15; review fixes R1–R8 are T16.
 
 - 2026-11-04: Owner requested source consolidation and storage recovery. Codex archived unique prototype source, removed current-tree wireframes, and replaced landing wireframes with real Simulator captures; local duplicates are removed only after remote backup verification.
+
+- 2026-11-04: Source backup verified on GitHub before cleanup. Removed 427.2 MiB of duplicate/generated local files (15,313 files); kept the canonical checkout, source archive and original requirement photos. Downloads entries now link to canonical files.

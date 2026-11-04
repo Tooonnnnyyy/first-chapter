@@ -21,4 +21,4 @@ Claim by replacing `open` with your name, commit, push, then work. Stay in the f
 | T15 | Wire the French catalog to a language toggle | `FirstChapter/App.swift`, views, `CatalogFR.swift` | open |
 | T16 | Code-review fixes R1–R8 (see `docs/CODE-REVIEW.md`) | `Guide.swift`, `Store.swift`, `App.swift`, `AskView.swift`, `BorrowView.swift`, `OnboardingView.swift` | open |
 | T14 | Make Import Your Files work (currently UI only) | `FirstChapter/FindView.swift` | open, needs Tony |
-| C1 | Consolidate local source, remove wireframes and redundant artifacts, verify remote backup before local storage cleanup | `archive/geeguide-web/`, `landing/`, `docs/`, `.gitignore`, pitch generator | Codex: source consolidation verified; remote backup and local cleanup in progress |
+| C1 | Consolidate local source, remove wireframes and redundant artifacts, verify remote backup before local storage cleanup | `archive/geeguide-web/`, `landing/`, `docs/`, `.gitignore`, pitch generator | Codex done: pushed and verified; 427.2 MiB of duplicate/generated local files removed |

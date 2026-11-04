@@ -13,7 +13,9 @@ Claim by replacing `open` with your name, commit, push, then work. Stay in the f
 | T7 | Accessibility check: VoiceOver, largest Dynamic Type, dark mode | any view, after T1 | open |
 | T8 | Find out why Apple's on-device model call fails in the simulator | `FirstChapter/Guide.swift` | open |
 | T9 | Test DeepSeek end to end once Tony has entered a key | `FirstChapter/Guide.swift` | open, needs Tony |
-| T12 | Onboarding overlay is layered on top of the tabs | `FirstChapter/App.swift` | open, cosmetic |
+| T12 | Onboarding overlay is layered on top of the tabs | `FirstChapter/App.swift` | Welcome now has an opaque background; layering unchanged |
 | T10 | P0 isolated build, simulator smoke verification, accurate demo handoff | `docs/CODEX-P0-HANDOFF.md`, isolated Downloads snapshot only | Codex: build passed; partial live smoke verified; handoff saved |
 | T10 | Web version and Vercel deploy | `web/` | Done, live at https://first-chapter-nine.vercel.app |
 | T11 | Finish testing every function on the final native build | any view | open |
+| T13 | Bring the colorful style to the web version | `web/index.html` | open |
+| T14 | Make Import Your Files work (currently UI only) | `FirstChapter/FindView.swift` | open, needs Tony |

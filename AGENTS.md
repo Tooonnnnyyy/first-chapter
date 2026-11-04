@@ -18,7 +18,7 @@ For every AI agent (Claude Code, Codex, Cursor, Gemini, Copilot) and every human
 - **Stay in your files.** `docs/TASKS.md` lists file owners. Do not edit a file another open task owns.
 - **Facts must be real.** Library facts go in `docs/LIBRARY-FACTS.md` with a source URL. Do not invent hours, loan periods, prices or equipment. If it is unverified, link to the official page instead.
 - **Privacy is a feature.** Do not add accounts, analytics, third-party SDKs, or anything new that sends student data off the phone without asking the owner. See `docs/DATA-MODEL.md`. Never commit an API key.
-- **Design system: Apple Human Interface Guidelines.** Use native components (`List`, `.searchable`, `LabeledContent`, `Toggle`, standard button styles), system colors, and text styles for Dynamic Type. No custom cards, monospace labels, or hard-coded font sizes: Tony rejected that look.
+- **Design system: Apple Human Interface Guidelines.** Use native components (`List`, `.searchable`, `LabeledContent`, `Toggle`, standard button styles), system colors, and text styles for Dynamic Type. No custom cards, monospace labels, or hard-coded font sizes: Tony rejected that look. The one custom flourish is `FancyBackground` in `Theme.swift`, added at Tony's request for color.
 - **Honest labels.** Never present a fallback as AI, or a mock as real. Each Ask reply names its source.
 - **No secrets** in the repo. Never edit this repo's visibility or settings without the owner.
 

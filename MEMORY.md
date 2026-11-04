@@ -46,6 +46,10 @@ SwiftUI, SwiftData, iOS 26+, Xcode. No dependencies, no backend. Figma not used:
 | No accounts; plan stored on the phone | Data privacy is 25% of the score | Agent, 2026-11-04 |
 | Link to official booking and loan systems | No API access; never fake a booking or stock level | Agent, 2026-11-04 |
 
+## Demo style (2026-11-04)
+
+Tony asked for a more colorful, simple look for the demo: mesh gradient on Welcome, the Discover banner and each service's main button, plus full-color swipe cards. `web/` still has the earlier style. **Import Your Files** on Find is UI only, at Tony's request: it's marked Soon and shows a Coming Soon alert. Don't present it as working.
+
 ## Current state
 
 - `FirstChapter/` holds the app. Screens: onboarding and swipe deck, Find, Borrow, Ask, My Plan, Your Data.
@@ -82,6 +86,7 @@ SwiftUI, SwiftData, iOS 26+, Xcode. No dependencies, no backend. Figma not used:
 
 - 2026-11-04: repo created, docs and project skeleton pushed.
 - 2026-11-04: first app version running in the simulator; real equipment categories added.
+- 2026-11-04: colorful demo style and Import Your Files entry (UI only) added to the native app.
 - 2026-11-04: wireframes of all eight screens added in `docs/wireframes/`.
 - 2026-11-04: web version deployed to Vercel at Tony's request, with a small DeepSeek proxy.
 - 2026-11-04: redesigned on Apple HIG at Tony's request; DeepSeek assistant added; direct links to official pages added.

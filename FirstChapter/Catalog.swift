@@ -51,7 +51,7 @@ enum Catalog {
                 facts: [Fact(label: "Where", value: "Morisset, Law, CRX 5th floor, Health Sciences"),
                         Fact(label: "Size", value: "Up to about 6, varies")],
                 steps: ["Open the booking page", "Choose a library and time", "Reserve and show up with your group"],
-                cta: "Book a Room", url: "https://www.uottawa.ca/library/services/reserve-study-space", webClicks: 2,
+                cta: "Book a Room", url: "https://bibliorooms.uottawa.ca/", webClicks: 2,
                 keywords: ["room", "rooms", "study", "group", "quiet", "space", "book", "booking", "reserve", "team", "meeting"]),
         Service(id: "podcast", icon: "mic.fill", color: .purple, title: "Record a Podcast",
                 answer: "The Digital Skills Hub at Learning Crossroads supports podcasting and VR.",

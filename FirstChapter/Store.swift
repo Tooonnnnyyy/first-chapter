@@ -48,7 +48,7 @@ enum Store {
 
 extension ModelContext {
     func addToPlan(_ id: String, source: String) {
-        let found = (try? fetch(FetchDescriptor<PlanItem>(predicate: #Predicate { $0.serviceID == id }))) ?? []
+        let found = (try? fetch(FetchDescriptor<PlanItem>(predicate: #Predicate<PlanItem> { $0.serviceID == id }))) ?? []
         if found.isEmpty {
             insert(PlanItem(serviceID: id, source: source))
             try? save()
@@ -57,7 +57,7 @@ extension ModelContext {
 
     func markDone(_ id: String, source: String = "find") {
         addToPlan(id, source: source)
-        let found = (try? fetch(FetchDescriptor<PlanItem>(predicate: #Predicate { $0.serviceID == id }))) ?? []
+        let found = (try? fetch(FetchDescriptor<PlanItem>(predicate: #Predicate<PlanItem> { $0.serviceID == id }))) ?? []
         found.first?.doneAt = found.first?.doneAt ?? .now
         try? save()
     }

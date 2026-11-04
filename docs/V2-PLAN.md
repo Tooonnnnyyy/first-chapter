@@ -14,10 +14,10 @@ V1 proved the content: real Library facts, answer-on-the-row, fewer steps than t
 
 | # | Priority | Branch | Issue |
 | --- | --- | --- | --- |
-| P0-1 | Design system v2: gamified tokens (one primary color, defined accents), components, motion | `design/gamified-v2` | #TBD |
-| P0-2 | Data layer: `server/` (Node + SQLite), schema, seed from the catalog, REST API, security model | `feature/sqlite-data-layer` | #TBD |
-| P0-3 | Accounts: Google + Microsoft OAuth, sign up / in / out, personal profile | `feature/accounts-auth` | #TBD |
-| P0-4 | Reels feed: full-screen vertical service cards, behavior-based ranking v1 | `feature/reels-feed` | #TBD |
+| P0-1 | Design system v2: gamified tokens (one primary color, defined accents), components, motion | `design/gamified-v2` | #1 |
+| P0-2 | Data layer: `server/` (Node + SQLite), schema, seed from the catalog, REST API, security model | `feature/sqlite-data-layer` | #2 |
+| P0-3 | Accounts: Google + Microsoft OAuth, sign up / in / out, personal profile | `feature/accounts-auth` | #3 |
+| P0-4 | Reels feed: full-screen vertical service cards, behavior-based ranking v1 | `feature/reels-feed` | #4 |
 
 ## P1
 

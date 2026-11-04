@@ -74,6 +74,10 @@ try {
   check('plans isolated between sessions', r.status === 200 && r.data.items.length === 0);
   r = await j('GET', '/api/me', 'invalid-token');
   check('invalid bearer rejected', r.status === 401);
+  r = await j('GET', '/api/me', ' '.repeat(4096));
+  check('whitespace-only bearer rejected promptly', r.status === 401);
+  r = await j('GET', '/api/me', 'a'.repeat(4096));
+  check('oversized bearer rejected promptly', r.status === 401);
   r = await j('DELETE', '/api/plan/camera', token);
   check('remove plan item', r.status === 200);
   r = await j('GET', '/api/plan', token);

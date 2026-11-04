@@ -60,8 +60,29 @@
   .tabs button { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:7px 0 6px; font-size:10px; font-weight:500; color:var(--muted); min-height:50px; }
   .tabs button[aria-current="page"] { color:var(--brand); }
   .tabs svg { width:24px; height:24px; }
-  .welcome { min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; padding:calc(40px + env(safe-area-inset-top)) 8px 24px; max-width:420px; margin:0 auto; }
-  .welcome h1 { text-align:center; margin:20px 0 28px; }
+  .welcome { position:fixed; inset:0; z-index:8; overflow-y:auto; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; padding:calc(40px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom)); max-width:100%; margin:0 auto; color:#fff;
+    background:
+      radial-gradient(120% 60% at 85% 0%, rgba(230,77,38,.85), rgba(230,77,38,0) 60%),
+      radial-gradient(120% 70% at 10% 45%, rgba(140,18,179,.75), rgba(140,18,179,0) 65%),
+      radial-gradient(130% 60% at 90% 100%, rgba(153,13,115,.8), rgba(153,13,115,0) 60%),
+      linear-gradient(165deg, #8f0019 0%, #cc1466 38%, #5912b3 72%, #402db3 100%); }
+  .welcome > div, .welcome > button, .welcome > p { width:100%; max-width:420px; margin-left:auto; margin-right:auto; }
+  .welcome h1 { text-align:center; margin:20px 0 28px; color:#fff; }
+  .welcome .feature svg { color:#fff; }
+  .welcome .sub { color:rgba(255,255,255,.88); }
+  .welcome .tile.huge { background:rgba(255,255,255,.22) !important; }
+  .welcome .btn.pri { background:#fff; color:#8f0019; }
+  .welcome .btn.txt { color:#fff; }
+  .welcome .foot { color:rgba(255,255,255,.75); }
+  .grad { background:
+      radial-gradient(130% 90% at 88% 0%, rgba(230,77,38,.8), rgba(230,77,38,0) 55%),
+      linear-gradient(120deg, #8f0019, #cc1466 55%, #5912b3); color:#fff !important; }
+  .grad .sub { color:rgba(255,255,255,.88); }
+  .grad .chev { color:#fff; opacity:.9; }
+  .grad .tile { background:rgba(255,255,255,.25) !important; }
+  .deck-card.colorful { color:#fff; }
+  .deck-card.colorful p { color:rgba(255,255,255,.88); }
+  .deck-card.colorful .tile { background:rgba(255,255,255,.25) !important; }
   .feature { display:flex; gap:16px; margin-bottom:20px; } .feature svg { width:28px; height:28px; color:var(--brand); flex:none; }
   .feature b { display:block; font-weight:600; }
   .deck { position:fixed; inset:0; background:var(--bg); z-index:10; display:flex; flex-direction:column; padding:calc(8px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
@@ -204,7 +225,7 @@ function findBody() {
     if (!r.length) return `<div class="group"><div class="empty"><b>No results for "${esc(st.query)}"</b>Try another word, or ask a person.</div><a class="row plain link" href="sms:6138015603">Text a librarian: 613-801-5603</a></div>`;
     return `<div class="group">${r.map(serviceRow).join('')}</div>`;
   }
-  return `<div class="group"><button class="row" data-deck="1">${tile('spark','brand')}<span class="grow"><div>Discover What's Here</div><div class="sub">${DISCOVER.length} quick cards, under a minute</div></span>${chev}</button></div><div class="spacer"></div>
+  return `<div class="group"><button class="row grad" data-deck="1">${tile('spark','brand')}<span class="grow"><div>Discover What's Here</div><div class="sub">${DISCOVER.length} quick cards, under a minute</div></span>${chev}</button></div><div class="spacer"></div>
     <h2 class="sec-title">Most Needed</h2><div class="group">${QUICK.map(id => serviceRow(byId(id))).join('')}</div><div class="spacer"></div>
     <h2 class="sec-title">More Services</h2><div class="group">${S.filter(s => !QUICK.includes(s.id)).map(serviceRow).join('')}</div>
     <p class="foot" style="margin-top:12px">Student prototype. Not affiliated with or endorsed by the University of Ottawa.</p>`;
@@ -218,7 +239,7 @@ function viewDetail(id) {
   const s = byId(id), it = item(id);
   return `<div class="nav"><button class="back" data-back="1">${svg('left',22)}Back</button></div>
     <div class="group"><div class="row plain" style="align-items:flex-start">${tile(s.icon,s.color,'big')}<span class="grow"><div style="font-size:20px;font-weight:600">${esc(s.title)}</div><div class="sub">${esc(s.answer)}</div></span></div>
-    <a class="row plain link" href="${esc(s.url)}" target="_blank" rel="noopener"><span class="grow">${esc(s.cta)}</span>${svg('ext',16)}</a></div><div class="spacer"></div>
+    <a class="row plain grad" href="${esc(s.url)}" target="_blank" rel="noopener"><span class="grow">${esc(s.cta)}</span>${svg('ext',16)}</a></div><div class="spacer"></div>
     ${s.facts.length ? `<h2 class="sec-title">Good to Know</h2><div class="group">${s.facts.map(factRow).join('')}</div><div class="spacer"></div>` : ''}
     <h2 class="sec-title">How It Works</h2><div class="group">${s.steps.map((t,i) => `<div class="row plain"><span class="num">${i+1}</span><span class="grow">${esc(t)}</span></div>`).join('')}</div><div class="spacer"></div>
     <div class="group">${it ? `<button class="row plain link" data-done="${id}">${it.doneAt ? 'Mark as Not Done' : 'Mark as Done'}</button><button class="row plain danger" data-remove="${id}">Remove from My Plan</button>` : `<button class="row plain link" data-add="${id}">Add to My Plan</button>`}</div>
@@ -293,7 +314,7 @@ function drawDeck() {
   $overlay.innerHTML = `<div class="deck" role="dialog" aria-label="Discover Library services"><div class="deck-in">
     <div class="deck-top"><span></span><span>${deckIdx+1} of ${DISCOVER.length}</span><button data-deck-done="1">Done</button></div>
     <div class="deck-hint">Swipe right to add to your plan, left to skip.</div>
-    <div class="deck-stage">${next ? `<div class="deck-card" style="transform:scale(.95)" aria-hidden="true">${card(next)}</div>` : ''}<div class="deck-card" id="top">${card(s)}</div></div>
+    <div class="deck-stage">${next ? `<div class="deck-card colorful" style="transform:scale(.95);background:${C[next.color]}" aria-hidden="true">${card(next)}</div>` : ''}<div class="deck-card colorful" id="top" style="background:${C[s.color]}">${card(s)}</div></div>
     <div class="deck-btns"><button class="btn sec" data-deck-no="1">Not Now</button><button class="btn pri" data-deck-yes="1">Add to Plan</button></div></div></div>`;
   const el = document.getElementById('top'); let x0 = null, dx = 0;
   el.addEventListener('pointerdown', e => { x0 = e.clientX; dx = 0; el.setPointerCapture(e.pointerId); el.style.transition = 'none'; });

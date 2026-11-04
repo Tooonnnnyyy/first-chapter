@@ -15,12 +15,21 @@ workshop: Workshops, orientations and tours at the Library.
 software: Public computers with uoAccess sign-in; SPSS, Stata and ArcGIS through uOLabsPlus, down midnight to 3 a.m.
 access: Inclusive spaces, services and assistive technology.`;
 
+// Same redaction the page applies, repeated server-side so a direct POST to
+// this endpoint cannot bypass it: emails and phone/ID-like numbers never
+// reach DeepSeek.
+function redact(t) {
+  return t
+    .replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, '[removed]')
+    .replace(/\+?\d[\d\s().-]{5,}\d/g, '[removed]');
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
   const key = process.env.DEEPSEEK_API_KEY;
   if (!key) return res.status(503).json({ error: 'AI is not configured' });
 
-  const question = String(req.body?.question ?? '').slice(0, 300).trim();
+  const question = redact(String(req.body?.question ?? '').slice(0, 300).trim());
   if (!question) return res.status(400).json({ error: 'Empty question' });
 
   try {

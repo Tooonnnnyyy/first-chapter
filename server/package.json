@@ -1,0 +1,1 @@
+{"description":"First Chapter API: SQLite data layer, feed ranking, XP/quests. Zero npm dependencies (Node >= 22 built-in SQLite).","engines":{"node":">=22"},"name":"first-chapter-server","private":true,"scripts":{"smoke":"node test/smoke.mjs","start":"node src/index.js"},"type":"module","version":"0.1.0"}

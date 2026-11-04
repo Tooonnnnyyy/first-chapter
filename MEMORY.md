@@ -6,13 +6,13 @@ _Last updated: 2026-11-04._
 
 ## What this is
 
-**First Chapter**: native iOS guide to uOttawa Library services for first-year students. Owner: Tony (GitHub `Tooonnnnyyy`). Repo is private. Local path on Tony's Mac: `~/Projects/first-chapter`.
+**First Chapter**: native iOS guide to uOttawa Library services for first-year students. Owner: Tony (GitHub `Tooonnnnyyy`). Repo is public (Tony, 2026-11-04). Never commit keys or personal data. Local path on Tony's Mac: `~/Projects/first-chapter`.
 
 ## Where it lives
 
 - **Live web version:** https://first-chapter-nine.vercel.app (Vercel project `first-chapter`, team `tony-7d93`, source in `web/`). Redeploy: `cd web && vercel link --project first-chapter --yes && vercel deploy --prod`.
 - **Native app:** `FirstChapter.xcodeproj`, runs in the simulator. An iPhone install needs Apple signing; a public release needs TestFlight.
-- **Repo:** https://github.com/Tooonnnnyyy/first-chapter (private).
+- **Repo:** https://github.com/Tooonnnnyyy/first-chapter (public).
 
 ## The event
 
@@ -79,7 +79,7 @@ Tony asked for a more colorful, simple look for the demo: mesh gradient on Welco
 
 1. Team name and members for the pitch?
 2. DeepSeek key: run `./scripts/run.sh`, or demo without it?
-3. Keep the repo private after the event?
+3. ~~Keep the repo private after the event?~~ Tony made it public, 2026-11-04. No license chosen yet.
 4. Is the name "First Chapter" OK?
 
 ## Log

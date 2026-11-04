@@ -16,7 +16,11 @@ Email bibliolibrary@uOttawa.ca, phone 613-562-5213, text 613-801-5603. 65 Univer
 
 ## Multimedia equipment
 
-**The exact equipment list is NOT verified yet.** It sits on an external Media Centre page linked from https://www.uottawa.ca/library/services/computers-technology (task T2).
+Source: https://ocul-uo.primo.exlibrisgroup.com/discovery/collectionDiscovery?vid=01OCUL_UO:UO_DEFAULT&collectionId=81966870270005161&lang=en (linked from the computers-technology page).
+
+The Morisset Library lends seven groups: Microphones, Cameras, Cables and adaptors, Tripods and holders, Screens and lights, TV equipment and others, and Reserved items (4-hour loan). The borrower must return the item and all accessories to the Morisset service desk.
+
+Not verified: individual models or live availability. The site shows these per item.
 
 ## Computers (https://www.uottawa.ca/library/services/computers-technology)
 
@@ -52,7 +56,7 @@ Counted from page structure, starting at the Library home page. Not a timed user
 
 | Task | Website path | Clicks |
 | --- | --- | --- |
-| Find a camera to borrow and its loan rule | Services → Computers and technology → Multimedia equipment (external site); loan rule is on Services → Borrow | 5, across 2 sites |
+| Find a camera to borrow and its loan rule | Services → Computers and technology → Multimedia equipment (external catalogue); loan rule is on Services → Borrow | 5, across 2 sites |
 | Print prices | Services → Print, copy, scan → Cost and Payment | 3 |
 | Citation help | Research help → Writing and citing → Citation styles | 3 |
 | Podcast studio | Services → Digital Skills Hub → Podcasting | 3 |

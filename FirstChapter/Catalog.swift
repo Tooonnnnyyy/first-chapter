@@ -18,10 +18,10 @@ struct Service: Identifiable, Hashable {
 enum Catalog {
     static let services: [Service] = [
         Service(id: "camera", icon: "camera.fill", title: "Borrow a camera or gear",
-                oneLiner: "The Library lends multimedia equipment for school projects. 7-day loan, 2 renewals.",
-                steps: ["Check what's available on the equipment page", "Bring your library card to the Morisset main service desk", "Return or renew within 7 days"],
-                whereAt: "Morisset Library, main service desk", cta: "See equipment",
-                url: "https://www.uottawa.ca/library/services/computers-technology", webClicks: 5,
+                oneLiner: "Cameras, microphones, tripods, lights and more. 7-day loan, 2 renewals.",
+                steps: ["Pick your gear from the equipment list", "Bring your library card to the Morisset main service desk", "Return it with all accessories, or renew, within 7 days"],
+                whereAt: "Morisset Library, main service desk", cta: "See equipment list",
+                url: "https://ocul-uo.primo.exlibrisgroup.com/discovery/collectionDiscovery?vid=01OCUL_UO:UO_DEFAULT&collectionId=81966870270005161&lang=en", webClicks: 5,
                 keywords: ["camera", "gear", "equipment", "tripod", "mic", "microphone", "video", "film", "photo", "shoot", "record", "loan", "lend", "multimedia", "technology"]),
         Service(id: "room", icon: "person.3.fill", title: "Book a study room",
                 oneLiner: "Reserve a room online at Morisset, Law, Learning Crossroads (5th floor) or Health Sciences.",
@@ -71,6 +71,17 @@ enum Catalog {
                 whereAt: "Morisset, Health Sciences, Brian Dickson", cta: "Computers and technology",
                 url: "https://www.uottawa.ca/library/services/computers-technology", webClicks: 2,
                 keywords: ["computer", "software", "spss", "stata", "arcgis", "excel", "laptop", "pc", "adobe", "wifi"]),
+    ]
+
+    static let gearURL = "https://ocul-uo.primo.exlibrisgroup.com/discovery/collectionDiscovery?vid=01OCUL_UO:UO_DEFAULT&collectionId=81966870270005161&lang=en"
+    static let gear: [(icon: String, name: String)] = [
+        ("camera.fill", "Cameras"),
+        ("mic.fill", "Microphones"),
+        ("camera.metering.center.weighted", "Tripods and holders"),
+        ("light.panel.fill", "Screens and lights"),
+        ("cable.connector", "Cables and adaptors"),
+        ("tv.fill", "TV equipment and others"),
+        ("clock.fill", "Reserved items (4-hour loan)"),
     ]
 
     static let quick = ["camera", "room", "podcast", "cite", "librarian", "print"]

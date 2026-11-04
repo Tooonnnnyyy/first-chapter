@@ -41,7 +41,7 @@ struct MeView: View {
 
                     SectionTitle(text: "Your data, all of it")
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("PlanItem · \(plan.count) rows").font(.system(size: 13, weight: .semibold, design: .monospaced)).foregroundStyle(Color.dsText)
+                        Text("PlanItem · \(plan.count) \(plan.count == 1 ? "row" : "rows")").font(.system(size: 13, weight: .semibold, design: .monospaced)).foregroundStyle(Color.dsText)
                         Text("serviceID  source  addedAt  doneAt").font(.system(size: 12, design: .monospaced)).foregroundStyle(Color.dsMuted)
                         Divider()
                         Label("No name, student number, email or login", systemImage: "person.slash")
@@ -78,7 +78,7 @@ struct MeView: View {
                 .padding(DS.inset)
             }
             .background(Color.dsBg)
-            .toolbar { ToolbarItem(placement: .topBarLeading) { Wordmark() } }
+            .toolbar { ToolbarItem(placement: .principal) { Wordmark().fixedSize() } }
             .confirmationDialog("Erase your plan and stamps from this phone?", isPresented: $confirmErase, titleVisibility: .visible) {
                 Button("Erase everything", role: .destructive) {
                     ctx.eraseEverything()

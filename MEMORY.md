@@ -29,7 +29,9 @@ _Last updated: 2026-11-04._
 
 ## Current state
 
-See `docs/TASKS.md`. The Xcode project opens and lists its scheme. The app is being built.
+The app builds and runs on the iPhone 17 Pro simulator (iOS 26). All four tabs and the swipe deck were walked through. See `docs/TASKS.md` for what's open.
+
+**Stack (final):** SwiftUI, SwiftData, Apple Foundation Models with local search as fallback. No dependencies, no backend. Figma not used: a running app beat a mock-up on time.
 
 ## Open questions for Tony
 
@@ -40,3 +42,4 @@ See `docs/TASKS.md`. The Xcode project opens and lists its scheme. The app is be
 ## Log
 
 - 2026-11-04: repo created, docs and project skeleton pushed.
+- 2026-11-04: app running in the simulator; real equipment categories added.

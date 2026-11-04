@@ -5,6 +5,7 @@ struct ChatLine: Identifiable {
     let fromStudent: Bool
     let text: String
     var service: Service? = nil
+    var usedModel = false
 }
 
 /// Messages live in memory only. Nothing is saved or sent.
@@ -19,8 +20,7 @@ struct AskView: View {
             VStack(spacing: 0) {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 12) {
-                        Badge(text: Guide.modelAvailable ? "ON-DEVICE AI · NOTHING LEAVES THIS PHONE" : "ON-DEVICE SEARCH · NOTHING LEAVES THIS PHONE",
-                              tone: .success)
+                        Badge(text: "ON THIS PHONE · NOTHING IS SENT OR SAVED", tone: .success)
                         if lines.isEmpty {
                             Text("Ask anything about the Library").font(.system(size: 24, weight: .bold)).foregroundStyle(Color.dsText)
                             ForEach(prompts, id: \.self) { p in
@@ -39,6 +39,9 @@ struct AskView: View {
                                     .background(line.fromStudent ? Color.dsAccent : Color.dsSurface)
                                     .clipShape(RoundedRectangle(cornerRadius: DS.radiusLg))
                                     .overlay(RoundedRectangle(cornerRadius: DS.radiusLg).strokeBorder(line.fromStudent ? Color.clear : Color.dsBorder))
+                                if !line.fromStudent {
+                                    Badge(text: line.usedModel ? "ANSWERED BY ON-DEVICE AI" : "ANSWERED BY LOCAL SEARCH")
+                                }
                                 if let s = line.service {
                                     NavigationLink(value: s) { ServiceRow(service: s) }
                                 }
@@ -65,7 +68,7 @@ struct AskView: View {
                 .padding(DS.inset)
             }
             .background(Color.dsBg)
-            .toolbar { ToolbarItem(placement: .topBarLeading) { Wordmark() } }
+            .toolbar { ToolbarItem(placement: .principal) { Wordmark().fixedSize() } }
             .navigationDestination(for: Service.self) { ServiceDetail(service: $0) }
         }
     }
@@ -79,7 +82,7 @@ struct AskView: View {
         Task {
             let reply = await Guide.answer(q)
             await MainActor.run {
-                lines.append(ChatLine(fromStudent: false, text: reply.text, service: reply.service))
+                lines.append(ChatLine(fromStudent: false, text: reply.text, service: reply.service, usedModel: reply.usedModel))
                 thinking = false
             }
         }

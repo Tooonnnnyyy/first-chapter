@@ -64,7 +64,7 @@ struct FindView: View {
                                         Text(s.title).font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.dsText)
                                             .multilineTextAlignment(.leading).lineLimit(2)
                                         Spacer(minLength: 0)
-                                        Text("saves \(max(s.webClicks - 1, 0)) clicks").font(.system(size: 11, design: .monospaced)).foregroundStyle(Color.dsMuted)
+                                        Text(s.webClicks == 2 ? "saves 1 click" : "saves \(max(s.webClicks - 1, 0)) clicks").font(.system(size: 11, design: .monospaced)).foregroundStyle(Color.dsMuted)
                                     }
                                     .padding(12)
                                     .frame(maxWidth: .infinity, minHeight: 116, alignment: .leading)
@@ -104,7 +104,7 @@ struct FindView: View {
                 .padding(DS.inset)
             }
             .background(Color.dsBg)
-            .toolbar { ToolbarItem(placement: .topBarLeading) { Wordmark() } }
+            .toolbar { ToolbarItem(placement: .principal) { Wordmark().fixedSize() } }
             .navigationDestination(for: Service.self) { ServiceDetail(service: $0) }
         }
     }

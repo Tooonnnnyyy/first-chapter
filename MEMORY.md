@@ -84,6 +84,8 @@ Tony asked for a more colorful, simple look for the demo: mesh gradient on Welco
 
 ## Log
 
+- 2026-11-04: **the Buildathon ended without a prize.** Tony's retrospective (his knowledge base, `BUILDATHON-RETRO.md`): the gaps were (1) engineering-scaffolding fluency — idea-to-landing speed, deployment/infra at his fingertips; (2) the idea layer — the strongest demo used gamification + a Reels feed for discovery.
+- 2026-11-04: **V2 decided by Tony.** First Chapter becomes a long-term open-source project: gamified design system (Duolingo-inspired; no pixel/voxel style), Reels-style feed ranked by user behavior, personal accounts (Google + Microsoft OAuth, profiles, sign in/out), UGC + community, and a server + SQLite data layer replacing local-only as source of truth. **This supersedes the v1 "no accounts" decision and the HIG-only design decision** — both were hackathon constraints. New working rule: never edit `main` directly; branch + issue per workstream. Plan: `docs/V2-PLAN.md`. Reference screenshots from another team's demo are inspiration only, not a spec.
 - 2026-11-04: repo created, docs and project skeleton pushed.
 - 2026-11-04: first app version running in the simulator; real equipment categories added.
 - 2026-11-04: colorful demo style and Import Your Files entry (UI only) added to the native app.

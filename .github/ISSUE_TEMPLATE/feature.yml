@@ -1,0 +1,21 @@
+name: Feature / Fonctionnalité / 功能
+description: Propose an improvement grounded in a student need.
+title: "[Feature] "
+labels: [enhancement, "status:triage"]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Student problem / Besoin étudiant / 学生需求
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior and success criteria / Proposition / 建议与验收标准
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Data, accessibility and alternatives / Données et accessibilité / 数据与无障碍

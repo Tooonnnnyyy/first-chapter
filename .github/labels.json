@@ -1,0 +1,97 @@
+[
+  {
+    "name": "P0",
+    "color": "B60205",
+    "description": "Essential student flow or release-blocking privacy/data issue"
+  },
+  {
+    "name": "P1",
+    "color": "D93F0B",
+    "description": "Next prioritized improvement"
+  },
+  {
+    "name": "P2",
+    "color": "FBCA04",
+    "description": "Planned later improvement"
+  },
+  {
+    "name": "area:ios",
+    "color": "1D76DB",
+    "description": "SwiftUI app and Xcode build"
+  },
+  {
+    "name": "area:web",
+    "color": "0052CC",
+    "description": "Current web app and landing page"
+  },
+  {
+    "name": "area:api",
+    "color": "5319E7",
+    "description": "Experimental Node/SQLite API"
+  },
+  {
+    "name": "area:docs",
+    "color": "0075CA",
+    "description": "Repository documentation and guides"
+  },
+  {
+    "name": "area:i18n",
+    "color": "0E8A16",
+    "description": "English, French and Chinese localization"
+  },
+  {
+    "name": "area:infra",
+    "color": "6F42C1",
+    "description": "CI, packages and repository maintenance"
+  },
+  {
+    "name": "status:triage",
+    "color": "E4E669",
+    "description": "Needs scope and priority review"
+  },
+  {
+    "name": "status:blocked",
+    "color": "B60205",
+    "description": "Waiting for a concrete dependency"
+  },
+  {
+    "name": "status:ready",
+    "color": "0E8A16",
+    "description": "Ready for a contributor"
+  },
+  {
+    "name": "lang:en",
+    "color": "C5DEF5",
+    "description": "English"
+  },
+  {
+    "name": "lang:fr",
+    "color": "BFDADC",
+    "description": "Français"
+  },
+  {
+    "name": "lang:zh-CN",
+    "color": "F9D0C4",
+    "description": "简体中文"
+  },
+  {
+    "name": "design",
+    "color": "D4C5F9",
+    "description": "Design system and accessibility"
+  },
+  {
+    "name": "data",
+    "color": "5319E7",
+    "description": "Data model and storage"
+  },
+  {
+    "name": "feature",
+    "color": "A2EEEF",
+    "description": "New student-facing behavior"
+  },
+  {
+    "name": "fix",
+    "color": "D73A4A",
+    "description": "Behavior correction"
+  }
+]

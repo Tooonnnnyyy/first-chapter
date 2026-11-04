@@ -1,47 +1,26 @@
-# AGENTS.md: start here
+# Agent and contributor instructions
 
-For every AI agent (Claude Code, Codex, Cursor, Gemini, Copilot) and every human on the team. **The repo carries all context.** Nothing important may live only in a chat.
+## Start here
 
-## Before you start
+1. Read `README.md`, `MEMORY.md` and `docs/planning/task-ledger.md`.
+2. Check the tracking issue, remote branches and open PRs before editing shared files.
+3. Work in an isolated branch/worktree based on current `main`. Never edit or push `main` directly. Record ownership on your branch; use a PR for integration.
 
-1. Read `MEMORY.md` (state, decisions, deadlines).
-2. Read `docs/TASKS.md` and claim one task by putting your name on it. Commit and push that claim first.
-3. `git pull --rebase origin main`.
+## P0
 
-## The P0
-
-**All functions work, and first-years find information in fewer steps than the website,** including how to borrow gear like a camera. If a change does not reduce steps or raise a judging score (`docs/CRITERIA.md`), skip it.
+Help first-year students find accurate Library information with fewer steps. Every advertised function must work; show incomplete features as planned. Click-saving figures remain estimates until measured.
 
 ## Rules
 
-- **Time box.** This is a live hackathon. Small commits, pushed often. A working demo beats a better unfinished one. Never leave `main` not compiling.
-- **Stay in your files.** `docs/TASKS.md` lists file owners. Do not edit a file another open task owns.
-- **Facts must be real.** Library facts go in `docs/LIBRARY-FACTS.md` with a source URL. Do not invent hours, loan periods, prices or equipment. If it is unverified, link to the official page instead.
-- **Privacy is a feature.** Do not add accounts, analytics, third-party SDKs, or anything new that sends student data off the phone without asking the owner. See `docs/DATA-MODEL.md`. Never commit an API key.
-- **Design system: Apple Human Interface Guidelines.** Use native components (`List`, `.searchable`, `LabeledContent`, `Toggle`, standard button styles), system colors, and text styles for Dynamic Type. No custom cards, monospace labels, or hard-coded font sizes: Tony rejected that look. The one custom flourish is `FancyBackground` in `Theme.swift`, added at Tony's request for color.
-- **Honest labels.** Never present a fallback as AI, or a mock as real. Each Ask reply names its source.
-- **No secrets** in the repo. Never edit this repo's visibility or settings without the owner.
+- Library facts need official sources in `docs/reference/library-services.md`; do not invent hours, prices, stock or confirmed bookings.
+- Preserve other workstreams. Keep app paths stable unless a coordinated migration updates every consumer.
+- The owner approved v2 accounts, gamification and community as a roadmap, not as shipped features. Current clients still use local storage; the experimental API is separate.
+- Follow the approved v2 design direction in `docs/planning/v2-roadmap.md`; preserve native accessibility, Dynamic Type and reduced-motion behavior.
+- Never present local fallback results as AI. AI must remain optional for core discovery.
+- No credentials, student records, databases, derived builds or personal media in commits. Do not distribute a native app with a provider API key.
+- README is the usage guide, translated in `docs/fr/README.md` and `docs/zh-CN/README.md`. Do not reintroduce pitch decks, demo scripts or duplicate quickstarts.
+- Keep current behavior separate from proposals and historical evidence. Repository settings/release changes need owner scope; the open-source foundation is authorized.
 
-## After every task
+## Validate and hand off
 
-Update, in the same commit: `docs/TASKS.md` (status), `MEMORY.md` (only if a fact or decision changed, plus a line in its log).
-
-## Build check
-
-```bash
-xcodebuild -project FirstChapter.xcodeproj -scheme FirstChapter -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build -quiet
-```
-
-New `.swift` files inside `FirstChapter/` are picked up automatically (synchronized folder). No project file edits needed.
-
-## Layout
-
-| Path | What |
-| --- | --- |
-| `FirstChapter/Theme.swift` | App tint and small shared views |
-| `FirstChapter/Catalog.swift` | Public Library data: services and gear (read-only) |
-| `FirstChapter/Store.swift` | SwiftData: the only personal data |
-| `FirstChapter/Guide.swift` | Assistant: DeepSeek, then on-device AI, then local search |
-| `web/` | Web version on Vercel; keep its data in step with `Catalog.swift` |
-| `scripts/run.sh` | Build and launch; asks once for the DeepSeek key |
-| `FirstChapter/*View.swift` | Screens |
+Run `npm run check` and `npm test`. For Swift changes, build for an iOS simulator as documented in README. State separately what was source-checked, tested, built and exercised in a real UI. Update the task ledger and project memory when state changes. Open a PR linked to the issue and wait for required checks; no history rewrites or force-pushes to shared branches.

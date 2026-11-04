@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security / Sécurité / 安全漏洞
+    url: https://github.com/Tooonnnnyyy/first-chapter/security/advisories/new
+    about: Report vulnerabilities privately. Do not post credentials or student data.
+  - name: Questions / Questions / 问答
+    url: https://github.com/Tooonnnnyyy/first-chapter/discussions
+    about: Ask about setup, architecture or contributing.

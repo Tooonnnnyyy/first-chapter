@@ -1,0 +1,9 @@
+title: "[Idea] "
+body:
+  - type: textarea
+    id: student_need
+    attributes:
+      label: Which student need would this address?
+      description: English, French and Chinese are welcome.
+    validations:
+      required: true

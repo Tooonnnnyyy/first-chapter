@@ -1,12 +1,13 @@
 // First Chapter API — skeleton for issue #2 (data layer).
-// Zero dependencies: Node >= 22 (built-in node:sqlite + node:http).
+// Zero dependencies: Node >= 24 (built-in node:sqlite + node:http).
 // Auth here is anonymous device tokens; OAuth (issue #3) plugs into the same
 // sessions table. Every query is parameterized; tokens are stored hashed.
 import { createServer } from 'node:http';
 import { createHash, randomBytes } from 'node:crypto';
 import { db, seed } from './db.js';
 
-const PORT = process.env.PORT || 8787;
+const PORT = Number(process.env.PORT ?? 8787);
+const HOST = process.env.HOST || '127.0.0.1';
 const XP_PER_COMPLETION = 10;
 const CHEST_XP = 25;
 
@@ -190,4 +191,4 @@ const server = createServer(async (req, res) => {
 });
 
 seed();
-server.listen(PORT, () => console.log(`First Chapter API on http://localhost:${PORT}`));
+server.listen(PORT, HOST, () => console.log(`First Chapter API on http://${HOST}:${server.address().port}`));

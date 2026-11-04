@@ -3,8 +3,8 @@ import SwiftUI
 /// French version of the public Library catalog (T6). Same ids, icons, colors,
 /// URLs and click counts as `Catalog.services` — only the words change, and the
 /// keywords add French terms so search works in French too. Facts are the same
-/// verified facts from docs/LIBRARY-FACTS.md.
-/// Not yet wired to a language toggle; see T15 in docs/TASKS.md.
+/// verified facts from docs/reference/library-services.md.
+/// Not yet wired to a language toggle; see T15 in docs/planning/task-ledger.md.
 enum CatalogFR {
     static let services: [Service] = [
         Service(id: "camera", icon: "camera.fill", color: .orange, title: "Emprunter un appareil photo ou du matériel",

@@ -42,5 +42,6 @@ New `.swift` files inside `FirstChapter/` are picked up automatically (synchroni
 | `FirstChapter/Catalog.swift` | Public Library data: services and gear (read-only) |
 | `FirstChapter/Store.swift` | SwiftData: the only personal data |
 | `FirstChapter/Guide.swift` | Assistant: DeepSeek, then on-device AI, then local search |
+| `web/` | Web version on Vercel; keep its data in step with `Catalog.swift` |
 | `scripts/run.sh` | Build and launch; asks once for the DeepSeek key |
 | `FirstChapter/*View.swift` | Screens |

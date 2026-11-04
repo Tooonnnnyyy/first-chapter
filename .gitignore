@@ -6,3 +6,4 @@ build/
 .env
 
 FirstChapter/Secrets.plist
+.vercel

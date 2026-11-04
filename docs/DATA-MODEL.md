@@ -38,6 +38,10 @@ Gear                                        doneAt     Date?
 
 When Online AI is on and a key is set, Ask sends the typed question (after redaction) and the public catalog to DeepSeek. Nothing else. The student can switch this off with the cloud button, and the app then answers on the phone.
 
+## Web version
+
+The web version keeps the same small list in the browser's local storage. Its DeepSeek key stays on the server (`web/api/ask.js`), which stores nothing. The page removes emails and phone or ID numbers before sending a question. Vercel may keep standard request logs.
+
 ## Limits to say out loud
 
 - **DeepSeek is a third party outside Canada.** The app says so in Ask and in Your Data, and strips identifiers first, but a student could still type something personal. For a real launch, use a provider the university approves, through a proxy that doesn't log.

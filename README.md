@@ -6,6 +6,8 @@ A native iOS guide that helps first-year uOttawa students find Library services 
 
 **The challenge:** an app prototype, code or mock-up, that guides new students through the Library's services.
 
+**Live web version:** https://first-chapter-nine.vercel.app
+
 ## Run it
 
 Needs Xcode 26 or newer and an iOS 26+ simulator.

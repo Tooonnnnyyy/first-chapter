@@ -8,6 +8,12 @@ _Last updated: 2026-11-04._
 
 **First Chapter**: native iOS guide to uOttawa Library services for first-year students. Owner: Tony (GitHub `Tooonnnnyyy`). Repo is private. Local path on Tony's Mac: `~/Projects/first-chapter`.
 
+## Where it lives
+
+- **Live web version:** https://first-chapter-nine.vercel.app (Vercel project `first-chapter`, team `tony-7d93`, source in `web/`). Redeploy: `cd web && vercel link --project first-chapter --yes && vercel deploy --prod`.
+- **Native app:** `FirstChapter.xcodeproj`, runs in the simulator. An iPhone install needs Apple signing; a public release needs TestFlight.
+- **Repo:** https://github.com/Tooonnnnyyy/first-chapter (private).
+
 ## The event
 
 - Library AI Buildathon, **2026-11-04, 1:30 to 3:00 p.m.**, Learning Crossroads CRX 230. Prize $150 CAD.
@@ -53,6 +59,12 @@ SwiftUI, SwiftData, iOS 26+, Xcode. No dependencies, no backend. Figma not used:
 - The `deepseek-chat` call has not been tested against the live API yet (no key).
 - A key inside an app can be extracted. That is fine for a local demo only. A real release needs a small proxy server.
 
+## Test status (2026-11-04)
+
+- Web, live site: 38-check function run, 35 passed. The 3 failures all looked for "Most Needed", which the page shows in capitals, so the check was wrong.
+- DeepSeek on the web: `/api/ask` answers 503 until `DEEPSEEK_API_KEY` is set in Vercel. The page then uses Library search and says so.
+- Native: launch, swipe deck and Find screen seen in the simulator. The earlier style's four tabs were walked through. Full pass on the final native build is not finished.
+
 ## Known issues
 
 - Apple's on-device model reported available in the simulator, but a call failed and the app fell back to local search. Cause not investigated. See T8.
@@ -70,4 +82,5 @@ SwiftUI, SwiftData, iOS 26+, Xcode. No dependencies, no backend. Figma not used:
 
 - 2026-11-04: repo created, docs and project skeleton pushed.
 - 2026-11-04: first app version running in the simulator; real equipment categories added.
+- 2026-11-04: web version deployed to Vercel at Tony's request, with a small DeepSeek proxy.
 - 2026-11-04: redesigned on Apple HIG at Tony's request; DeepSeek assistant added; direct links to official pages added.

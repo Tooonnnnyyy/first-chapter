@@ -13,3 +13,4 @@ Claim by replacing `open` with your name, commit, push, then work. Stay in the f
 | T7 | Accessibility check: VoiceOver, largest Dynamic Type, dark mode | any view, after T1 | open |
 | T8 | Find out why Apple's on-device model call fails in the simulator | `FirstChapter/Guide.swift` | open |
 | T9 | Test DeepSeek end to end once Tony has entered a key | `FirstChapter/Guide.swift` | open, needs Tony |
+| T9 | P0 isolated build, simulator smoke verification, accurate demo handoff | `docs/CODEX-P0-HANDOFF.md`, isolated Downloads snapshot only | Codex in progress; Claude source edits preserved |

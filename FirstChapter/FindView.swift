@@ -4,6 +4,7 @@ import SwiftData
 struct FindView: View {
     @State private var query = ""
     @State private var showDeck = false
+    @State private var showImportNote = false
 
     var body: some View {
         NavigationStack {
@@ -12,13 +13,35 @@ struct FindView: View {
                     Section {
                         Button { showDeck = true } label: {
                             HStack(spacing: 12) {
-                                IconTile(symbol: "sparkles", color: .brand)
+                                Image(systemName: "sparkles").font(.title2).accessibilityHidden(true)
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text("Discover What's Here").foregroundStyle(.primary)
-                                    Text("\(Catalog.discover.count) quick cards, under a minute").font(.subheadline).foregroundStyle(.secondary)
+                                    Text("Discover What's Here").font(.headline)
+                                    Text("\(Catalog.discover.count) quick cards, under a minute").font(.subheadline)
                                 }
+                                Spacer(minLength: 0)
+                                Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).accessibilityHidden(true)
                             }
+                            .foregroundStyle(.white)
+                            .padding(.vertical, 6)
+                            .contentShape(Rectangle())
                         }
+                        .buttonStyle(.plain)
+                        .listRowBackground(FancyBackground())
+                    }
+                    Section {
+                        Button { showImportNote = true } label: {
+                            HStack(spacing: 12) {
+                                IconTile(symbol: "square.and.arrow.down.fill", color: .indigo)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Import Your Files").foregroundStyle(Color.primary)
+                                    Text("Add notes and course outlines as personal context").font(.subheadline).foregroundStyle(Color.secondary)
+                                }
+                                Spacer(minLength: 0)
+                                Text("Soon").font(.caption.weight(.semibold)).foregroundStyle(Color.secondary)
+                            }
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
                     }
                     Section("Most Needed") {
                         ForEach(Catalog.quick) { service in
@@ -51,6 +74,11 @@ struct FindView: View {
             .fullScreenCover(isPresented: $showDeck) {
                 SwipeDeck { showDeck = false }
             }
+            .alert("Coming Soon", isPresented: $showImportNote) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Importing your own files isn't in this prototype yet.")
+            }
         }
     }
 }
@@ -74,11 +102,13 @@ struct ServiceDetail: View {
                 .padding(.vertical, 4)
                 WebLink(url: service.url) {
                     HStack {
-                        Text(service.cta)
+                        Text(service.cta).fontWeight(.semibold)
                         Spacer()
                         Image(systemName: "arrow.up.forward").font(.footnote.weight(.semibold))
                     }
+                    .foregroundStyle(.white)
                 }
+                .listRowBackground(FancyBackground())
             }
             if !service.facts.isEmpty {
                 Section("Good to Know") {

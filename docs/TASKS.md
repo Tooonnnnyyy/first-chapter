@@ -2,6 +2,20 @@
 
 Claim by replacing `open` with your name, commit, push, then work. Stay in the files listed. Keep `main` compiling.
 
+## V2 (from 2026-11-04 — post-hackathon rebuild)
+
+Owner's rule: **never edit `main` directly; one branch + one issue per workstream.** Full plan: `docs/V2-PLAN.md`.
+
+| ID | Task | Branch |
+| --- | --- | --- |
+| V2-1 | Design system v2 (gamified tokens + components) | `design/gamified-v2` |
+| V2-2 | Server + SQLite data layer, REST API, security model | `feature/sqlite-data-layer` |
+| V2-3 | Accounts: Google + Microsoft OAuth, profile, sign in/out | `feature/accounts-auth` |
+| V2-4 | Reels feed with behavior-based ranking v1 | `feature/reels-feed` |
+| V2-5 | Gamification engine: XP, levels, streaks, quests, stamps, chests | `design/gamified-v2` |
+| V2-6 | UGC + community: posts, comments, likes, reports | `feature/community-ugc` |
+| V2-7 | Public polish: README, ARCHITECTURE.md, ADRs, license | `docs/v2-architecture` |
+
 | ID | Task | Files | Status |
 | --- | --- | --- | --- |
 | T1 | Native screens on Apple HIG | `FirstChapter/*View.swift`, `Theme.swift`, `App.swift` | Built; full native test pass still open |

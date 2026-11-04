@@ -30,7 +30,9 @@ function readBody(req) {
 }
 
 function authUser(req) {
-  const m = /^Bearer\s+(.+)$/.exec(req.headers.authorization || '');
+  // Tokens are exactly 32 random bytes encoded as hexadecimal. Disjoint
+  // whitespace/token classes avoid backtracking on malformed headers.
+  const m = /^Bearer[ \t]+([a-f0-9]{64})[ \t]*$/i.exec(req.headers.authorization || '');
   if (!m) return null;
   const row = db.prepare(`
     SELECT u.* FROM sessions s JOIN users u ON u.id = s.user_id

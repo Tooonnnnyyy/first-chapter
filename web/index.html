@@ -3,118 +3,248 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#d9ff43">
 <title>First Chapter: find Library services fast</title>
 <meta name="description" content="A student prototype that helps first-year uOttawa students find Library services in fewer steps.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500&display=swap">
 <style>
+  /* apm-style tokens. Light only: ink bands and the ink tab bar give the dark moments. */
   :root {
-    --bg:#f2f2f7; --surface:#fff; --text:#000; --muted:#6c6c70; --sep:#d1d1d6;
-    --brand:#8f0019; --brand-soft:rgba(143,0,25,.14); --fill:#e5e5ea; --ok:#248a3d;
+    --ink:#11120f; --page:#ffffff; --paper:#f3efe3; --bone:#fffdf7;
+    --lime:#d9ff43; --flame:#ff5a36; --violet:#b7a7ff; --mint:#75ded1; --cobalt:#2864ff;
+    --mute:#d8d8d2;
+    --soft:color-mix(in srgb, var(--ink) 72%, transparent);
+    --font-text:"Manrope", system-ui, sans-serif; --font-label:"DM Mono", ui-monospace, monospace;
+    --ease:cubic-bezier(.16, 1, .3, 1);
+    --rule:2px solid var(--ink); --hair:1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+    --focus:var(--ink); --shadow:var(--flame);
+    --col:560px; --tabh:64px;
+    color-scheme:light;
   }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#000; --surface:#1c1c1e; --text:#fff; --muted:#a1a1a6; --sep:#38383a;
-      --brand:#f57379; --brand-soft:rgba(245,115,121,.2); --fill:#2c2c2e; --ok:#30d158; }
-  }
-  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  html,body { margin:0; background:var(--bg); color:var(--text); }
-  body { font:17px/1.3 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
-  button,input { font:inherit; color:inherit; }
+  *, *::before, *::after { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html { -webkit-font-smoothing:antialiased; -webkit-text-size-adjust:100%; }
+  html, body { margin:0; background:var(--page); color:var(--ink); }
+  body { font:400 16px/1.5 var(--font-text); overflow-x:hidden; accent-color:var(--flame); }
+  button, input { font:inherit; color:inherit; }
   button { background:none; border:0; padding:0; cursor:pointer; text-align:left; }
   a { color:inherit; text-decoration:none; }
-  :focus-visible { outline:2px solid var(--brand); outline-offset:2px; }
-  #app { max-width:520px; margin:0 auto; min-height:100vh; min-height:100dvh; padding:0 16px calc(96px + env(safe-area-inset-bottom)); }
-  .nav { min-height:44px; display:flex; align-items:center; justify-content:space-between; padding-top:calc(8px + env(safe-area-inset-top)); }
-  .back { color:var(--brand); min-height:44px; display:flex; align-items:center; gap:2px; }
-  h1 { font-size:34px; line-height:1.15; font-weight:700; margin:8px 0 12px; letter-spacing:.2px; }
-  .search { display:flex; align-items:center; gap:8px; background:var(--fill); border-radius:10px; padding:0 10px; height:40px; margin-bottom:20px; color:var(--muted); }
-  .search input { flex:1; min-width:0; border:0; background:none; outline:none; color:var(--text); height:100%; font-size:17px; }
-  .search input::placeholder { color:var(--muted); }
-  .sec-title { font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.2px; margin:0 16px 6px; font-weight:400; }
-  .group { background:var(--surface); border-radius:12px; overflow:hidden; margin-bottom:8px; }
-  .foot { font-size:13px; color:var(--muted); margin:0 16px 24px; }
-  .spacer { height:24px; }
-  .row { display:flex; align-items:center; gap:12px; width:100%; min-height:44px; padding:10px 16px; position:relative; }
-  .row + .row::before { content:""; position:absolute; top:0; left:58px; right:0; height:1px; background:var(--sep); transform:scaleY(.5); }
-  .row.plain + .row.plain::before { left:16px; }
-  button.row:active,a.row:active { background:var(--fill); }
+  h1, h2, h3 { margin:0; font-weight:500; text-wrap:balance; }
+  p { margin:0; text-wrap:pretty; }
+  svg { display:block; }
+  :focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
+
+  .eyebrow { font:400 .78rem/1.5 var(--font-label); text-transform:uppercase; letter-spacing:.08em; }
+  .col { width:min(100% - 32px, var(--col)); margin-inline:auto; }
+  #app { min-height:100vh; min-height:100dvh; padding-bottom:calc(var(--tabh) + 44px + env(safe-area-inset-bottom)); }
+
+  /* Header bands: one flat color per tab, full-bleed, closed by a 2px ink rule */
+  .band { padding:calc(6px + env(safe-area-inset-top)) 0 26px; border-bottom:var(--rule); }
+  .band--lime { background:var(--lime); }
+  .band--violet { background:var(--violet); }
+  .band--mint { background:var(--mint); }
+  .band--paper { background:var(--paper); }
+  .band--flame { background:var(--flame); --shadow:var(--ink); }
+  .band--cobalt { background:var(--cobalt); color:var(--bone); --focus:var(--lime); --soft:var(--bone); }
+  .band--ink { background:var(--ink); color:var(--bone); --focus:var(--lime); --soft:color-mix(in srgb, var(--bone) 76%, transparent); }
+  .nav { min-height:52px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .brand { display:flex; align-items:center; gap:10px; }
+  .brand::before { content:""; width:10px; height:10px; border-radius:50%; background:currentColor; }
+  .back { display:inline-flex; align-items:center; gap:8px; min-height:40px; padding:8px 16px; border:2px solid currentColor; border-radius:999px; font:400 .78rem/1.5 var(--font-label); transition:background .25s var(--ease), color .25s var(--ease); }
+  @media (hover:hover) { .back:hover { background:var(--ink); color:var(--bone); border-color:var(--ink); } }
+  @media (hover:hover) { .band--ink .back:hover, .band--cobalt .back:hover { background:var(--bone); color:var(--ink); border-color:var(--bone); } }
+  h1 { font-size:clamp(2.9rem, 13vw, 4.25rem); line-height:.92; letter-spacing:-.038em; margin:14px 0 22px; }
+  .h1--detail { font-size:clamp(2.3rem, 10vw, 3.5rem); line-height:.94; margin:18px 0 14px; }
+  .lede { font-size:1.15rem; line-height:1.4; max-width:36ch; }
+  .detail-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:18px; }
+  .detail-head svg { width:46px; height:46px; stroke-width:1.75; }
+  .status { display:inline-flex; padding:4px 12px; border:2px solid currentColor; border-radius:999px; font:400 .72rem/1.5 var(--font-label); text-transform:uppercase; letter-spacing:.06em; }
+  .honest { margin-top:16px; font-size:.9rem; line-height:1.4; }
+
+  /* Search field: square, 2px outline, thicker outline on focus */
+  .search { display:flex; align-items:center; gap:10px; height:54px; padding:0 14px; background:var(--bone); color:var(--ink); border:var(--rule); box-shadow:4px 4px 0 var(--ink); }
+  .search:focus-within { outline:2px solid var(--ink); outline-offset:0; }
+  .search svg { flex:none; }
+  .search input { flex:1; min-width:0; height:100%; border:0; background:none; outline:none; font-size:17px; }
+  .search input::placeholder { color:var(--soft); opacity:1; }
+  .search input::-webkit-search-cancel-button { -webkit-appearance:none; appearance:none; width:22px; height:22px; cursor:pointer;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2311120f' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center / 18px no-repeat; }
+
+  /* XP meter */
+  .xp { margin-top:20px; padding:14px 14px 12px; background:var(--bone); color:var(--ink); border:var(--rule); box-shadow:5px 5px 0 var(--ink); }
+  .xp__head { display:flex; align-items:center; gap:12px; }
+  .xp__badge { flex:none; display:grid; place-items:center; width:36px; height:36px; background:var(--ink); color:var(--lime); font:500 1.3rem/1 var(--font-text); rotate:-4deg; }
+  .xp__name { flex:1; min-width:0; font-weight:500; font-size:1.06rem; line-height:1.2; letter-spacing:-.01em; }
+  .xp__pts { flex:none; font:500 .9rem/1 var(--font-label); white-space:nowrap; }
+  .xp__bar { height:16px; margin-top:12px; background:var(--page); border:var(--rule); }
+  .xp__bar i { display:block; height:100%; background:var(--flame); }
+  .xp__bar i:not([style*="width:0%"]):not([style*="width:100%"]) { border-right:2px solid var(--ink); }
+  .xp__next { margin-top:8px; font:400 .75rem/1.4 var(--font-label); }
+
+  /* Ruled lists: no cards, just 2px ink rules */
+  .main { padding-top:26px; }
+  .sec-title { display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin:36px 0 10px; font:400 .78rem/1.5 var(--font-label); text-transform:uppercase; letter-spacing:.08em; }
+  .main > .sec-title:first-child { margin-top:4px; }
+  .group { border-top:var(--rule); }
+  .row { display:flex; align-items:center; gap:14px; width:100%; min-height:58px; padding:14px 4px; border-bottom:var(--rule); transition:background .25s var(--ease); }
+  button.row:active, a.row:active { background:var(--lime); }
+  @media (hover:hover) { button.row:hover, a.row:hover { background:var(--lime); } }
   .grow { flex:1; min-width:0; }
-  .sub { font-size:15px; color:var(--muted); margin-top:2px; }
-  .value { color:var(--muted); text-align:right; font-size:15px; max-width:62%; }
-  .chev { color:var(--muted); opacity:.55; flex:none; }
-  .tile { width:30px; height:30px; border-radius:7px; display:grid; place-items:center; color:#fff; flex:none; }
-  .tile svg { width:18px; height:18px; }
-  .tile.big { width:52px; height:52px; border-radius:12px; } .tile.big svg { width:30px; height:30px; }
-  .tile.huge { width:80px; height:80px; border-radius:18px; } .tile.huge svg { width:46px; height:46px; }
-  .link { color:var(--brand); }
-  .danger { color:#d70015; }
-  @media (prefers-color-scheme: dark) { .danger { color:#ff6961; } }
-  .center { text-align:center; }
-  .num { width:22px; height:22px; border-radius:50%; border:1.5px solid var(--brand); color:var(--brand); display:grid; place-items:center; font-size:12px; font-weight:600; flex:none; }
-  .btn { display:block; width:100%; min-height:50px; padding:14px; border-radius:14px; text-align:center; font-weight:600; }
-  .btn.pri { background:var(--brand); color:#fff; } @media (prefers-color-scheme: dark) { .btn.pri { color:#000; } }
-  .btn.sec { background:var(--brand-soft); color:var(--brand); }
-  .btn.txt { color:var(--brand); font-weight:400; }
-  .tabs { position:fixed; left:0; right:0; bottom:0; background:color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:.5px solid var(--sep); padding-bottom:env(safe-area-inset-bottom); z-index:5; }
-  .tabs div { max-width:520px; margin:0 auto; display:flex; }
-  .tabs button { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:7px 0 6px; font-size:10px; font-weight:500; color:var(--muted); min-height:50px; }
-  .tabs button[aria-current="page"] { color:var(--brand); }
-  .tabs svg { width:24px; height:24px; }
-  .welcome { position:fixed; inset:0; z-index:8; overflow-y:auto; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; padding:calc(40px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom)); max-width:100%; margin:0 auto; color:#fff;
-    background:
-      radial-gradient(120% 60% at 85% 0%, rgba(230,77,38,.85), rgba(230,77,38,0) 60%),
-      radial-gradient(120% 70% at 10% 45%, rgba(140,18,179,.75), rgba(140,18,179,0) 65%),
-      radial-gradient(130% 60% at 90% 100%, rgba(153,13,115,.8), rgba(153,13,115,0) 60%),
-      linear-gradient(165deg, #8f0019 0%, #cc1466 38%, #5912b3 72%, #402db3 100%); }
-  .welcome > div, .welcome > button, .welcome > p { width:100%; max-width:420px; margin-left:auto; margin-right:auto; }
-  .welcome h1 { text-align:center; margin:20px 0 28px; color:#fff; }
-  .welcome .feature svg { color:#fff; }
-  .welcome .sub { color:rgba(255,255,255,.88); }
-  .welcome .tile.huge { background:rgba(255,255,255,.22) !important; }
-  .welcome .btn.pri { background:#fff; color:#8f0019; }
-  .welcome .btn.txt { color:#fff; }
-  .welcome .foot { color:rgba(255,255,255,.75); }
-  .grad { background:
-      radial-gradient(130% 90% at 88% 0%, rgba(230,77,38,.8), rgba(230,77,38,0) 55%),
-      linear-gradient(120deg, #8f0019, #cc1466 55%, #5912b3); color:#fff !important; }
-  .grad .sub { color:rgba(255,255,255,.88); }
-  .grad .chev { color:#fff; opacity:.9; }
-  .grad .tile { background:rgba(255,255,255,.25) !important; }
-  .deck-card.colorful { color:#fff; }
-  .deck-card.colorful p { color:rgba(255,255,255,.88); }
-  .deck-card.colorful .tile { background:rgba(255,255,255,.25) !important; }
-  .feature { display:flex; gap:16px; margin-bottom:20px; } .feature svg { width:28px; height:28px; color:var(--brand); flex:none; }
-  .feature b { display:block; font-weight:600; }
-  .deck { position:fixed; inset:0; background:var(--bg); z-index:10; display:flex; flex-direction:column; padding:calc(8px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
-  .deck-in { max-width:480px; width:100%; margin:0 auto; flex:1; display:flex; flex-direction:column; min-height:0; }
-  .deck-top { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:44px; font-weight:600; }
-  .deck-top button { justify-self:end; color:var(--brand); font-weight:600; min-height:44px; }
-  .deck-hint { text-align:center; color:var(--muted); font-size:15px; margin:6px 0 14px; }
-  .deck-stage { flex:1; position:relative; min-height:280px; margin-bottom:16px; }
-  .deck-card { position:absolute; inset:0; background:var(--surface); border-radius:20px; padding:24px; box-shadow:0 4px 18px rgba(0,0,0,.1); touch-action:pan-y; user-select:none; cursor:grab; }
-  .deck-card h2 { font-size:28px; line-height:1.15; margin:14px 0 10px; }
-  .deck-card p { margin:0; color:var(--muted); }
-  .deck-btns { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .chat { display:flex; flex-direction:column; gap:10px; margin-bottom:12px; }
-  .bubble { padding:8px 12px; border-radius:16px; max-width:85%; }
-  .me { align-self:flex-end; background:var(--brand); color:#fff; } @media (prefers-color-scheme: dark) { .me { color:#000; } }
-  .them { align-self:flex-start; background:var(--surface); }
-  .src { font-size:12px; color:var(--muted); margin:-4px 0 0 2px; }
-  .chip { display:block; width:100%; background:var(--brand-soft); color:var(--brand); padding:10px 14px; border-radius:12px; margin-bottom:8px; }
-  .composer { position:fixed; left:0; right:0; bottom:calc(58px + env(safe-area-inset-bottom)); padding:8px 16px; background:var(--bg); z-index:4; }
-  .composer form { max-width:488px; margin:0 auto; display:flex; gap:8px; }
-  .composer input { flex:1; min-width:0; height:40px; padding:0 14px; border-radius:20px; border:.5px solid var(--sep); background:var(--surface); outline:none; font-size:16px; }
-  .composer button { width:40px; height:40px; border-radius:50%; background:var(--brand); color:#fff; display:grid; place-items:center; flex:none; }
-  .composer button:disabled { opacity:.4; }
-  .ask-pad { height:60px; }
-  .progress { height:4px; background:var(--fill); border-radius:2px; overflow:hidden; margin-top:8px; width:100%; }
-  .progress i { display:block; height:100%; background:var(--brand); }
-  .check { width:28px; height:28px; border-radius:50%; border:2px solid var(--sep); flex:none; display:grid; place-items:center; color:#fff; }
-  .check.on { background:var(--ok); border-color:var(--ok); }
-  .struck { text-decoration:line-through; color:var(--muted); }
-  .empty { text-align:center; padding:28px 16px; color:var(--muted); }
-  .empty b { display:block; color:var(--text); font-size:20px; margin-bottom:4px; }
-  @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
+  .ttl { font-weight:500; font-size:1.08rem; line-height:1.25; letter-spacing:-.012em; }
+  .sub { margin-top:3px; font-size:.92rem; line-height:1.4; color:var(--soft); }
+  .glyph { flex:none; display:grid; place-items:center; width:28px; }
+  .glyph svg { width:24px; height:24px; }
+  .arrow { flex:none; font:400 1.1rem/1 var(--font-label); transition:transform .25s var(--ease); }
+  @media (hover:hover) { .row:hover .arrow { transform:translateX(3px); } }
+  .value { max-width:62%; text-align:right; font-weight:500; }
+  .facts .row { min-height:50px; padding-block:12px; border-bottom:var(--hair); }
+  .facts .row:last-child { border-bottom:var(--rule); }
+  .facts .row > .grow { font:400 .78rem/1.5 var(--font-label); text-transform:uppercase; letter-spacing:.06em; }
+  .steps .row > .grow { font:400 1rem/1.4 var(--font-text); text-transform:none; letter-spacing:0; }
+  .steps .check { font:500 .9rem/1 var(--font-label); }
+  .link .grow { text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px; }
+  .foot { margin-top:16px; font-size:.86rem; line-height:1.45; color:var(--soft); }
+  .empty { padding:30px 4px; border-bottom:var(--rule); color:var(--soft); }
+  .empty b { display:block; margin-bottom:6px; color:var(--ink); font-weight:500; font-size:1.5rem; line-height:1.15; letter-spacing:-.03em; }
+  .pill { flex:none; display:inline-flex; align-items:center; padding:3px 10px; border:2px solid currentColor; border-radius:999px; font:500 .72rem/1.5 var(--font-label); white-space:nowrap; }
+  .pill--lime { background:var(--lime); color:var(--ink); border-color:var(--ink); }
+
+  /* Discover: the one stamped block on Find */
+  .row.grad { margin-top:4px; min-height:86px; padding:18px; background:var(--ink); color:var(--bone); border:var(--rule); box-shadow:6px 6px 0 var(--flame); transition:transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .row.grad:active { background:var(--ink); transform:translate(-2px, -2px); box-shadow:9px 9px 0 var(--flame); }
+  @media (hover:hover) { .row.grad:hover { background:var(--ink); transform:translate(-2px, -2px); box-shadow:9px 9px 0 var(--flame); } }
+  .row.grad .ttl { font-size:1.3rem; }
+  .row.grad .sub { color:color-mix(in srgb, var(--bone) 76%, transparent); }
+  .row.grad .glyph { color:var(--lime); }
+  .row.grad .pill { margin-top:10px; }
+
+  /* Buttons: pills, 2px outline, solid offset shadow */
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:13px 20px; border:var(--rule); border-radius:999px; background:var(--ink); color:var(--bone); font:400 .82rem/1.4 var(--font-label); text-align:center; box-shadow:4px 4px 0 var(--shadow); transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease); }
+  @media (hover:hover) { .btn:hover { transform:translate(-2px, -2px); box-shadow:7px 7px 0 var(--shadow); } }
+  .btn:active { transform:translate(2px, 2px); box-shadow:1px 1px 0 var(--shadow); }
+  .btn--wide { display:flex; width:100%; }
+  .btn--ghost { background:transparent; color:inherit; border-color:currentColor; box-shadow:none; }
+  .btn--ghost:active { background:color-mix(in srgb, var(--ink) 8%, transparent); box-shadow:none; }
+  @media (hover:hover) { .btn--ghost:hover { background:color-mix(in srgb, var(--ink) 8%, transparent); box-shadow:none; } }
+  .btn--danger { background:var(--flame); color:var(--ink); box-shadow:4px 4px 0 var(--ink); }
+  @media (hover:hover) { .btn--danger:hover { box-shadow:7px 7px 0 var(--ink); } }
+  .band .btn { margin-top:22px; }
+  .danger::before { content:""; flex:none; width:12px; height:12px; border-radius:50%; background:var(--flame); border:2px solid var(--ink); }
+  .actions { display:grid; gap:16px; margin-top:36px; }
+
+  /* My Plan: stats, quests and stamps */
+  .stat { display:block; }
+  .stat__top { font-weight:500; }
+  .progress { height:14px; margin-top:10px; background:var(--page); border:var(--rule); }
+  .progress i { display:block; height:100%; background:var(--ink); }
+  .quest { gap:12px; }
+  .check { flex:none; display:grid; place-items:center; width:36px; height:36px; border:var(--rule); border-radius:50%; background:var(--page); color:var(--ink); transition:background .25s var(--ease); }
+  .check.on { background:var(--lime); }
+  @media (hover:hover) { button.check:hover { background:var(--lime); } }
+  .check svg { width:18px; height:18px; stroke-width:3; }
+  .qtitle { display:block; min-height:28px; font-weight:500; font-size:1.05rem; line-height:1.25; letter-spacing:-.01em; }
+  @media (hover:hover) { .qtitle:hover { text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px; } }
+  .quest .pill { margin-top:6px; }
+  .struck { text-decoration:line-through; text-decoration-thickness:2px; color:var(--soft); }
+  .rm { flex:none; min-height:36px; padding:6px 12px; border:var(--rule); border-radius:999px; font:400 .72rem/1.4 var(--font-label); transition:background .25s var(--ease); }
+  @media (hover:hover) { .rm:hover { background:var(--flame); } }
+  .stamps { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:14px; padding-top:8px; }
+  .stamp { display:flex; flex-direction:column; justify-content:space-between; gap:10px; min-height:116px; padding:10px; border:2px dashed color-mix(in srgb, var(--ink) 45%, transparent); color:var(--soft); transition:transform .25s var(--ease), box-shadow .25s var(--ease); }
+  @media (hover:hover) { .stamp:hover { transform:translate(-2px, -2px); } }
+  .stamp.on { background:var(--c); color:var(--fg); border:var(--rule); box-shadow:4px 4px 0 var(--ink); rotate:var(--t); }
+  .stamp__no, .stamp__ok { font:400 .6875rem/1.3 var(--font-label); text-transform:uppercase; letter-spacing:.06em; }
+  .stamp__ok { font-weight:500; }
+  .stamp__t { font-weight:500; font-size:.86rem; line-height:1.2; letter-spacing:-.01em; }
+
+  /* Ask */
+  .prompts { display:flex; flex-wrap:wrap; gap:12px; }
+  .chip { display:inline-flex; align-items:center; gap:10px; min-height:44px; padding:9px 16px; border:var(--rule); border-radius:999px; background:var(--bone); font-weight:500; font-size:.95rem; line-height:1.3; box-shadow:3px 3px 0 var(--ink); transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease); }
+  @media (hover:hover) { .chip:hover { background:var(--violet); transform:translate(-2px, -2px); box-shadow:5px 5px 0 var(--ink); } }
+  .chat { display:flex; flex-direction:column; gap:12px; margin-top:4px; }
+  .bubble { max-width:85%; padding:12px 14px; border:var(--rule); }
+  .me { align-self:flex-end; background:var(--ink); color:var(--bone); box-shadow:4px 4px 0 var(--violet); }
+  .them { align-self:flex-start; background:var(--bone); box-shadow:4px 4px 0 var(--ink); }
+  .src { margin:-2px 0 0 2px; font:400 .72rem/1.4 var(--font-label); text-transform:uppercase; letter-spacing:.06em; color:var(--soft); }
+  .composer { position:fixed; left:0; right:0; bottom:calc(var(--tabh) + env(safe-area-inset-bottom)); z-index:4; padding:10px 0; background:var(--page); border-top:var(--rule); }
+  .composer form { width:min(100% - 32px, var(--col)); margin:0 auto; display:flex; gap:10px; }
+  .composer input { flex:1; min-width:0; height:48px; padding:0 14px; border:var(--rule); border-radius:0; background:var(--bone); outline:none; font-size:16px; }
+  .composer input:focus { box-shadow:inset 0 0 0 2px var(--ink); }
+  .composer input::placeholder { color:var(--soft); opacity:1; }
+  .composer button { flex:none; display:grid; place-items:center; width:48px; height:48px; border:var(--rule); border-radius:50%; background:var(--ink); color:var(--bone); box-shadow:3px 3px 0 var(--violet); }
+  .composer button:disabled { opacity:.45; box-shadow:none; }
+  .ask-pad { height:84px; }
+
+  /* Tab bar: an ink strip, lime pill on the current tab, no blur */
+  .tabs { position:fixed; left:0; right:0; bottom:0; z-index:5; background:var(--ink); color:var(--bone); padding-bottom:env(safe-area-inset-bottom); --focus:var(--lime); }
+  .tabs > div { width:min(100%, var(--col)); margin:0 auto; display:flex; }
+  .tabs button { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; min-height:var(--tabh); padding:8px 0 7px; font:400 .6875rem/1.2 var(--font-label); text-transform:uppercase; letter-spacing:.06em; color:color-mix(in srgb, var(--bone) 78%, transparent); }
+  .tabs button:focus-visible { outline-offset:-4px; }
+  .tabs .ti { display:grid; place-items:center; width:56px; height:28px; border-radius:999px; transition:background .25s var(--ease); }
+  .tabs svg { width:22px; height:22px; }
+  @media (hover:hover) { .tabs button:hover .ti { background:color-mix(in srgb, var(--bone) 16%, transparent); } }
+  .tabs button[aria-current="page"] { color:var(--lime); }
+  .tabs button[aria-current="page"] .ti { background:var(--lime); color:var(--ink); }
+
+  /* Welcome */
+  .welcome { position:fixed; inset:0; z-index:8; overflow-y:auto; background:var(--lime); color:var(--ink); }
+  .welcome__in { width:min(100% - 48px, 440px); min-height:100%; margin:0 auto; display:flex; flex-direction:column; padding:calc(40px + env(safe-area-inset-top)) 0 calc(24px + env(safe-area-inset-bottom)); }
+  .mark { display:grid; place-items:center; width:76px; height:76px; margin-bottom:30px; background:var(--bone); border:var(--rule); box-shadow:6px 6px 0 var(--ink); rotate:-4deg; font:500 2.6rem/1 var(--font-text); letter-spacing:-.04em; }
+  .welcome h1 { margin:12px 0 30px; font-size:clamp(2.9rem, 13vw, 4.4rem); }
+  .feature { display:flex; gap:16px; padding:16px 0; border-top:var(--rule); }
+  .feature:last-child { border-bottom:var(--rule); }
+  .feature svg { flex:none; width:26px; height:26px; }
+  .feature b { display:block; font-weight:500; font-size:1.1rem; line-height:1.3; }
+  .feature .sub { display:block; }
+  .welcome .btn { margin-top:14px; }
+  .welcome .btn:first-of-type { margin-top:34px; }
+  .welcome .foot { margin-top:18px; text-align:center; }
+
+  /* Discover deck */
+  .deck { position:fixed; inset:0; z-index:10; display:flex; flex-direction:column; padding:calc(8px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); background:var(--paper); }
+  .deck-in { flex:1; display:flex; flex-direction:column; width:100%; max-width:480px; min-height:0; margin:0 auto; }
+  .deck-top { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:52px; }
+  .deck-top > span { font:400 .78rem/1.5 var(--font-label); text-transform:uppercase; letter-spacing:.08em; }
+  .deck-top button { justify-self:end; min-height:40px; padding:8px 16px; border:var(--rule); border-radius:999px; font:400 .78rem/1.5 var(--font-label); transition:background .25s var(--ease); }
+  @media (hover:hover) { .deck-top button:hover { background:color-mix(in srgb, var(--ink) 8%, transparent); } }
+  .deck-meter { display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:6px; margin-top:6px; }
+  .deck-meter i { height:10px; border:var(--rule); }
+  .deck-meter .on { background:var(--ink); }
+  .deck-meter .now { background:var(--flame); }
+  .deck-hint { margin:auto 0 18px; padding-top:14px; text-align:center; font-size:.95rem; color:var(--soft); }
+  .deck-stage { flex:1 1 auto; position:relative; min-height:300px; max-height:440px; margin:0 12px 26px 0; }
+  .deck-card { position:absolute; inset:0; display:flex; flex-direction:column; overflow:hidden; padding:26px; border:var(--rule); box-shadow:7px 7px 0 var(--ink); touch-action:pan-y; user-select:none; -webkit-user-select:none; cursor:grab; }
+  .deck-card--next { rotate:3deg; }
+  #top { rotate:-1.5deg; }
+  .deck-card svg { width:46px; height:46px; stroke-width:1.75; }
+  .deck-card h2 { margin:22px 0 14px; font-size:clamp(2rem, 8.5vw, 2.8rem); line-height:.96; letter-spacing:-.035em; }
+  .deck-card p { max-width:34ch; font-size:1.08rem; line-height:1.4; }
+  .deck-card .pill { align-self:flex-start; margin-top:auto; }
+  .card--lime { background:var(--lime); } .card--violet { background:var(--violet); } .card--mint { background:var(--mint); }
+  .card--flame { background:var(--flame); } .card--paper { background:var(--bone); }
+  .card--cobalt { background:var(--cobalt); color:var(--bone); } .card--ink { background:var(--ink); color:var(--bone); }
+  .deck-btns { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:auto; }
+  .deck-summary { flex:1; display:flex; flex-direction:column; justify-content:center; padding:24px 0; }
+  .big-xp { margin:10px 0 14px; font:500 clamp(4rem, 22vw, 6.5rem)/.9 var(--font-text); letter-spacing:-.045em; }
+  .sum-line { margin-bottom:4px; font-size:1.15rem; line-height:1.4; }
+
+  /* Reward feedback */
+  /* Above the tab bar, so the header and its XP bar stay visible. In the deck: under the quest meter. */
+  .toasts { position:fixed; left:0; right:0; bottom:calc(var(--tabh) + 18px + env(safe-area-inset-bottom)); z-index:30; display:flex; flex-direction:column; align-items:center; gap:12px; padding:0 16px; pointer-events:none; }
+  #overlay:not(:empty) + .toasts { bottom:auto; top:calc(92px + env(safe-area-inset-top)); }
+  .toast { padding:10px 18px; background:var(--ink); color:var(--lime); border:var(--rule); border-radius:999px; box-shadow:4px 4px 0 var(--flame); font:500 .95rem/1.2 var(--font-label); animation:pop .45s var(--ease) both; }
+  .toast--level { max-width:min(100%, 420px); padding:14px 18px; background:var(--lime); color:var(--ink); border-radius:0; box-shadow:7px 7px 0 var(--ink); rotate:-2deg; font:400 1rem/1.3 var(--font-text); }
+  .toast--level .eyebrow { display:block; margin-bottom:4px; }
+  .toast--level b { display:block; font-weight:500; font-size:1.25rem; line-height:1.15; letter-spacing:-.02em; }
+  .toast.out { animation:fade .3s var(--ease) forwards; }
+  @keyframes pop { from { opacity:0; transform:translateY(14px) scale(.92); } }
+  @keyframes fade { to { opacity:0; transform:translateY(8px); } }
+
+  @media (min-width: 520px) { .stamps { grid-template-columns:repeat(4, minmax(0, 1fr)); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+  }
 </style>
 </head>
 <body>
@@ -122,6 +252,7 @@
 <nav class="tabs" id="tabs" aria-label="Main" hidden></nav>
 <div id="composer"></div>
 <div id="overlay"></div>
+<div id="toast" class="toasts" role="status" aria-live="polite"></div>
 
 <script>
 // Icons: Lucide (ISC licence), hand-copied subset.
@@ -157,7 +288,10 @@ const I = {
 };
 const svg = (n, s) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"${s ? ` width="${s}" height="${s}"` : ''}>${I[n]}</svg>`;
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const C = { orange:'#ff9500', red:'#ff3b30', blue:'#007aff', yellow:'#e0a800', gray:'#8e8e93', indigo:'#5856d6', teal:'#30b0c7', purple:'#af52de', green:'#34c759', pink:'#ff2d55', brown:'#a2845e', mint:'#00a896', cyan:'#32ade6', brand:'#8f0019' };
+// Each catalog colour name maps to one apm-style palette block. Only these hues are used.
+const P = { ink:'#11120f', paper:'#f3efe3', bone:'#fffdf7', lime:'#d9ff43', flame:'#ff5a36', violet:'#b7a7ff', mint:'#75ded1', cobalt:'#2864ff' };
+const C = { orange:'flame', red:'flame', blue:'cobalt', yellow:'lime', gray:'paper', indigo:'violet', teal:'mint', purple:'violet', green:'lime', pink:'flame', brown:'lime', mint:'mint', cyan:'cobalt', brand:'ink' };
+const onDark = k => k === 'cobalt' || k === 'ink';
 
 // Same public facts as FirstChapter/Catalog.swift. Sources: docs/LIBRARY-FACTS.md
 const GEAR_URL = 'https://ocul-uo.primo.exlibrisgroup.com/discovery/collectionDiscovery?vid=01OCUL_UO:UO_DEFAULT&collectionId=81966870270005161&lang=en';
@@ -207,81 +341,153 @@ function addToPlan(id, source) { if (!item(id)) { plan.push({serviceID:id, sourc
 function toggleDone(id) { const it = item(id); if (it) { it.doneAt = it.doneAt ? null : new Date().toISOString(); saveAll(plan); } }
 function removeFromPlan(id) { plan = plan.filter(p => p.serviceID !== id); saveAll(plan); }
 
+// Game layer. XP, chapters and stamps are worked out from the saved plan on every render:
+// nothing extra is stored or sent, so Erase Everything resets them. Same numbers as the iOS app.
+const XP_SAVE = 10, XP_DONE = 40, XP_QUEST = XP_SAVE + XP_DONE;
+const CHAPTERS = [[0,'New Reader'],[100,'Explorer'],[200,'Regular'],[350,'Library Pro'],[500,'Library Legend']];
+// Only catalog services count, and each service counts once (same rule as Game.xp on iOS).
+function xpOf(p) {
+  const seen = new Set();
+  return p.reduce((n, it) => {
+    if (!byId(it.serviceID) || seen.has(it.serviceID)) return n;
+    seen.add(it.serviceID);
+    return n + XP_SAVE + (it.doneAt ? XP_DONE : 0);
+  }, 0);
+}
+function chapterOf(xp) {
+  let i = 0;
+  CHAPTERS.forEach(([min], k) => { if (xp >= min) i = k; });
+  const next = CHAPTERS[i + 1];
+  return { n:i + 1, min:CHAPTERS[i][0], name:CHAPTERS[i][1], next: next ? { n:i + 2, min:next[0], name:next[1] } : null };
+}
+const chapterName = c => `Chapter ${c.n} · ${c.name}`;
+const $toast = document.getElementById('toast');
+const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+function toast(html, kind) {
+  const el = document.createElement('div');
+  el.className = `toast${kind ? ' toast--' + kind : ''}`; el.innerHTML = html; $toast.append(el);
+  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), reduceMotion() ? 0 : 300); }, kind === 'level' ? 3200 : 1700);
+}
+function withReward(change) {
+  const x0 = xpOf(plan), c0 = chapterOf(x0);
+  change();
+  const x1 = xpOf(plan), c1 = chapterOf(x1);
+  if (x1 > x0) toast(`+${x1 - x0} XP`);
+  if (c1.n > c0.n) toast(`<span class="eyebrow">Level up</span><b>Chapter ${c1.n} unlocked · ${esc(c1.name)}</b>`, 'level');
+}
+function xpBar() {
+  const x = xpOf(plan), c = chapterOf(x);
+  const pct = c.next ? Math.round((x - c.min) / (c.next.min - c.min) * 100) : 100;
+  return `<div class="xp"><div class="xp__head"><span class="xp__badge" aria-hidden="true">${c.n}</span><span class="xp__name">${chapterName(c)}</span><span class="xp__pts">${x} XP</span></div>
+    <div class="xp__bar" role="progressbar" aria-label="${c.next ? 'Progress to ' + chapterName(c.next) : 'Top chapter reached'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div>
+    <div class="xp__next">${c.next ? `${c.next.min - x} XP to ${chapterName(c.next)}` : 'Top chapter reached'}</div></div>`;
+}
+const TILT = ['-3deg','2deg','-1.5deg','3deg','-2deg','1.5deg','-2.5deg'];
+function stampsBlock() {
+  const done = new Set(plan.filter(p => p.doneAt).map(p => p.serviceID));
+  const n = S.filter(s => done.has(s.id)).length;
+  return `<h2 class="sec-title"><span>Stamps</span><span>${n} of ${S.length} stamps</span></h2>
+    <div class="stamps">${S.map((s, i) => { const on = done.has(s.id), k = C[s.color];
+      return `<button class="stamp ${on ? 'on' : ''}" data-open="${s.id}" style="--c:var(--${k === 'paper' ? 'bone' : k});--fg:var(--${onDark(k) ? 'bone' : 'ink'});--t:${TILT[i % TILT.length]}" aria-label="${esc(s.title)}: ${on ? 'stamp collected' : 'not collected yet'}"><span class="stamp__no">No. ${String(i + 1).padStart(2, '0')}</span><span class="stamp__t">${esc(s.title)}</span>${on ? '<span class="stamp__ok">✓ Done</span>' : ''}</button>`; }).join('')}</div>`;
+}
+
 const st = { tab:'find', stack:[], query:'', chat:[], thinking:false };
 let onboarded = false;
 try { onboarded = localStorage.getItem('firstchapter.onboarded') === '1'; } catch {}
 function setOnboarded(v) { onboarded = v; try { v ? localStorage.setItem('firstchapter.onboarded','1') : localStorage.removeItem('firstchapter.onboarded'); } catch {} }
 
 const $app = document.getElementById('app'), $tabs = document.getElementById('tabs'), $composer = document.getElementById('composer'), $overlay = document.getElementById('overlay');
-const tile = (icon, color, cls='') => `<span class="tile ${cls}" style="background:${C[color]}">${svg(icon)}</span>`;
-const chev = `<span class="chev">${svg('right',16)}</span>`;
-const ext = `<span class="chev">${svg('ext',16)}</span>`;
-const serviceRow = s => `<button class="row" data-open="${s.id}">${tile(s.icon,s.color)}<span class="grow"><div>${esc(s.title)}</div><div class="sub">${esc(s.answer)}</div></span>${chev}</button>`;
+const $theme = document.querySelector('meta[name="theme-color"]');
+const setTheme = k => { $theme.content = P[k] || P.lime; };
+const glyph = (icon, size) => `<span class="glyph">${svg(icon, size)}</span>`;
+const chev = '<span class="arrow" aria-hidden="true">→</span>';
+const ext = '<span class="arrow" aria-hidden="true">↗</span>';
+const statePill = id => { const it = item(id); return !it ? '' : it.doneAt ? '<span class="pill pill--lime">Done</span>' : '<span class="pill">Saved</span>'; };
+const serviceRow = s => `<button class="row" data-open="${s.id}">${glyph(s.icon)}<span class="grow"><div class="ttl">${esc(s.title)}</div><div class="sub">${esc(s.answer)}</div></span>${statePill(s.id)}${chev}</button>`;
 const factRow = ([l,v]) => `<div class="row plain"><span class="grow">${esc(l)}</span><span class="value">${esc(v)}</span></div>`;
+const band = (k, inner) => `<header class="band band--${k}"><div class="col">${inner}</div></header>`;
+const main = inner => `<main class="col main">${inner}</main>`;
+const brandNav = '<div class="nav"><span class="brand eyebrow">First Chapter</span></div>';
+const backNav = '<div class="nav"><button class="back" data-back="1"><span aria-hidden="true">←</span>Back</button></div>';
+const NOTE = '<p class="foot">Student prototype. Not affiliated with or endorsed by the University of Ottawa.</p>';
 
 function findBody() {
   if (st.query.trim()) {
     const r = search(st.query);
-    if (!r.length) return `<div class="group"><div class="empty"><b>No results for "${esc(st.query)}"</b>Try another word, or ask a person.</div><a class="row plain link" href="sms:6138015603">Text a librarian: 613-801-5603</a></div>`;
+    if (!r.length) return `<div class="group"><div class="empty"><b>No results for "${esc(st.query)}"</b>Try another word, or ask a person.</div><a class="row plain link" href="sms:6138015603"><span class="grow">Text a librarian: 613-801-5603</span>${chev}</a></div>`;
     return `<div class="group">${r.map(serviceRow).join('')}</div>`;
   }
-  return `<div class="group"><button class="row grad" data-deck="1">${tile('spark','brand')}<span class="grow"><div>Discover What's Here</div><div class="sub">${DISCOVER.length} quick cards, under a minute</div></span>${chev}</button></div><div class="spacer"></div>
-    <h2 class="sec-title">Most Needed</h2><div class="group">${QUICK.map(id => serviceRow(byId(id))).join('')}</div><div class="spacer"></div>
+  const left = DISCOVER.filter(id => !item(id)).length * XP_SAVE;
+  return `<button class="row grad" data-deck="1">${glyph('spark', 26)}<span class="grow"><div class="ttl">Discover What's Here</div><div class="sub">${DISCOVER.length} quick cards, under a minute</div>${left ? `<span class="pill pill--lime">+${left} XP</span>` : ''}</span>${chev}</button>
+    <h2 class="sec-title">Most Needed</h2><div class="group">${QUICK.map(id => serviceRow(byId(id))).join('')}</div>
     <h2 class="sec-title">More Services</h2><div class="group">${S.filter(s => !QUICK.includes(s.id)).map(serviceRow).join('')}</div>
-    <p class="foot" style="margin-top:12px">Student prototype. Not affiliated with or endorsed by the University of Ottawa.</p>`;
+    ${NOTE}`;
 }
 function viewFind() {
-  return `<div class="nav"></div><h1>Library</h1>
-    <label class="search">${svg('search',18)}<input id="q" type="search" placeholder="Camera, citing, study room…" aria-label="Search Library services" value="${esc(st.query)}" autocomplete="off" autocorrect="off" enterkeyhint="search"></label>
-    <div id="results" aria-live="polite">${findBody()}</div>`;
+  setTheme('lime');
+  return band('lime', `${brandNav}<h1>Library</h1>
+    <label class="search">${svg('search', 20)}<input id="q" type="search" placeholder="Camera, citing, study room…" aria-label="Search Library services" value="${esc(st.query)}" autocomplete="off" autocorrect="off" enterkeyhint="search"></label>
+    ${xpBar()}`) + main(`<div id="results" aria-live="polite">${findBody()}</div>`);
 }
 function viewDetail(id) {
-  const s = byId(id), it = item(id);
-  return `<div class="nav"><button class="back" data-back="1">${svg('left',22)}Back</button></div>
-    <div class="group"><div class="row plain" style="align-items:flex-start">${tile(s.icon,s.color,'big')}<span class="grow"><div style="font-size:20px;font-weight:600">${esc(s.title)}</div><div class="sub">${esc(s.answer)}</div></span></div>
-    <a class="row plain grad" href="${esc(s.url)}" target="_blank" rel="noopener"><span class="grow">${esc(s.cta)}</span>${svg('ext',16)}</a></div><div class="spacer"></div>
-    ${s.facts.length ? `<h2 class="sec-title">Good to Know</h2><div class="group">${s.facts.map(factRow).join('')}</div><div class="spacer"></div>` : ''}
-    <h2 class="sec-title">How It Works</h2><div class="group">${s.steps.map((t,i) => `<div class="row plain"><span class="num">${i+1}</span><span class="grow">${esc(t)}</span></div>`).join('')}</div><div class="spacer"></div>
-    <div class="group">${it ? `<button class="row plain link" data-done="${id}">${it.doneAt ? 'Mark as Not Done' : 'Mark as Done'}</button><button class="row plain danger" data-remove="${id}">Remove from My Plan</button>` : `<button class="row plain link" data-add="${id}">Add to My Plan</button>`}</div>
-    <p class="foot">On the website: ${s.clicks} ${s.clicks === 1 ? 'click' : 'clicks'} from the Library home page. Here: the answer is on the first screen.</p>`;
+  const s = byId(id), it = item(id), k = C[s.color];
+  setTheme(k);
+  const status = !it ? `Quest · ${XP_QUEST} XP` : it.doneAt ? 'Done · Stamp collected' : `In My Plan · +${XP_DONE} XP to finish`;
+  return band(k, `${backNav}<div class="detail-head">${svg(s.icon)}<span class="status">${status}</span></div>
+      <h1 class="h1--detail">${esc(s.title)}</h1><p class="lede">${esc(s.answer)}</p>
+      <a class="btn" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.cta)}<span aria-hidden="true">↗</span></a>`) + main(`
+    ${s.facts.length ? `<h2 class="sec-title">Good to Know</h2><div class="group facts">${s.facts.map(factRow).join('')}</div>` : ''}
+    <h2 class="sec-title">How It Works</h2><div class="group facts steps">${s.steps.map((t,i) => `<div class="row plain"><span class="check" aria-hidden="true">${i+1}</span><span class="grow">${esc(t)}</span></div>`).join('')}</div>
+    <div class="actions">${it
+      ? `<button class="btn btn--wide ${it.doneAt ? 'btn--ghost' : ''}" data-done="${id}">${it.doneAt ? 'Mark as Not Done' : `Mark as Done<span class="pill pill--lime">+${XP_DONE} XP</span>`}</button><button class="btn btn--wide btn--ghost danger" data-remove="${id}">Remove from My Plan</button>`
+      : `<button class="btn btn--wide" data-add="${id}">Add to My Plan<span class="pill pill--lime">+${XP_SAVE} XP</span></button>`}</div>
+    <p class="foot">On the website: ${s.clicks} ${s.clicks === 1 ? 'click' : 'clicks'} from the Library home page. Here: the answer is on the first screen.</p>`);
 }
 function viewBorrow() {
   const cam = byId('camera');
-  return `<div class="nav"></div><h1>Borrow</h1>
-    <h2 class="sec-title">Multimedia Equipment</h2><div class="group">${GEAR.map(([i,n,c]) => `<a class="row" href="${esc(GEAR_URL)}" target="_blank" rel="noopener">${tile(i,c)}<span class="grow">${esc(n)}</span>${ext}</a>`).join('')}</div>
+  setTheme('cobalt');
+  return band('cobalt', `${brandNav}<h1>Borrow</h1>`) + main(`
+    <h2 class="sec-title">Multimedia Equipment</h2><div class="group">${GEAR.map(([i,n]) => `<a class="row" href="${esc(GEAR_URL)}" target="_blank" rel="noopener">${glyph(i)}<span class="grow ttl">${esc(n)}</span>${ext}</a>`).join('')}</div>
     <p class="foot">Opens the Library's official list, where you can check availability.</p>
-    <h2 class="sec-title">Loan Rules</h2><div class="group">${cam.facts.map(factRow).join('')}</div><div class="spacer"></div>
-    <div class="group"><button class="row plain" data-open="camera"><span class="grow">How Borrowing Works</span>${chev}</button></div><div class="spacer"></div>
-    <h2 class="sec-title">Also Borrow</h2><div class="group">${serviceRow(byId('books'))}</div>`;
+    <h2 class="sec-title">Loan Rules</h2><div class="group facts">${cam.facts.map(factRow).join('')}</div>
+    <div class="group" style="margin-top:24px"><button class="row plain" data-open="camera"><span class="grow ttl">How Borrowing Works</span>${chev}</button></div>
+    <h2 class="sec-title">Also Borrow</h2><div class="group">${serviceRow(byId('books'))}</div>`);
 }
 function viewAsk() {
+  setTheme('violet');
   const lines = st.chat.map(m => m.me
     ? `<div class="bubble me">${esc(m.text)}</div>`
     : `<div class="bubble them">${esc(m.text)}</div><div class="src">Answered by ${esc(m.source)}</div>${m.service ? `<div class="group" style="width:100%">${serviceRow(byId(m.service))}</div>` : ''}`).join('');
-  return `<div class="nav"></div><h1>Ask</h1>
-    ${st.chat.length ? '' : PROMPTS.map(p => `<button class="chip" data-prompt="${esc(p)}">${esc(p)}</button>`).join('') + `<p class="foot" style="margin:12px 4px">Questions are matched against Library facts. If AI is switched on, they go to DeepSeek with emails and phone or ID numbers removed first. Nothing is saved.</p>`}
-    <div class="chat" aria-live="polite">${lines}${st.thinking ? '<div class="bubble them">Looking that up…</div>' : ''}</div><div class="ask-pad"></div>`;
+  return band('violet', `${brandNav}<h1>Ask</h1>`) + main(`
+    ${st.chat.length ? '' : `<div class="prompts">${PROMPTS.map(p => `<button class="chip" data-prompt="${esc(p)}">${esc(p)}<span class="arrow" aria-hidden="true">→</span></button>`).join('')}</div><p class="foot" style="margin-top:20px">Questions are matched against Library facts. If AI is switched on, they go to DeepSeek with emails and phone or ID numbers removed first. Nothing is saved.</p>`}
+    <div class="chat" aria-live="polite">${lines}${st.thinking ? '<div class="bubble them">Looking that up…</div>' : ''}</div><div class="ask-pad"></div>`);
 }
 function viewPlan() {
+  setTheme('flame');
   const done = plan.filter(p => p.doneAt), todo = plan.filter(p => !p.doneAt);
   const saved = done.reduce((n,p) => n + Math.max((byId(p.serviceID)?.clicks || 1) - 1, 0), 0);
-  const row = p => { const s = byId(p.serviceID); if (!s) return ''; return `<div class="row"><button class="check ${p.doneAt ? 'on':''}" data-done="${s.id}" aria-label="${p.doneAt ? 'Mark '+esc(s.title)+' as not done' : 'Mark '+esc(s.title)+' as done'}">${p.doneAt ? svg('check',16) : ''}</button><button class="grow ${p.doneAt ? 'struck':''}" data-open="${s.id}" style="min-height:28px">${esc(s.title)}</button><button class="danger" data-remove="${s.id}" style="font-size:15px;min-height:28px">Remove</button></div>`; };
-  return `<div class="nav"></div><h1>My Plan</h1>
-    ${plan.length ? `<div class="group"><div class="row plain" style="display:block"><div>${done.length} of ${plan.length} done</div><div class="progress"><i style="width:${plan.length ? done.length/plan.length*100 : 0}%"></i></div></div><div class="row plain"><span class="grow">Website clicks saved</span><span class="value">${saved}</span></div></div><div class="spacer"></div>
-    ${todo.length ? `<h2 class="sec-title">To Do</h2><div class="group">${todo.map(row).join('')}</div><div class="spacer"></div>` : ''}
-    ${done.length ? `<h2 class="sec-title">Done</h2><div class="group">${done.map(row).join('')}</div><div class="spacer"></div>` : ''}`
-    : `<div class="group"><div class="empty"><b>Nothing Saved Yet</b>Add a service from Find and it shows up here.</div></div><div class="spacer"></div>`}
-    <h2 class="sec-title">Contact the Library</h2><div class="group"><a class="row plain link" href="sms:6138015603">Text 613-801-5603</a><a class="row plain link" href="tel:6135625213">Call 613-562-5213</a><a class="row plain link" href="mailto:bibliolibrary@uOttawa.ca">bibliolibrary@uOttawa.ca</a></div><div class="spacer"></div>
-    <div class="group"><button class="row plain" data-open-data="1"><span class="grow">Your Data</span>${chev}</button></div>
-    <p class="foot">Student prototype. Not affiliated with or endorsed by the University of Ottawa.</p>`;
+  const quests = n => `${n} ${n === 1 ? 'quest' : 'quests'}`;
+  const row = p => { const s = byId(p.serviceID); if (!s) return ''; const d = !!p.doneAt;
+    return `<div class="row quest"><button class="check ${d ? 'on' : ''}" data-done="${s.id}" aria-label="${d ? 'Mark '+esc(s.title)+' as not done' : 'Mark '+esc(s.title)+' as done'}">${d ? svg('check') : ''}</button><span class="grow"><button class="qtitle ${d ? 'struck' : ''}" data-open="${s.id}">${esc(s.title)}</button><span class="pill ${d ? 'pill--lime' : ''}">${d ? `Done +${XP_QUEST}` : `+${XP_QUEST} XP`}</span></span><button class="rm" data-remove="${s.id}">Remove</button></div>`; };
+  return band('flame', `${brandNav}<h1>My Plan</h1>${xpBar()}<p class="honest">XP is just for fun and stays on this device. It isn't a Library reward.</p>`) + main(`
+    ${plan.length ? `<div class="group"><div class="row plain stat"><div class="stat__top">${done.length} of ${plan.length} done</div><div class="progress"><i style="width:${plan.length ? done.length/plan.length*100 : 0}%"></i></div></div><div class="row plain"><span class="grow">Website clicks saved</span><span class="value">${saved}</span></div></div>
+    ${todo.length ? `<h2 class="sec-title"><span>To Do</span><span>${quests(todo.length)}</span></h2><div class="group">${todo.map(row).join('')}</div>` : ''}
+    ${done.length ? `<h2 class="sec-title"><span>Done</span><span>${quests(done.length)}</span></h2><div class="group">${done.map(row).join('')}</div>` : ''}`
+    : `<div class="group"><div class="empty"><b>Nothing Saved Yet</b>Add a service from Find and it shows up here.</div></div>`}
+    ${stampsBlock()}
+    <h2 class="sec-title">Contact the Library</h2><div class="group"><a class="row plain link" href="sms:6138015603"><span class="grow">Text 613-801-5603</span>${chev}</a><a class="row plain link" href="tel:6135625213"><span class="grow">Call 613-562-5213</span>${chev}</a><a class="row plain link" href="mailto:bibliolibrary@uOttawa.ca"><span class="grow">bibliolibrary@uOttawa.ca</span>${chev}</a></div>
+    <div class="group" style="margin-top:24px"><button class="row plain" data-open-data="1"><span class="grow ttl">Your Data</span>${chev}</button></div>
+    ${NOTE}`);
 }
 function viewData() {
-  return `<div class="nav"><button class="back" data-back="1">${svg('left',22)}Back</button></div><h1>Your Data</h1>
-    <h2 class="sec-title">Stored in This Browser</h2><div class="group">${[['Saved items',plan.length],['serviceID','Which service'],['source','Where you added it'],['addedAt','Date added'],['doneAt','Date finished']].map(factRow).join('')}</div>
+  setTheme('ink');
+  return band('ink', `${backNav}<h1>Your Data</h1>`) + main(`
+    <h2 class="sec-title">Stored in This Browser</h2><div class="group facts">${[['Saved items',plan.length],['serviceID','Which service'],['source','Where you added it'],['addedAt','Date added'],['doneAt','Date finished']].map(factRow).join('')}</div>
     <p class="foot">One small list in this browser's local storage. It has no account behind it.</p>
-    <h2 class="sec-title">Never Collected</h2><div class="group">${['Name, email or student number','Library account or password','Location or analytics','Chat history'].map(t => `<div class="row plain">${esc(t)}</div>`).join('')}</div><div class="spacer"></div>
-    <h2 class="sec-title">What Leaves This Device</h2><div class="group"><div class="row plain sub" style="margin:0">Questions you type in Ask go to this site's server, and to DeepSeek if AI is switched on, with emails and phone or ID numbers removed first. They aren't saved. Official pages you open follow the Library's own privacy notice.</div></div><div class="spacer"></div>
-    <div class="group"><button class="row plain danger" data-erase="1">Erase Everything</button></div><div class="spacer"></div>`;
+    <p class="foot">XP, chapters and stamps are worked out from this list. They aren't stored on their own, and erasing the list resets them.</p>
+    <h2 class="sec-title">Never Collected</h2><div class="group">${['Name, email or student number','Library account or password','Location or analytics','Chat history'].map(t => `<div class="row plain">${esc(t)}</div>`).join('')}</div>
+    <h2 class="sec-title">What Leaves This Device</h2><p style="max-width:none">Questions you type in Ask go to this site's server, and to DeepSeek if AI is switched on, with emails and phone or ID numbers removed first. They aren't saved. Official pages you open follow the Library's own privacy notice.</p>
+    <div class="actions"><button class="btn btn--wide btn--danger" data-erase="1">Erase Everything</button></div>`);
 }
 
 function render() {
@@ -291,41 +497,57 @@ function render() {
   $app.className = '';
   $app.innerHTML = top === 'data' ? viewData() : top ? viewDetail(top)
     : st.tab === 'find' ? viewFind() : st.tab === 'borrow' ? viewBorrow() : st.tab === 'ask' ? viewAsk() : viewPlan();
-  $tabs.innerHTML = `<div>${[['find','search','Find'],['borrow','camera','Borrow'],['ask','chat','Ask'],['plan','list','My Plan']].map(([k,i,l]) => `<button data-tab="${k}" ${st.tab===k ? 'aria-current="page"':''}>${svg(i)}${l}</button>`).join('')}</div>`;
+  $tabs.innerHTML = `<div>${[['find','search','Find'],['borrow','camera','Borrow'],['ask','chat','Ask'],['plan','list','My Plan']].map(([k,i,l]) => `<button data-tab="${k}" ${st.tab===k ? 'aria-current="page"':''}><span class="ti">${svg(i)}</span>${l}</button>`).join('')}</div>`;
   $composer.innerHTML = (st.tab === 'ask' && !top) ? `<div class="composer"><form id="askf"><input id="askq" placeholder="Ask about the Library" aria-label="Ask about the Library" maxlength="300" autocomplete="off"><button aria-label="Send" ${st.thinking?'disabled':''}>${svg('up',20)}</button></form></div>` : '';
   if (st.tab === 'ask') scrollTo(0, document.body.scrollHeight);
 }
 function renderWelcome() {
-  $tabs.hidden = true; $composer.innerHTML = '';
-  $app.innerHTML = `<div class="welcome"><div style="flex:1"><div class="center">${tile('books','brand','huge')}</div><h1>Welcome to<br>First Chapter</h1>
-    ${[['search','Find it fast','Study rooms, citation help, printing and more.'],['camera','Borrow gear','Cameras, mics and tripods, and how to get them.'],['lock','No login','Your plan stays in this browser.']].map(([i,t,b]) => `<div class="feature">${svg(i)}<span><b>${t}</b><span class="sub">${b}</span></span></div>`).join('')}</div>
-    <button class="btn pri" data-deck="1">Show Me What's Here</button><button class="btn txt" data-skip="1">Skip</button>
-    <p class="foot center" style="margin:12px 0 0">Student prototype. Not affiliated with or endorsed by the University of Ottawa.</p></div>`;
+  $tabs.hidden = true; $composer.innerHTML = ''; setTheme('lime');
+  $app.innerHTML = `<div class="welcome"><div class="welcome__in"><div style="flex:1"><span class="mark" aria-hidden="true">1</span>
+    <p class="eyebrow">${chapterName(chapterOf(xpOf(plan)))}</p><h1>Welcome to<br>First Chapter</h1>
+    <div>${[['search','Find it fast','Study rooms, citation help, printing and more.'],['camera','Borrow gear','Cameras, mics and tripods, and how to get them.'],['lock','No login','Your plan stays in this browser.']].map(([i,t,b]) => `<div class="feature">${svg(i)}<span><b>${t}</b><span class="sub">${b}</span></span></div>`).join('')}</div></div>
+    <button class="btn btn--wide" data-deck="1">Show Me What's Here</button><button class="btn btn--wide btn--ghost" data-skip="1">Skip</button>
+    ${NOTE}</div></div>`;
 }
 
 // Swipe deck: you can't search for a service you don't know exists.
-let deckIdx = 0, deckBusy = false;
-function openDeck() { deckIdx = 0; deckBusy = false; drawDeck(); }
+let deckIdx = 0, deckBusy = false, deckXP0 = 0, deckAdds = 0;
+function openDeck() { deckIdx = 0; deckBusy = false; deckXP0 = xpOf(plan); deckAdds = 0; drawDeck(); }
 function closeDeck() { $overlay.innerHTML = ''; if (!onboarded) setOnboarded(true); render(); }
 function drawDeck() {
-  if (deckIdx >= DISCOVER.length) { closeDeck(); return; }
-  const card = s => `${tile(s.icon,s.color,'big')}<h2>${esc(s.title)}</h2><p>${esc(s.answer)}</p>`;
+  if (deckIdx >= DISCOVER.length) { drawSummary(); return; }
+  setTheme('paper');
+  const card = (s, front) => `${svg(s.icon)}<h2>${esc(s.title)}</h2><p>${esc(s.answer)}</p>${front ? (item(s.id) ? '<span class="pill">Already in My Plan</span>' : `<span class="pill pill--lime">Swipe right · +${XP_SAVE} XP</span>`) : ''}`;
   const s = byId(DISCOVER[deckIdx]), next = byId(DISCOVER[deckIdx+1]);
   $overlay.innerHTML = `<div class="deck" role="dialog" aria-label="Discover Library services"><div class="deck-in">
-    <div class="deck-top"><span></span><span>${deckIdx+1} of ${DISCOVER.length}</span><button data-deck-done="1">Done</button></div>
+    <div class="deck-top"><span></span><span>Quest ${deckIdx+1} of ${DISCOVER.length}</span><button data-deck-done="1">Done</button></div>
+    <div class="deck-meter" aria-hidden="true">${DISCOVER.map((_, i) => `<i class="${i < deckIdx ? 'on' : i === deckIdx ? 'now' : ''}"></i>`).join('')}</div>
     <div class="deck-hint">Swipe right to add to your plan, left to skip.</div>
-    <div class="deck-stage">${next ? `<div class="deck-card colorful" style="transform:scale(.95);background:${C[next.color]}" aria-hidden="true">${card(next)}</div>` : ''}<div class="deck-card colorful" id="top" style="background:${C[s.color]}">${card(s)}</div></div>
-    <div class="deck-btns"><button class="btn sec" data-deck-no="1">Not Now</button><button class="btn pri" data-deck-yes="1">Add to Plan</button></div></div></div>`;
+    <div class="deck-stage">${next ? `<div class="deck-card deck-card--next card--${C[next.color]}" style="transform:scale(.95)" aria-hidden="true">${card(next)}</div>` : ''}<div class="deck-card card--${C[s.color]}" id="top">${card(s, true)}</div></div>
+    <div class="deck-btns"><button class="btn btn--ghost" data-deck-no="1">Not Now</button><button class="btn" data-deck-yes="1">Add to Plan</button></div></div></div>`;
   const el = document.getElementById('top'); let x0 = null, dx = 0;
   el.addEventListener('pointerdown', e => { x0 = e.clientX; dx = 0; el.setPointerCapture(e.pointerId); el.style.transition = 'none'; });
   el.addEventListener('pointermove', e => { if (x0 === null) return; dx = e.clientX - x0; el.style.transform = `translateX(${dx}px) rotate(${dx/24}deg)`; });
   const end = () => { if (x0 === null) return; x0 = null; if (Math.abs(dx) > 90) deckDecide(dx > 0); else { el.style.transition = 'transform .2s'; el.style.transform = ''; } };
   el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
 }
+function drawSummary() {
+  setTheme('paper');
+  const earned = xpOf(plan) - deckXP0;
+  $overlay.innerHTML = `<div class="deck" role="dialog" aria-label="Discovery summary"><div class="deck-in">
+    <div class="deck-top"><span></span><span>Discovery done</span><span></span></div>
+    <div class="deck-summary"><p class="eyebrow">${DISCOVER.length} of ${DISCOVER.length} quests seen</p>
+      <div class="big-xp">+${earned} XP</div>
+      <p class="sum-line">${deckAdds ? `You added ${deckAdds} ${deckAdds === 1 ? 'service' : 'services'} to My Plan.` : 'Nothing added this time. Every service is still in Find.'}</p>
+      ${xpBar()}
+      ${deckAdds ? `<p class="foot">Mark one done in My Plan for +${XP_DONE} XP more.</p>` : ''}</div>
+    <button class="btn btn--wide" data-deck-done="1">Done</button></div></div>`;
+  $overlay.querySelector('[data-deck-done]').focus();
+}
 function deckDecide(keep) {
   if (deckBusy || deckIdx >= DISCOVER.length) return;
   deckBusy = true;
-  if (keep) addToPlan(DISCOVER[deckIdx], 'swipe');
+  if (keep) { const id = DISCOVER[deckIdx], had = !!item(id); withReward(() => addToPlan(id, 'swipe')); if (!had) deckAdds++; }
   const el = document.getElementById('top');
   el.style.transition = 'transform .25s ease-out';
   el.style.transform = `translateX(${keep ? 620 : -620}px) rotate(${keep ? 14 : -14}deg)`;
@@ -359,8 +581,8 @@ document.addEventListener('click', e => {
   if (d.tab) { st.tab = d.tab; st.stack = []; render(); scrollTo(0,0); }
   else if (d.open) { st.stack.push(d.open); render(); scrollTo(0,0); }
   else if (d.back) { st.stack.pop(); render(); scrollTo(0,0); }
-  else if (d.add) { addToPlan(d.add,'find'); render(); }
-  else if (d.done) { toggleDone(d.done); render(); }
+  else if (d.add) { withReward(() => addToPlan(d.add,'find')); render(); }
+  else if (d.done) { withReward(() => toggleDone(d.done)); render(); }
   else if (d.remove) { removeFromPlan(d.remove); render(); }
   else if (d.deck) openDeck();
   else if (d.skip) { setOnboarded(true); render(); }

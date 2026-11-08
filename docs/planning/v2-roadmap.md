@@ -34,6 +34,8 @@ French UI wiring (catalog FR exists, T15), photo-proof stamps, push notification
 
 ## Design system v2 (P0-1, decided values)
 
+> Superseded on 2026-11-08: the owner chose the apm-style poster look with DM Mono labels instead. Current values: [design-system.md](../reference/design-system.md). The proposal below is kept for history.
+
 Fancy without garish: saturation stays moderate; the game feel comes from shape, motion and reward timing, not neon.
 
 - **Primary: Garnet `#8F001A`** (uOttawa identity; already the v1 brand). Primary dark `#6E0013`.

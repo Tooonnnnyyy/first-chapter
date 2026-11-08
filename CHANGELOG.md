@@ -4,6 +4,7 @@ This project uses semantic version tags once a milestone has passed verification
 
 ## Unreleased
 
+- Restyle the iOS and web apps in the owner-chosen apm-style design system and add a local game layer (XP, chapters, quests, stamps) derived from saved plans.
 - Adopt the MIT license and an open-source contribution workflow.
 - Add English, French and Simplified Chinese documentation.
 - Organize architecture decisions, project plans, reference material and historical records.

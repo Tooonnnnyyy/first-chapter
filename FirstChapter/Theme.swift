@@ -2,77 +2,94 @@ import SwiftUI
 import SafariServices
 import UIKit
 
-/// Design system: Apple Human Interface Guidelines. Native components, system
-/// colors and Dynamic Type throughout. The only custom values are the app tint
-/// and the Settings-style icon tile below.
-extension Color {
-    static let brand = Color(UIColor { trait in
-        trait.userInterfaceStyle == .dark
-            ? UIColor(red: 0.96, green: 0.45, blue: 0.48, alpha: 1)
-            : UIColor(red: 0.56, green: 0.00, blue: 0.10, alpha: 1)
-    })
-}
-
-struct IconTile: View {
-    let symbol: String
-    let color: Color
-    var size: CGFloat = 30
-    var body: some View {
-        Image(systemName: symbol)
-            .font(.system(size: size * 0.52, weight: .medium))
-            .foregroundStyle(.white)
-            .frame(width: size, height: size)
-            .background(color.gradient, in: RoundedRectangle(cornerRadius: size * 0.225, style: .continuous))
-            .accessibilityHidden(true)
-    }
-}
+/// Design system: the owner's apm-style (ApmStyle.swift). Flat palette bands, 2pt ink
+/// rules, square corners, solid shadows, Manrope and DM Mono. Shared rows live here.
 
 struct SafariView: UIViewControllerRepresentable {
     let url: URL
-    func makeUIViewController(context: Context) -> SFSafariViewController { SFSafariViewController(url: url) }
+    func makeUIViewController(context: Context) -> SFSafariViewController {
+        SFSafariViewController(url: url)
+    }
     func updateUIViewController(_ controller: SFSafariViewController, context: Context) {}
 }
 
 /// Opens an official Library page inside the app, so students don't lose their place.
+/// The caller picks the button style (a ruled row or a pill).
 struct WebLink<Content: View>: View {
     let url: String
     @ViewBuilder let content: () -> Content
     @State private var showing = false
     var body: some View {
         Button { showing = true } label: { content().contentShape(Rectangle()) }
-            .buttonStyle(.plain)
             .sheet(isPresented: $showing) {
-                if let target = URL(string: url) { SafariView(url: target).ignoresSafeArea() }
+                if let target = URL(string: url) {
+                    SafariView(url: target).ignoresSafeArea().preferredColorScheme(.light)
+                }
             }
     }
 }
 
+/// A list row: plain glyph, title, the answer itself, and a trailing arrow.
 struct ServiceRow: View {
     let service: Service
+    var trailing: ApmArrow.Kind? = .right
     var body: some View {
-        HStack(spacing: 12) {
-            IconTile(symbol: service.icon, color: service.color)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(service.title).font(.body).foregroundStyle(.primary)
-                Text(service.answer).font(.subheadline).foregroundStyle(.secondary)
+        HStack(alignment: .top, spacing: 12) {
+            ApmIcon(symbol: service.icon)
+                .padding(.top, 2)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(service.title).apmText(.title)
+                Text(service.answer).apmText(.small)
+                    .foregroundStyle(Color.apmInk.opacity(0.78))
                     .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            Spacer(minLength: 8)
+            if let trailing { ApmArrow(kind: trailing).padding(.top, 2) }
         }
-        .padding(.vertical, 2)
+        .foregroundStyle(Color.apmInk)
+        .padding(.horizontal, ApmLayout.gutter)
+        .padding(.vertical, 14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .combine)
     }
 }
 
-/// The app's one showpiece: a sunset mesh, deep enough for white text.
-struct FancyBackground: View {
+/// Glyph, one line of text, trailing arrow, closed by a rule. For links and plain rows.
+struct ApmLineRow: View {
+    let symbol: String
+    let title: String
+    var detail: String? = nil
+    var trailing: ApmArrow.Kind? = .right
     var body: some View {
-        MeshGradient(width: 3, height: 3, points: [
-            .init(0, 0), .init(0.5, 0), .init(1, 0),
-            .init(0, 0.5), .init(0.55, 0.45), .init(1, 0.5),
-            .init(0, 1), .init(0.5, 1), .init(1, 1),
-        ], colors: [
-            Color(red: 0.56, green: 0.00, blue: 0.10), Color(red: 0.80, green: 0.08, blue: 0.40), Color(red: 0.90, green: 0.30, blue: 0.15),
-            Color(red: 0.70, green: 0.05, blue: 0.35), Color(red: 0.55, green: 0.12, blue: 0.70), Color(red: 0.80, green: 0.15, blue: 0.40),
-            Color(red: 0.25, green: 0.18, blue: 0.70), Color(red: 0.42, green: 0.15, blue: 0.85), Color(red: 0.60, green: 0.05, blue: 0.45),
-        ])
+        HStack(alignment: detail == nil ? .center : .top, spacing: 12) {
+            ApmIcon(symbol: symbol, size: 18)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title).apmText(.title)
+                if let detail {
+                    Text(detail).apmText(.small).foregroundStyle(Color.apmInk.opacity(0.78))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            Spacer(minLength: 8)
+            if let trailing { ApmArrow(kind: trailing) }
+        }
+        .foregroundStyle(Color.apmInk)
+        .padding(.horizontal, ApmLayout.gutter)
+        .padding(.vertical, 14)
+        .frame(maxWidth: .infinity, minHeight: 52, alignment: .leading)
+        .overlay(alignment: .bottom) { ApmRule() }
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// Navigating row: a ServiceRow closed by a rule, with a paper wash on press.
+struct ServiceLink: View {
+    let service: Service
+    var body: some View {
+        NavigationLink(value: service) {
+            ServiceRow(service: service).overlay(alignment: .bottom) { ApmRule() }
+        }
+        .buttonStyle(ApmRowPress())
     }
 }

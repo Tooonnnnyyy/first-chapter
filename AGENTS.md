@@ -15,7 +15,7 @@ Help first-year students find accurate Library information with fewer steps. Eve
 - Library facts need official sources in `docs/reference/library-services.md`; do not invent hours, prices, stock or confirmed bookings.
 - Preserve other workstreams. Keep app paths stable unless a coordinated migration updates every consumer.
 - The owner approved v2 accounts, gamification and community as a roadmap, not as shipped features. Current clients still use local storage; the experimental API is separate.
-- Follow the approved v2 design direction in `docs/planning/v2-roadmap.md`; preserve native accessibility, Dynamic Type and reduced-motion behavior.
+- Follow the design system in `docs/reference/design-system.md` (owner's choice, 2026-11-08; keep native and web tokens and game rules in step); preserve native accessibility, Dynamic Type and reduced-motion behavior.
 - Never present local fallback results as AI. AI must remain optional for core discovery.
 - No credentials, student records, databases, derived builds or personal media in commits. Do not distribute a native app with a provider API key.
 - README is the usage guide, translated in `docs/fr/README.md` and `docs/zh-CN/README.md`. Do not reintroduce pitch decks, demo scripts or duplicate quickstarts.

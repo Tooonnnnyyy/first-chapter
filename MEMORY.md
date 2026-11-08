@@ -1,6 +1,6 @@
 # Project memory
 
-Updated 2026-11-04. This file records current state; README owns usage instructions.
+Updated 2026-11-08. This file records current state; README owns usage instructions.
 
 ## Purpose and priority
 
@@ -10,6 +10,7 @@ First Chapter helps first-year uOttawa students discover Library services and bo
 
 - `FirstChapter/`: SwiftUI/SwiftData, iOS 26+. Plans stay on the device.
 - `web/`: static interactive client with browser-local plans; optional Vercel DeepSeek proxy. Published URL: https://first-chapter-nine.vercel.app.
+- Both clients: apm-style design and a local game layer (XP, chapters, quests, stamps) derived only from saved plans; no schema change. See `docs/reference/design-system.md`.
 - `server/`: separate experimental Node 24/SQLite API from PR #10. No current client connection; OAuth and account lifecycle are not implemented.
 - `landing/index.html`: standalone page with embedded real prototype screenshots.
 - `archive/geeguide-web/`: earlier prototype source only.
@@ -19,6 +20,7 @@ First Chapter helps first-year uOttawa students discover Library services and bo
 
 - Workstream branch + tracking issue + PR; never edit `main` directly.
 - The 2026-11-04 post-hackathon v2 plan supersedes the original no-account/HIG-only constraints. Gamified design, accounts, feed and community are planned work: see `docs/planning/v2-roadmap.md`.
+- 2026-11-08: owner chose the apm-style design system for the current apps and kept DM Mono labels. It supersedes the HIG guide and the v2 roadmap's gold/rounded values.
 - Official links own reservations and availability. A request is not a confirmed booking.
 - Documentation in English, French and Simplified Chinese; current app localization remains incomplete.
 - Owner requested removal of pitch/demo material and consolidation of usage instructions into README. Build/test/maintenance scripts remain.
@@ -39,3 +41,4 @@ First Chapter helps first-year uOttawa students discover Library services and bo
 - 2026-11-04: Owner moved the project to long-term open source; v2 plan and experimental SQLite API merged.
 - 2026-11-04: Source consolidation removed duplicate/generated local artifacts after remote backup. See `docs/history/2026-11-04-storage-cleanup.md`.
 - 2026-11-04: Open-source foundation on `chore/open-source-foundation`, issue #7: MIT, multilingual docs, CI/community/release/package configuration, demo removal and safer build helper. Integration status is tracked by its PR.
+- 2026-11-08: apm-style restyle and local game layer on both clients (issue/PR on `feature/apm-style-game`). Native: real-tap Simulator review; web: 90 browser checks at 390 and 1440 wide.

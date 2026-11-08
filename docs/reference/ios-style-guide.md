@@ -1,6 +1,6 @@
 # First Chapter — native iOS style guide
 
-> Historical record. Current setup is in the root README. Pitch/demo assets referenced below were subsequently removed; v2 proposals may supersede these decisions.
+> Superseded on 2026-11-08 by [design-system.md](design-system.md). Historical record. Current setup is in the root README. Pitch/demo assets referenced below were subsequently removed; v2 proposals may supersede these decisions.
 Design system: Apple Human Interface Guidelines, native SwiftUI components and SF Symbols. This supersedes the initial ideamap/amber direction for this snapshot, following the user's request for native iOS conventions and red emphasis.
 
 ## Tokens

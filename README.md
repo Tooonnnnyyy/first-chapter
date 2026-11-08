@@ -11,6 +11,7 @@ An open-source guide to University of Ottawa Library services for first-year stu
 ## What works today
 
 - Native iOS: onboarding, service search, equipment links, optional assistant and a local saved plan.
+- Both apps: a local game layer (XP, chapters, quests, stamps) worked out from the saved plan only, in the [design system](docs/reference/design-system.md) chosen by the owner.
 - Static web app: search, discovery, equipment links and a browser-local plan. On Vercel, an optional server-side DeepSeek proxy supports Ask.
 - Experimental Node/SQLite API: catalog, anonymous sessions, plans, explainable feed ranking and initial quest/XP endpoints. **The current apps are not connected to this API.**
 

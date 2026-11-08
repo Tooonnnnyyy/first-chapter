@@ -18,7 +18,7 @@ Owner's rule: **never edit `main` directly; one branch + one issue per workstrea
 
 | ID | Task | Files | Status |
 | --- | --- | --- | --- |
-| T1 | Native screens on Apple HIG | `FirstChapter/*View.swift`, `Theme.swift`, `App.swift` | Built; full native test pass still open |
+| T1 | Native screens on Apple HIG (superseded by T17) | `FirstChapter/*View.swift`, `Theme.swift`, `App.swift` | Built; full native test pass still open |
 | T2 | Real equipment categories and direct links | `Catalog.swift`, `docs/reference/library-services.md` | Done |
 | T3 | Verify click counts by hand in a browser, correct `webClicks` and `LIBRARY-FACTS.md` | `docs/reference/library-services.md`, `webClicks` in `Catalog.swift` | open |
 | T5 | App icon | `FirstChapter/Assets.xcassets/` | Asset catalog + AccentColor committed (cutie, 2026-11-04); icon PNG handed to Tony in chat — drop it into `AppIcon.appiconset/`, then confirm in Xcode |
@@ -29,9 +29,10 @@ Owner's rule: **never edit `main` directly; one branch + one issue per workstrea
 | T12 | Onboarding overlay is layered on top of the tabs | `FirstChapter/App.swift` | Removed overlay; onboarding now owns the root until completion (foundation branch) |
 | T10 | Web version and Vercel deploy | `web/` | Done, live at https://first-chapter-nine.vercel.app |
 | T11 | Finish testing every function on the final native build | any view | open |
-| T13 | Bring the colorful style to the web version | `web/index.html` | Done (cutie, 2026-11-04): mesh welcome, gradient Discover/CTA rows, full-color deck cards; live on next Vercel deploy |
+| T13 | Bring the colorful style to the web version (superseded by T17) | `web/index.html` | Done (cutie, 2026-11-04): mesh welcome, gradient Discover/CTA rows, full-color deck cards; live on next Vercel deploy |
 | T15 | Wire the French catalog to a language toggle | `FirstChapter/App.swift`, views, `CatalogFR.swift` | open |
 | T16 | Code-review fixes R1–R8 (see `docs/reviews/2026-11-04-code-review.md`) | `Guide.swift`, `Store.swift`, `App.swift`, `AskView.swift`, `BorrowView.swift`, `OnboardingView.swift` | open |
+| T17 | apm-style design system and local game layer on both clients | `FirstChapter/ApmStyle.swift`, `Game.swift`, `GameViews.swift`, `Fonts/`, views, `web/index.html`, `docs/reference/design-system.md` | Done 2026-11-08 on `feature/apm-style-game`. Native built and exercised with real taps in the Simulator; web passed 90 browser checks. VoiceOver and largest Dynamic Type still open (T7) |
 | T14 | Make Import Your Files work (currently UI only) | `FirstChapter/FindView.swift` | open, needs Tony |
 | C1 | Consolidate local source, remove wireframes and redundant artifacts, verify remote backup before local storage cleanup | `archive/geeguide-web/`, `landing/`, `docs/`, `.gitignore`, pitch generator | Codex done: pushed and verified; 427.2 MiB of duplicate/generated local files removed |
 | OSS1 | Open-source foundation: MIT, multilingual documentation, contribution policies, CI/release/package workflows, GitHub configuration, removal of demo-only artifacts | root community files, `.github/`, `docs/`, `scripts/`, `server/Dockerfile` | Codex implemented on chore/open-source-foundation; issue #7. Local: 18 API checks + 5 archived tests, source/link/syntax checks, actionlint and iOS simulator build passed. Remote API/dependency/container checks passed; final CI/integration pending. |

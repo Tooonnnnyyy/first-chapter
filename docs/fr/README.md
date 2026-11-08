@@ -11,6 +11,7 @@ Un guide libre qui aide les étudiants de première année à découvrir les ser
 ## État actuel
 
 - iOS : accueil, recherche, liens vers le matériel, assistant facultatif et plan enregistré sur l’appareil.
+- Les deux applications : une couche de jeu locale (XP, chapitres, quêtes, tampons) calculée uniquement à partir du plan enregistré, dans le [système de design](../reference/design-system.md) choisi par le propriétaire (en anglais).
 - Web : recherche, découverte, liens et plan stocké dans le navigateur. Sur Vercel, un relais serveur DeepSeek peut prendre en charge l’assistant.
 - API expérimentale Node/SQLite : catalogue, sessions anonymes, plans, classement explicable et premières quêtes/récompenses. **Les applications actuelles ne sont pas connectées à cette API.**
 
